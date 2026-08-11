@@ -45,7 +45,7 @@ export default function LocaleSwitcher() {
           key={locale}
           href={pathname}
           locale={locale}
-          aria-current={locale === currentLocale ? 'true' : undefined}
+          aria-current={locale === currentLocale ? 'page' : undefined}
           className={
             locale === currentLocale
               ? 'text-primary font-medium'
