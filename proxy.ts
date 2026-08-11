@@ -2,8 +2,8 @@
  * proxy.ts — i18n routing proxy (Next.js 16 name for middleware).
  *
  * CRITICAL: Next.js 16 renamed middleware.ts → proxy.ts (Pitfall 1).
- * The function export is a default — createMiddleware output is already
- * the correct proxy function shape.
+ * Uses named `export function proxy` — the canonical form for Next.js 16.
+ * (`export default` is deprecated as of v16.0.0.)
  *
  * Handles:
  *   - Locale detection and /de /en prefix enforcement (localePrefix: 'always')
@@ -19,9 +19,14 @@
  *         node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/proxy.md
  */
 import createMiddleware from 'next-intl/middleware'
+import type { NextRequest } from 'next/server'
 import { routing } from './i18n/routing'
 
-export default createMiddleware(routing)
+const middlewareFn = createMiddleware(routing)
+
+export function proxy(request: NextRequest) {
+  return middlewareFn(request)
+}
 
 export const config = {
   matcher: [
