@@ -1,14 +1,14 @@
 ---
-status: partial
+status: complete
 phase: 02-i18n-shell-routing
 source: [02-01-SUMMARY.md, 02-02-SUMMARY.md, 02-03-SUMMARY.md]
 started: 2026-08-11T15:18:36Z
-updated: 2026-08-11T15:30:00Z
+updated: 2026-08-11T16:25:00Z
 ---
 
 ## Current Test
 
-[testing paused — 2 items outstanding (blocked: server not running)]
+[testing complete]
 
 ## Tests
 
@@ -22,15 +22,13 @@ result: pass
 
 ### 3. Bidirectional hreflang in page <head> (incl. x-default → /de)
 expected: With the dev/prod server running, curl or view-source of /de and /en shows <link rel="alternate" hreflang="de" ...>, hreflang="en", and hreflang="x-default" pointing to the /de URL. Each page's rel="canonical" points to its OWN locale URL (/en canonical = .../en, not .../de).
-result: blocked
-blocked_by: server
-reason: "No server listening on localhost:3000 (curl returned 000 / connect failed). Runtime <head> inspection requires a running dev or prod server."
+result: pass
+verified: "Server on :3000. /de canonical=.../de, /en canonical=.../en (per-locale). Both pages emit hreflang de, en, x-default(→/de)."
 
 ### 4. sitemap.xml emits /de and /en roots with hreflang alternates
 expected: With the server running, GET /sitemap.xml lists both /de and /en root URLs, each with alternates.languages entries for de, en, AND x-default (→ /de).
-result: blocked
-blocked_by: server
-reason: "No server listening on localhost:3000. GET /sitemap.xml requires a running server."
+result: pass
+verified: "GET /sitemap.xml lists /de and /en roots; each has xhtml:link alternates for de, en, x-default(→/de)."
 
 ### 5. / redirects to /de (locale from URL only)
 expected: Visiting / always redirects to /de independent of Accept-Language.
@@ -59,11 +57,11 @@ coverage_id: D4
 ## Summary
 
 total: 8
-passed: 6
+passed: 8
 issues: 0
 pending: 0
 skipped: 0
-blocked: 2
+blocked: 0
 
 ## Gaps
 
