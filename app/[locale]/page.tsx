@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: titles[locale] ?? titles.de,
     description: descriptions[locale] ?? descriptions.de,
-    ...buildHreflangAlternates('/'),
+    alternates: buildHreflangAlternates('/'),
   }
 }
 

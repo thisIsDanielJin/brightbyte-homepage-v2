@@ -20,10 +20,12 @@
  *   CONTEXT.md D-06 (minimal unstyled header, switcher only)
  *   node_modules/next/dist/docs/01-app/02-guides/internationalization.md
  */
+import type { Metadata } from 'next'
 import { Plus_Jakarta_Sans } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { routing } from '@/i18n/routing'
 import LocaleSwitcher from '@/components/LocaleSwitcher'
+import { BASE_URL } from '@/lib/i18n/metadata'
 import '../globals.css'
 
 /**
@@ -38,6 +40,15 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   display: 'swap',
   variable: '--font-plus-jakarta-sans',
 })
+
+/**
+ * metadataBase set once here so all child pages' alternates.languages absolute URLs
+ * resolve correctly (Next.js 16 requires metadataBase to emit hreflang link tags).
+ * Shared BASE_URL from lib/i18n/metadata.ts — single source of truth (D-07).
+ */
+export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
+}
 
 /**
  * Generate static params for all supported locales.
