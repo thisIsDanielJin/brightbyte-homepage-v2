@@ -27,7 +27,9 @@ Seven phases that build the site the way it must be built — identity locked fi
   3. Typography is locked to a maximum of 2 typefaces; the combination reads as calm, editorial, and professional when rendered at heading and body sizes
   4. A brand voice guide (1 page) defines tone, sentence style, and forbidden patterns; all v2 copy is written against it
   5. WCAG AA contrast ratios are verified for every foreground/background token pair before any component is built
-**Plans**: TBD
+**Plans**: 2 plans
+- [ ] 01-01-PLAN.md — Walking skeleton: Next.js scaffold + single @theme tokens.css + font bridge + /token-audit page + Wave 0 contrast/invariant gates (IDENT-01, IDENT-02)
+- [ ] 01-02-PLAN.md — Wordmark logo (light + dark, text-as-paths SVG) + 1-page brand voice guide (IDENT-03, IDENT-04)
 **UI hint**: yes
 
 ### Phase 2: i18n Shell & Routing
@@ -109,7 +111,7 @@ Seven phases that build the site the way it must be built — identity locked fi
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Identity & Design Tokens | 0/TBD | Not started | - |
+| 1. Identity & Design Tokens | 0/2 | Not started | - |
 | 2. i18n Shell & Routing | 0/TBD | Not started | - |
 | 3. Sanity Content Architecture | 0/TBD | Not started | - |
 | 4. 2D Marketing Sections | 0/TBD | Not started | - |
