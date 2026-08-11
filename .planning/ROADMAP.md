@@ -50,7 +50,11 @@ Seven phases that build the site the way it must be built — identity locked fi
   3. The language switcher navigates from `/de/...` to `/en/...` (and back) preserving the current path segment, implemented as `<Link>` with no client-side state mutation
   4. A smoke test in CI catches any client-side locale leak (locale derived from URL only, never from localStorage or component state)
 
-**Plans**: TBD
+**Plans**: 3 plans
+
+- [ ] 02-01-PLAN.md — Tracer: install next-intl + Wave 0 tests + three-file config + proxy.ts + [locale] layout shell + root redirect (I18N-01)
+- [ ] 02-02-PLAN.md — hreflang expansion: shared generateMetadata helper + localized sitemap, bidirectional + x-default→/de (I18N-02)
+- [ ] 02-03-PLAN.md — Language switcher: pure <Link> path-preserving switcher in minimal [locale] header (I18N-03)
 
 ### Phase 3: Sanity Content Architecture
 
@@ -135,7 +139,7 @@ Seven phases that build the site the way it must be built — identity locked fi
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Identity & Design Tokens | 2/2 | Complete    | 2026-08-11 |
-| 2. i18n Shell & Routing | 0/TBD | Not started | - |
+| 2. i18n Shell & Routing | 0/3 | Not started | - |
 | 3. Sanity Content Architecture | 0/TBD | Not started | - |
 | 4. 2D Marketing Sections | 0/TBD | Not started | - |
 | 5. R3F Hero | 0/TBD | Not started | - |
