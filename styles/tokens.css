@@ -8,6 +8,12 @@
  *   3. Zero text-gray, bg-gray, border-gray utilities in app/ — all gray via named semantic tokens.
  *   4. No per-component token overrides.
  *
+ * TAILWIND v4 NAMING CONVENTION:
+ *   --color-<name> generates utilities: text-<name>, bg-<name>, border-<name>
+ *   The CSS variable prefix --color- is stripped; the rest becomes the utility suffix.
+ *   So --color-text-primary would generate text-text-primary (wrong).
+ *   Text foreground tokens use short names: --color-primary → text-primary, bg-primary.
+ *
  * MOTION TOKEN NOTE:
  *   --ease- and --duration- tokens do NOT auto-generate Tailwind utilities.
  *   Consume via: var(--ease-out) in CSS, or arbitrary values like
@@ -25,10 +31,12 @@
   /* Borders & Dividers (30% secondary) */
   --color-border: #E4E4E7;
 
-  /* Text — True-neutral gray ramp (D-02: no warm tint) */
-  --color-text-muted: #A1A1AA;       /* Decorative/disabled ONLY — 2.56:1 on white, intentional AA fail */
-  --color-text-secondary: #52525B;   /* 7.73:1 on white — AAA */
-  --color-text-primary: #18181B;     /* 17.72:1 on white — AAA */
+  /* Foreground text — True-neutral gray ramp (D-02: no warm tint).
+   * Naming: --color-<role> → utility text-<role> / bg-<role>.
+   * Short names avoid the "text-text-*" double-prefix antipattern. */
+  --color-muted: #A1A1AA;       /* Decorative/disabled ONLY — 2.56:1 on white, intentional AA fail */
+  --color-secondary: #52525B;   /* 7.73:1 on white — AAA */
+  --color-primary: #18181B;     /* 17.72:1 on white — AAA */
 
   /* Accent — Persian blue (D-06: sparingly/functional) */
   --color-accent: #1C39BB;           /* 8.93:1 on white — AAA (independently verified) */
@@ -39,11 +47,11 @@
 
   /* Dark surfaces (hero/footer moments — D-05 light-first, dark accents) */
   --color-surface-dark: #0F0F10;
-  --color-text-on-dark: #F4F4F5;     /* 17.43:1 on surface-dark — AAA */
-  --color-text-muted-on-dark: #A1A1AA; /* 7.48:1 on surface-dark — AAA */
+  --color-on-dark: #F4F4F5;          /* 17.43:1 on surface-dark — AAA */
+  --color-muted-on-dark: #A1A1AA;   /* 7.48:1 on surface-dark — AAA */
 
   /* Suppress Tailwind's default gray scale to force all gray through named semantic tokens.
-   * Without this, text-gray-* utilities bypass the token system (RESEARCH §Pitfall 3). */
+   * Without this, text-gray-* utilities bypass the token system (RESEARCH Pitfall 3). */
   --color-gray-50: initial;
   --color-gray-100: initial;
   --color-gray-200: initial;
@@ -58,7 +66,7 @@
 
   /* ── Typography ──────────────────────────────────────────────────── */
   /* --font-sans is set via the inline theme bridge in globals.css after next/font wires the CSS var.
-   * The inline modifier resolves the font variable eagerly at build time (RESEARCH §Pitfall 1). */
+   * The inline modifier resolves the font variable eagerly at build time (RESEARCH Pitfall 1). */
 
   /* Type scale — editorial, weight-driven hierarchy (D-09: single grotesk) */
   --text-sm: 0.875rem;    /* 14px — label, UI chrome */
