@@ -18,13 +18,14 @@
     "sharp": "0.35.3"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "@playwright/test": "^1.49.0",
     "@tailwindcss/postcss": "4.3.3",
-    "tailwindcss": "4.3.3",
-    "typescript": "^5.0.0",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@playwright/test": "^1.49.0",
-    "@axe-core/playwright": "4.12.1"
+    "svgo": "^4.0.2",
+    "tailwindcss": "4.3.3",
+    "typescript": "^5.0.0"
   }
 }
