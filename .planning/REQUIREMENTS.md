@@ -76,4 +76,34 @@
 
 ## Traceability
 
-*(Filled by roadmap — maps each REQ-ID to its phase.)*
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| IDENT-01 | Phase 1: Identity & Design Tokens | Pending |
+| IDENT-02 | Phase 1: Identity & Design Tokens | Pending |
+| IDENT-03 | Phase 1: Identity & Design Tokens | Pending |
+| IDENT-04 | Phase 1: Identity & Design Tokens | Pending |
+| I18N-01 | Phase 2: i18n Shell & Routing | Pending |
+| I18N-02 | Phase 2: i18n Shell & Routing | Pending |
+| I18N-03 | Phase 2: i18n Shell & Routing | Pending |
+| CMS-01 | Phase 3: Sanity Content Architecture | Pending |
+| CMS-02 | Phase 3: Sanity Content Architecture | Pending |
+| CMS-03 | Phase 3: Sanity Content Architecture | Pending |
+| SEC-01 | Phase 4: 2D Marketing Sections | Pending |
+| SEC-02 | Phase 4: 2D Marketing Sections | Pending |
+| SEC-03 | Phase 4: 2D Marketing Sections | Pending |
+| SEC-04 | Phase 4: 2D Marketing Sections | Pending |
+| SEC-05 | Phase 4: 2D Marketing Sections | Pending |
+| SEC-06 | Phase 4: 2D Marketing Sections | Pending |
+| SEC-07 | Phase 4: 2D Marketing Sections | Pending |
+| SEC-08 | Phase 4: 2D Marketing Sections | Pending |
+| SEC-09 | Phase 4: 2D Marketing Sections | Pending |
+| SEC-10 | Phase 4: 2D Marketing Sections | Pending |
+| SEC-11 | Phase 4: 2D Marketing Sections | Pending |
+| QA-01 | Phase 4: 2D Marketing Sections (primary; recurs Phase 5, 7) | Pending |
+| QA-02 | Phase 4: 2D Marketing Sections (primary; recurs Phase 5, 7) | Pending |
+| QA-03 | Phase 4: 2D Marketing Sections (primary; recurs Phase 5, 7) | Pending |
+| HERO-01 | Phase 5: R3F Hero | Pending |
+| HERO-02 | Phase 5: R3F Hero | Pending |
+| SEO-01 | Phase 6: SEO Layer & Programmatic Pages | Pending |
+| SEO-02 | Phase 6: SEO Layer & Programmatic Pages | Pending |
+| SEO-03 | Phase 6: SEO Layer & Programmatic Pages | Pending |
