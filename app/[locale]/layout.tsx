@@ -9,18 +9,21 @@
  *     font-sans antialiased) — IDENT-01 invariant
  *   - Mounts NextIntlClientProvider (no messages prop needed — v4 picks up
  *     from getRequestConfig automatically, Pitfall 5)
+ *   - Renders a minimal <header> inside NextIntlClientProvider holding ONLY
+ *     <LocaleSwitcher /> — no footer, no nav, no branding (D-06)
+ *     Full identity chrome is Phase 4.
  *   - Exports generateStaticParams to generate static routes for both locales
- *
- * D-06: layout is provider + children only this task — switcher is Plan 03.
  *
  * Sources:
  *   github.com/amannn/next-intl examples/example-app-router
  *   RESEARCH §Pattern 4
+ *   CONTEXT.md D-06 (minimal unstyled header, switcher only)
  *   node_modules/next/dist/docs/01-app/02-guides/internationalization.md
  */
 import { Plus_Jakarta_Sans } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { routing } from '@/i18n/routing'
+import LocaleSwitcher from '@/components/LocaleSwitcher'
 import '../globals.css'
 
 /**
@@ -65,6 +68,15 @@ export default async function LocaleLayout({
           D-06: minimal unstyled header (switcher) is added in Plan 03.
         */}
         <NextIntlClientProvider>
+          {/*
+            Minimal header — ONLY the language switcher (D-06).
+            No nav links, no footer, no branding chrome yet — that is Phase 4.
+            Header is inside NextIntlClientProvider so LocaleSwitcher's
+            useTranslations / useLocale hooks can resolve (Pitfall 5).
+          */}
+          <header className="flex justify-end p-4">
+            <LocaleSwitcher />
+          </header>
           {children}
         </NextIntlClientProvider>
       </body>
