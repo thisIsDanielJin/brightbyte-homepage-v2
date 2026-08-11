@@ -9,22 +9,26 @@
 ## v1 Requirements
 
 ### Identity & Design System
-- [ ] **IDENT-01**: A single design-token system (`@theme` in one CSS file) defines the full palette, type scale, spacing, and motion easing — every component consumes tokens, never raw values
-- [ ] **IDENT-02**: A resolved, refined visual identity (palette + max 2 typefaces + visual language) grounded in deep design research, reading as professional and calm to SMB clients
+
+- [x] **IDENT-01**: A single design-token system (`@theme` in one CSS file) defines the full palette, type scale, spacing, and motion easing — every component consumes tokens, never raw values
+- [x] **IDENT-02**: A resolved, refined visual identity (palette + max 2 typefaces + visual language) grounded in deep design research, reading as professional and calm to SMB clients
 - [ ] **IDENT-03**: A resolved logo mark (replacing v1's inline SVG + ~14 abandoned experiments)
 - [ ] **IDENT-04**: A defined brand voice / tone applied consistently across all copy
 
 ### Internationalization & Routing
+
 - [ ] **I18N-01**: Path-based bilingual routing (`/de`, `/en`) with DE as default, locale derived from URL segment only (no client-side state)
 - [ ] **I18N-02**: Correct per-URL bidirectional hreflang (incl. `x-default` → `/de`) on every page, emitted in both page `<head>` and sitemap
 - [ ] **I18N-03**: Path-aware language switcher (`<Link>`-based, preserves current page)
 
 ### Content Architecture (Sanity CMS)
+
 - [ ] **CMS-01**: Sanity schema for editable content types (projects, testimonials, services, SEO pages, site settings) with a single chosen i18n strategy (document-level for editorial types)
 - [ ] **CMS-02**: v1 content (bilingual service/pricing/FAQ copy, testimonials, positioning) consolidated from its 3 conflicting sources and migrated into Sanity as the single source of truth
 - [ ] **CMS-03**: Centralized typed GROQ queries with `stega: false` in all metadata/static-params paths
 
 ### Core Marketing Sections (2D)
+
 - [ ] **SEC-01**: Hero section with a clear positioning statement targeting Berlin SMB owners
 - [ ] **SEC-02**: Services section in plain language (no technical jargon)
 - [ ] **SEC-03**: Fixed pricing prominently displayed (~€690 landing, ~€2,500 multi-page)
@@ -38,15 +42,18 @@
 - [ ] **SEC-11**: Subtle, restrained viewport-triggered motion on 2D sections — readability first
 
 ### 3D Hero
+
 - [ ] **HERO-01**: One elegant, performance-budgeted R3F 3D hero centerpiece (tasteful, not a tech demo), fully isolated via `next/dynamic({ ssr: false })`
 - [ ] **HERO-02**: `prefers-reduced-motion` static fallback (no Canvas rendered) and mobile Core Web Vitals budget met (LCP < 2.5s, CLS = 0)
 
 ### SEO
+
 - [ ] **SEO-01**: Preserve v1's German programmatic SEO pages (`/s/[slug]`, ~30 keyword pages) with `generateStaticParams` for all locale+slug combinations
 - [ ] **SEO-02**: JSON-LD structured data per page
 - [ ] **SEO-03**: Complete bilingual sitemap + robots
 
 ### Quality Bar
+
 - [ ] **QA-01**: Each section iterated to high-end UX via a Playwright screenshot-critique loop (desktop + mobile)
 - [ ] **QA-02**: ui-skills.com principles applied per UI phase via the `npx ui-skills` CLI (load smallest relevant skill)
 - [ ] **QA-03**: Accessibility pass (WCAG AA contrast against actual backgrounds, `:focus-visible`, `axe-playwright` zero violations)
@@ -78,8 +85,8 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| IDENT-01 | Phase 1: Identity & Design Tokens | Pending |
-| IDENT-02 | Phase 1: Identity & Design Tokens | Pending |
+| IDENT-01 | Phase 1: Identity & Design Tokens | Complete |
+| IDENT-02 | Phase 1: Identity & Design Tokens | Complete |
 | IDENT-03 | Phase 1: Identity & Design Tokens | Pending |
 | IDENT-04 | Phase 1: Identity & Design Tokens | Pending |
 | I18N-01 | Phase 2: i18n Shell & Routing | Pending |
