@@ -17,9 +17,9 @@
 
 ### Internationalization & Routing
 
-- [ ] **I18N-01**: Path-based bilingual routing (`/de`, `/en`) with DE as default, locale derived from URL segment only (no client-side state)
-- [ ] **I18N-02**: Correct per-URL bidirectional hreflang (incl. `x-default` → `/de`) on every page, emitted in both page `<head>` and sitemap
-- [ ] **I18N-03**: Path-aware language switcher (`<Link>`-based, preserves current page)
+- [x] **I18N-01**: Path-based bilingual routing (`/de`, `/en`) with DE as default, locale derived from URL segment only (no client-side state)
+- [x] **I18N-02**: Correct per-URL bidirectional hreflang (incl. `x-default` → `/de`) on every page, emitted in both page `<head>` and sitemap
+- [x] **I18N-03**: Path-aware language switcher (`<Link>`-based, preserves current page)
 
 ### Content Architecture (Sanity CMS)
 
@@ -89,9 +89,9 @@
 | IDENT-02 | Phase 1: Identity & Design Tokens | Complete |
 | IDENT-03 | Phase 1: Identity & Design Tokens | Complete |
 | IDENT-04 | Phase 1: Identity & Design Tokens | Complete |
-| I18N-01 | Phase 2: i18n Shell & Routing | Pending |
-| I18N-02 | Phase 2: i18n Shell & Routing | Pending |
-| I18N-03 | Phase 2: i18n Shell & Routing | Pending |
+| I18N-01 | Phase 2: i18n Shell & Routing | Complete |
+| I18N-02 | Phase 2: i18n Shell & Routing | Complete |
+| I18N-03 | Phase 2: i18n Shell & Routing | Complete |
 | CMS-01 | Phase 3: Sanity Content Architecture | Pending |
 | CMS-02 | Phase 3: Sanity Content Architecture | Pending |
 | CMS-03 | Phase 3: Sanity Content Architecture | Pending |
