@@ -15,7 +15,7 @@
  */
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
-import { buildHreflangAlternates } from '@/lib/i18n/metadata'
+import { buildHreflangAlternates, BASE_URL } from '@/lib/i18n/metadata'
 
 type PageProps = {
   params: Promise<{ locale: string }>
@@ -36,7 +36,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: titles[locale] ?? titles.de,
     description: descriptions[locale] ?? descriptions.de,
-    alternates: buildHreflangAlternates('/'),
+    alternates: {
+      ...buildHreflangAlternates('/'),
+      canonical: `${BASE_URL}/${locale}`,  // WR-01: per-locale canonical, not always /de
+    },
   }
 }
 
