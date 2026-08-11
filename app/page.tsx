@@ -1,10 +1,17 @@
-export default function HomePage() {
-  return (
-    <main className="font-sans min-h-screen flex items-center justify-center bg-surface">
-      <div className="text-center">
-        <h1 className="text-5xl font-bold text-primary mb-4">BrightByte Berlin</h1>
-        <p className="text-base text-secondary">Coming soon.</p>
-      </div>
-    </main>
-  )
+/**
+ * app/page.tsx — Root redirect to /de (static-export fallback).
+ *
+ * The proxy.ts (createMiddleware) handles the / → /de redirect at runtime
+ * for all standard deployments. This page covers the no-proxy path: static
+ * export or direct Next.js rendering without proxy middleware.
+ *
+ * D-05: always redirect to /de — never /en, never Accept-Language negotiation.
+ * D-03: localePrefix 'always' means / must redirect to /de, not render locale-less.
+ *
+ * Source: RESEARCH §Pattern 9
+ */
+import { redirect } from 'next/navigation'
+
+export default function RootPage() {
+  redirect('/de')
 }

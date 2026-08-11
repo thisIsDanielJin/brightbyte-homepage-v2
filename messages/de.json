@@ -1,0 +1,10 @@
+{
+  "Shell": {
+    "tagline": "Webdesign für kleine Unternehmen in Berlin."
+  },
+  "LocaleSwitcher": {
+    "label": "Sprache",
+    "de": "Deutsch",
+    "en": "English"
+  }
+}
