@@ -13,4 +13,5 @@ export const routing = defineRouting({
   locales: ['de', 'en'],
   defaultLocale: 'de',        // D-05: always redirect to /de
   localePrefix: 'always',     // D-03: /de/... and /en/... — no prefix-less URLs
+  localeDetection: false,     // D-05: reject Accept-Language; root redirect is always /de
 })
