@@ -10,8 +10,11 @@
  *
  * Source: github.com/amannn/next-intl/blob/main/examples/example-app-router/src/i18n/request.ts
  * Pitfall 3: `import { locale as ... }` alias avoids segment-name collision.
+ * next/root-params only supports named imports — the getter is named after the
+ * dynamic segment folder ([locale] → locale). Namespace imports do not expose
+ * the getter as a callable and will return undefined at runtime.
  */
-import * as rootParams from 'next/root-params'
+import { locale as getLocale } from 'next/root-params'
 import { notFound } from 'next/navigation'
 import { getRequestConfig } from 'next-intl/server'
 import { hasLocale } from 'next-intl'
@@ -23,8 +26,8 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   if (!locale) {
     // next/root-params getter is named after the segment folder: [locale] → locale()
-    // Alias import to avoid shadowing the `locale` variable (Pitfall 3)
-    const paramValue = await rootParams.locale()
+    // Aliased as getLocale on import to avoid shadowing the `locale` variable (Pitfall 3)
+    const paramValue = await getLocale()
     locale = paramValue ?? undefined
   }
 
