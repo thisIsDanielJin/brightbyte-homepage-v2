@@ -12,8 +12,8 @@
 
 - [x] **IDENT-01**: A single design-token system (`@theme` in one CSS file) defines the full palette, type scale, spacing, and motion easing — every component consumes tokens, never raw values
 - [x] **IDENT-02**: A resolved, refined visual identity (palette + max 2 typefaces + visual language) grounded in deep design research, reading as professional and calm to SMB clients
-- [ ] **IDENT-03**: A resolved logo mark (replacing v1's inline SVG + ~14 abandoned experiments)
-- [ ] **IDENT-04**: A defined brand voice / tone applied consistently across all copy
+- [x] **IDENT-03**: A resolved logo mark (replacing v1's inline SVG + ~14 abandoned experiments)
+- [x] **IDENT-04**: A defined brand voice / tone applied consistently across all copy
 
 ### Internationalization & Routing
 
@@ -87,8 +87,8 @@
 |-------------|-------|--------|
 | IDENT-01 | Phase 1: Identity & Design Tokens | Complete |
 | IDENT-02 | Phase 1: Identity & Design Tokens | Complete |
-| IDENT-03 | Phase 1: Identity & Design Tokens | Pending |
-| IDENT-04 | Phase 1: Identity & Design Tokens | Pending |
+| IDENT-03 | Phase 1: Identity & Design Tokens | Complete |
+| IDENT-04 | Phase 1: Identity & Design Tokens | Complete |
 | I18N-01 | Phase 2: i18n Shell & Routing | Pending |
 | I18N-02 | Phase 2: i18n Shell & Routing | Pending |
 | I18N-03 | Phase 2: i18n Shell & Routing | Pending |
