@@ -1,0 +1,35 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-08-11T14:43:28.031Z",
+  "phase": "02",
+  "phase_name": "i18n-shell-routing",
+  "phase_dir": ".planning/phases/02-i18n-shell-routing",
+  "plan": null,
+  "task": null,
+  "total_tasks": 8,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": "02-01", "name": "i18n tracer slice (next-intl, proxy.ts, [locale] shell, root redirect)", "status": "done", "commit": "3901b15"},
+    {"id": "02-02", "name": "hreflang metadata helper + localized sitemap", "status": "done", "commit": "71964cd"},
+    {"id": "02-03", "name": "path-preserving LocaleSwitcher (pure Link, no state)", "status": "done", "commit": "b8154ee"},
+    {"id": "fix-hreflang", "name": "set metadataBase + nest alternates so hreflang links render", "status": "done", "commit": "1222ad6"}
+  ],
+  "remaining_tasks": [
+    {"id": "code-review-gate", "name": "Advisory code-review gate (if code-review capability active)", "status": "not_started"},
+    {"id": "regression-gate", "name": "Regression gate (in section_manifest.included for this phase)", "status": "not_started"},
+    {"id": "verify", "name": "Spawn gsd-verifier: check 3 must-haves vs I18N-01/02/03, write 02-VERIFICATION.md", "status": "not_started"},
+    {"id": "phase-complete", "name": "phase.complete: mark ROADMAP/STATE/REQUIREMENTS, advance to Phase 3", "status": "not_started"}
+  ],
+  "blockers": [],
+  "async_jobs": [],
+  "human_actions_pending": [],
+  "decisions": [
+    {"decision": "Approved next-intl@4.13.6 install (blocking-human package gate)", "rationale": "Verified against npm registry: maintainer amannn, repo github.com/amannn/next-intl, published since 2020, 4.13.6 is latest. [SUS] flag was a too-new-version false positive.", "phase": "02"},
+    {"decision": "x-default hreflang -> /de; DE is canonical", "rationale": "D-05 German-first locale", "phase": "02"},
+    {"decision": "LocaleSwitcher is pure <Link> with zero client-side locale state", "rationale": "I18N-03/D-06/D-09 — structural guard against v1 localStorage/state i18n anti-pattern", "phase": "02"},
+    {"decision": "turbopack.root conditionally resolves to main root only when running inside worktrees/", "rationale": "worktree node_modules lives 3 levels up; harmless in main tree (resolves to __dirname)", "phase": "02"}
+  ],
+  "uncommitted_files": [],
+  "next_action": "Re-run /gsd-execute-phase 2. All 3 plans have SUMMARYs and 02-VERIFICATION.md is missing, so the #2868 resume path skips wave work and resumes directly at phase gates: code_review_gate -> regression_gate -> verify_phase_goal (spawn gsd-verifier) -> update_roadmap (phase.complete).",
+  "context_notes": "Phase 2 implementation is COMPLETE and all merged to main. Full i18n smoke suite (6 tests) + no-locale-from-state invariant + production build all GREEN. Two post-merge integration issues were caught by the post-merge gate and fixed: (1) next-intl was installed only in the Wave-1 worktree's node_modules, not the main tree — fixed with `npm install` per committed lockfile; (2) hreflang links weren't rendering because generateMetadata used `...buildHreflangAlternates('/')` (spread to top level, silently dropped by Next.js) instead of `alternates: buildHreflangAlternates('/')`, plus metadataBase was unset — both fixed in commit 1222ad6. Nothing is blocked. Only the phase-completion gates remain, all deterministic. IMPORTANT for resumer: after any worktree merge that changes package.json/lockfile, run `npm install` in the main tree before building — worktree node_modules is not shared. Also clear stale .next before build after layout restructures."
+}
