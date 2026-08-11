@@ -705,22 +705,27 @@ exit $FAIL
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **`next/root-params` segment name: `locale` vs `[locale]`**
+*All three questions below carry a firm recommendation and are RESOLVED into the plan — none blocks execution. Resolution disposition stated per item.*
+
+1. **`next/root-params` segment name: `locale` vs `[locale]`** — **RESOLVED.**
    - What we know: `next/root-params` exports a function named after the segment folder. `app/[locale]/` → `import { locale } from 'next/root-params'`.
    - What's unclear: The project has no `[locale]` folder yet — the import type will only be generated after the folder exists and `next dev` or `next build` runs.
    - Recommendation: Plan `next dev` as the first step in Wave 0 to trigger type generation, or accept that the import will be `any` until then.
+   - **Resolution:** Adopted — the tracer slice (Plan 02-01) creates `app/[locale]/` and runs `npm run build` in its verify step, which triggers type generation. No separate action needed; the recommendation is folded into the tracer ordering.
 
-2. **`getLocale()` vs. `await rootParams.locale()` in layout**
+2. **`getLocale()` vs. `await rootParams.locale()` in layout** — **RESOLVED.**
    - What we know: Both should return the same locale value. The official example uses `getLocale()` in the layout.
    - What's unclear: Whether `getLocale()` is internally backed by `next/root-params` in the 4.13.6 + Next.js 16.3 combination, or if there are subtle differences in the caching/static rendering path.
    - Recommendation: Use `getLocale()` from `next-intl/server` in the layout for simplicity (as the official example does); use `rootParams.locale()` in `i18n/request.ts`.
+   - **Resolution:** Adopted — Plan 02-01 layout task uses `getLocale()`; `i18n/request.ts` uses the root-params-backed path. Matches the official next-intl example; no residual risk for a 2-locale static site.
 
-3. **`AppConfig` interface for locale type safety**
+3. **`AppConfig` interface for locale type safety** — **RESOLVED (deferred to execution detail).**
    - What we know: next-intl v4 uses a module-scoped `AppConfig` interface for typed locale/messages. This is configured in a `global.d.ts` or `next-intl.d.ts` file.
    - What's unclear: The exact setup for this with the `defineRouting` approach.
    - Recommendation: Add in Wave 1 or Wave 2 once the basic routing works; not required for the tracer slice.
+   - **Resolution:** Accepted as a non-blocking execution detail — type-safety hardening is optional polish, not a phase requirement or success criterion. The executor may add it during Wave 1/2 config work; its absence does not gate the phase.
 
 ---
 

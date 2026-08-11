@@ -51,8 +51,12 @@ Seven phases that build the site the way it must be built — identity locked fi
   4. A smoke test in CI catches any client-side locale leak (locale derived from URL only, never from localStorage or component state)
 
 **Plans**: 3 plans
+**Wave 1**
 
 - [ ] 02-01-PLAN.md — Tracer: install next-intl + Wave 0 tests + three-file config + proxy.ts + [locale] layout shell + root redirect (I18N-01)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 02-02-PLAN.md — hreflang expansion: shared generateMetadata helper + localized sitemap, bidirectional + x-default→/de (I18N-02)
 - [ ] 02-03-PLAN.md — Language switcher: pure <Link> path-preserving switcher in minimal [locale] header (I18N-03)
 
