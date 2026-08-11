@@ -14,6 +14,9 @@
  *   - api routes
  *   - _next/static, _next/image (Next.js internals)
  *   - favicon.ico, sitemap.xml, robots.txt (Pitfall 7 — must NOT be locale-prefixed)
+ *   - token-audit (phase-01 dev-only design-token diagnostic page; non-localized
+ *     by design — it renders raw token pairs, not user-facing locale content, so
+ *     it must stay reachable at /token-audit and NOT be redirected to /de/token-audit)
  *
  * Source: next-intl.dev/docs/routing/middleware
  *         node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/proxy.md
@@ -36,7 +39,8 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico, sitemap.xml, robots.txt (metadata files — must NOT be locale-prefixed)
+     * - token-audit (phase-01 dev-only diagnostic — non-localized by design)
      */
-    '/((?!api|_next/static|_next/image|favicon\\.ico|sitemap\\.xml|robots\\.txt).*)',
+    '/((?!api|_next/static|_next/image|favicon\\.ico|sitemap\\.xml|robots\\.txt|token-audit).*)',
   ],
 }
