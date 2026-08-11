@@ -1,0 +1,94 @@
+/*
+ * BrightByte Berlin v2 — Design Token System
+ * Phase 1 canonical output: single token block, single source of truth.
+ *
+ * RULES (IDENT-01):
+ *   1. This is the ONLY token block in the project.
+ *   2. Zero raw hex values in any component file — use token utilities.
+ *   3. Zero text-gray, bg-gray, border-gray utilities in app/ — all gray via named semantic tokens.
+ *   4. No per-component token overrides.
+ *
+ * MOTION TOKEN NOTE:
+ *   --ease- and --duration- tokens do NOT auto-generate Tailwind utilities.
+ *   Consume via: var(--ease-out) in CSS, or arbitrary values like
+ *   [transition-timing-function:var(--ease-standard)]
+ *   See: RESEARCH.md Pitfall 2
+ */
+
+@theme {
+  /* ── Colors ──────────────────────────────────────────────────────── */
+  /* Surfaces (60% dominant) */
+  --color-surface: #FFFFFF;
+  --color-surface-subtle: #FAFAFA;
+  --color-surface-muted: #F4F4F5;
+
+  /* Borders & Dividers (30% secondary) */
+  --color-border: #E4E4E7;
+
+  /* Text — True-neutral gray ramp (D-02: no warm tint) */
+  --color-text-muted: #A1A1AA;       /* Decorative/disabled ONLY — 2.56:1 on white, intentional AA fail */
+  --color-text-secondary: #52525B;   /* 7.73:1 on white — AAA */
+  --color-text-primary: #18181B;     /* 17.72:1 on white — AAA */
+
+  /* Accent — Persian blue (D-06: sparingly/functional) */
+  --color-accent: #1C39BB;           /* 8.93:1 on white — AAA (independently verified) */
+  --color-accent-hover: #1630A0;     /* 10.69:1 on white — AAA */
+
+  /* Semantic */
+  --color-destructive: #DC2626;      /* Form errors, destructive confirmations only */
+
+  /* Dark surfaces (hero/footer moments — D-05 light-first, dark accents) */
+  --color-surface-dark: #0F0F10;
+  --color-text-on-dark: #F4F4F5;     /* 17.43:1 on surface-dark — AAA */
+  --color-text-muted-on-dark: #A1A1AA; /* 7.48:1 on surface-dark — AAA */
+
+  /* Suppress Tailwind's default gray scale to force all gray through named semantic tokens.
+   * Without this, text-gray-* utilities bypass the token system (RESEARCH §Pitfall 3). */
+  --color-gray-50: initial;
+  --color-gray-100: initial;
+  --color-gray-200: initial;
+  --color-gray-300: initial;
+  --color-gray-400: initial;
+  --color-gray-500: initial;
+  --color-gray-600: initial;
+  --color-gray-700: initial;
+  --color-gray-800: initial;
+  --color-gray-900: initial;
+  --color-gray-950: initial;
+
+  /* ── Typography ──────────────────────────────────────────────────── */
+  /* --font-sans is set via the inline theme bridge in globals.css after next/font wires the CSS var.
+   * The inline modifier resolves the font variable eagerly at build time (RESEARCH §Pitfall 1). */
+
+  /* Type scale — editorial, weight-driven hierarchy (D-09: single grotesk) */
+  --text-sm: 0.875rem;    /* 14px — label, UI chrome */
+  --text-base: 1rem;      /* 16px — body copy */
+  --text-2xl: 1.5rem;     /* 24px — subheading */
+  --text-4xl: 2rem;       /* 32px — display mobile */
+  --text-5xl: 3rem;       /* 48px — display desktop */
+
+  /* ── Spacing ─────────────────────────────────────────────────────── */
+  /* 8-point base, multiples of 4. Editorial breathing room (D-03: balanced & confident). */
+  --spacing-1: 0.25rem;   /* 4px  — icon gaps, inline nudges */
+  --spacing-2: 0.5rem;    /* 8px  — compact element spacing, icon-to-label */
+  --spacing-4: 1rem;      /* 16px — default element spacing, form field padding */
+  --spacing-6: 1.5rem;    /* 24px — card internal padding, grouped item gaps */
+  --spacing-8: 2rem;      /* 32px — component-level gaps */
+  --spacing-12: 3rem;     /* 48px — section-internal block spacing */
+  --spacing-16: 4rem;     /* 64px — section padding desktop (small sections) */
+  --spacing-24: 6rem;     /* 96px — section padding desktop (standard sections) */
+  --spacing-32: 8rem;     /* 128px — section padding desktop (hero + major sections) */
+
+  /* ── Motion ──────────────────────────────────────────────────────── */
+  /* NOTE: These do NOT auto-generate Tailwind utilities.
+   * Consume via: var(--ease-standard) in CSS, or arbitrary values in Tailwind.
+   * Examples: [transition-timing-function:var(--ease-standard)] [transition-duration:var(--duration-short)]
+   * For motion/react (Phase 4+): pass cubic-bezier values directly as arrays. */
+  --ease-out: cubic-bezier(0.0, 0.0, 0.2, 1);       /* Elements arriving: fade-in, slide-up */
+  --ease-standard: cubic-bezier(0.4, 0.0, 0.2, 1);  /* State transitions, hover, focus */
+  --ease-in: cubic-bezier(0.4, 0.0, 1, 1);           /* Elements leaving */
+  --duration-micro: 150ms;     /* Hover color/opacity changes */
+  --duration-short: 200ms;     /* Button state changes, link underlines */
+  --duration-standard: 300ms;  /* Card hover lifts, nav transitions */
+  --duration-entrance: 500ms;  /* Section entrance animations (viewport-triggered) */
+}

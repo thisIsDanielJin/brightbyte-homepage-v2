@@ -1,0 +1,36 @@
+/*
+ * BrightByte Berlin v2 — Global CSS
+ *
+ * Import order (RESEARCH §Pattern 2):
+ *   1. Tailwind base
+ *   2. Token system (@theme block from styles/tokens.css)
+ *   3. @theme inline — font bridge (RESEARCH §Pitfall 1: must be inline modifier)
+ *   4. prefers-reduced-motion reset
+ *
+ * The ONLY @theme block in the project lives in styles/tokens.css.
+ * This file adds ONE @theme inline block solely to bridge the next/font
+ * CSS variable (--font-plus-jakarta-sans) into Tailwind's --font-sans.
+ * The `inline` modifier resolves the font variable eagerly at build time.
+ */
+
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+/* Wire next/font CSS variable into Tailwind @theme.
+ * The `inline` keyword resolves this variable at build time so font-sans
+ * utility correctly applies the Plus Jakarta Sans font loaded by next/font.
+ * Without `inline`, the variable wouldn't resolve because next/font injects
+ * the CSS variable at runtime via a className on <html>. */
+@theme inline {
+  --font-sans: var(--font-plus-jakarta-sans);
+}
+
+/* Accessibility: Reduced motion — zero all durations when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
