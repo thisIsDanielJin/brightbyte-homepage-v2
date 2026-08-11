@@ -21,6 +21,7 @@ The site must *feel* refined, modern, and quietly stunning on first impression �
 
 - ✓ Define a real brand identity from scratch: palette, typography, visual language, tone — Phase 1
 - ✓ Create a resolved logo (light + dark, text-as-paths SVG), replacing v1's inline SVG + abandoned experiments — Phase 1
+- ✓ Bilingual DE/EN with path-based routing (`/de`, `/en`) and correct per-URL hreflang — Phase 2
 
 ### Active
 
@@ -29,7 +30,6 @@ The site must *feel* refined, modern, and quietly stunning on first impression �
 - [ ] Rest of site is clean 2D with subtle, restrained motion — readability first
 - [ ] Rearchitect the content/section structure from scratch (v1's 11 sections are reference, not a mandate)
 - [ ] Rewrite copy, framing, and texts for v2; consolidate v1's 3 conflicting content sources and fix the two-bios / two-headlines inconsistency
-- [ ] Bilingual DE/EN with path-based routing (`/de`, `/en`) and correct per-URL hreflang
 - [ ] Keep Sanity CMS for editable content (projects, blog, testimonials)
 - [ ] Apply ui-skills.com principles via the `npx ui-skills` CLI on every UI phase (load smallest relevant skill, "impeccable" among favorites)
 - [ ] Iterate each section to high-end UX via Playwright screenshot-critique loop (desktop + mobile)
@@ -92,4 +92,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-08-11 after Phase 1*
+*Last updated: 2026-08-11 after Phase 2*
