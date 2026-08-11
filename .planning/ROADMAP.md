@@ -6,7 +6,7 @@ Seven phases that build the site the way it must be built — identity locked fi
 
 ## Phases
 
-- [ ] **Phase 1: Identity & Design Tokens** - Define the full visual identity and token system before any component is built
+- [x] **Phase 1: Identity & Design Tokens** - Define the full visual identity and token system before any component is built (completed 2026-08-11)
 - [ ] **Phase 2: i18n Shell & Routing** - Lay the path-based locale routing foundation that every page and link depends on
 - [ ] **Phase 3: Sanity Content Architecture** - Lock the CMS schema and i18n strategy before any frontend is wired to content
 - [ ] **Phase 4: 2D Marketing Sections** - Build all P1 sections to a high-end UX bar with Playwright critique and ui-skills
@@ -134,7 +134,7 @@ Seven phases that build the site the way it must be built — identity locked fi
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Identity & Design Tokens | 2/2 | In Progress|  |
+| 1. Identity & Design Tokens | 2/2 | Complete    | 2026-08-11 |
 | 2. i18n Shell & Routing | 0/TBD | Not started | - |
 | 3. Sanity Content Architecture | 0/TBD | Not started | - |
 | 4. 2D Marketing Sections | 0/TBD | Not started | - |

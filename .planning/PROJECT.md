@@ -19,11 +19,11 @@ The site must *feel* refined, modern, and quietly stunning on first impression �
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ Define a real brand identity from scratch: palette, typography, visual language, tone — Phase 1
+- ✓ Create a resolved logo (light + dark, text-as-paths SVG), replacing v1's inline SVG + abandoned experiments — Phase 1
 
 ### Active
 
-- [ ] Define a real brand identity from scratch: palette, typography, visual language, tone
 - [ ] Deep design research to land a modern, refined-minimal visual direction that fits the brand and reads as professional to SMB clients
 - [ ] One elegant three.js / @react-three/fiber 3D hero centerpiece (tasteful, not a tech demo)
 - [ ] Rest of site is clean 2D with subtle, restrained motion — readability first
@@ -34,7 +34,6 @@ The site must *feel* refined, modern, and quietly stunning on first impression �
 - [ ] Apply ui-skills.com principles via the `npx ui-skills` CLI on every UI phase (load smallest relevant skill, "impeccable" among favorites)
 - [ ] Iterate each section to high-end UX via Playwright screenshot-critique loop (desktop + mobile)
 - [ ] Preserve strong v1 SEO assets: German programmatic SEO pages (`/s/[slug]`, ~30 keyword pages), JSON-LD structured data, sitemap/robots
-- [ ] Create a resolved logo (v1 has only an inline SVG + ~14 abandoned experiments)
 
 ### Out of Scope
 
@@ -64,13 +63,16 @@ The site must *feel* refined, modern, and quietly stunning on first impression �
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Define identity first, then express across sections | v1's per-section improvisation is the root cause of "unclear visual language" | — Pending |
+| Define identity first, then express across sections | v1's per-section improvisation is the root cause of "unclear visual language" | ✓ Phase 1 — single `styles/tokens.css` `@theme` block; zero raw hex / gray utilities enforced by invariant test |
 | Rearchitect content, rewrite copy | Content is fully open; v1 has conflicting duplicated sources | — Pending |
 | three.js for hero (over OGL) | User preference; single budgeted 3D moment | — Pending |
 | Path-based i18n `/de` `/en` | SEO correctness for bilingual local-market site | — Pending |
 | Keep Sanity CMS | Editable projects/blog/testimonials without code changes | — Pending |
 | ui-skills CLI + Playwright screenshot-critique loop | Objective, high-end UX bar per section instead of guessing | — Pending |
 | No target ship date | Goal is the best possible version; resolve ambiguity up front | — Pending |
+| Token naming `--color-primary` (not `--color-text-primary`) | Avoids Tailwind v4 double-prefix antipattern | ✓ Phase 1 |
+| Logo as text-as-paths SVG via fontTools instancer from woff2 | No extra font download; svgo strips script/metadata for safe static asset | ✓ Phase 1 |
+| Plus Jakarta Sans, weight-driven hierarchy (single typeface) | Calm/editorial read; WCAG AA verified (accent 8.93:1) before any component work | ✓ Phase 1 |
 
 ## Evolution
 
@@ -90,4 +92,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-08-10 after initialization*
+*Last updated: 2026-08-11 after Phase 1*

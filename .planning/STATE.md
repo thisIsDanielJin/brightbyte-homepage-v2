@@ -2,11 +2,11 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 01
-current_phase_name: identity-design-tokens
-status: verifying
-stopped_at: Completed 01-02-PLAN.md (Plan 2 of 2 — Phase 01 complete)
-last_updated: "2026-08-11T12:18:07.689Z"
+current_phase: 2
+current_phase_name: i18n Shell & Routing
+status: planning
+stopped_at: context exhaustion at 75% (2026-08-11)
+last_updated: "2026-08-11T13:02:43.191Z"
 last_activity: 2026-08-11
 last_activity_desc: Roadmap created, 28 v1 requirements mapped across 6 phases (Phase 7 is P2 scope)
 progress:
@@ -20,17 +20,17 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-08-10)
+See: .planning/PROJECT.md (updated 2026-08-11)
 
 **Core value:** The site must feel refined, modern, and quietly stunning on first impression — calm, confident visual identity — so a local SMB owner immediately trusts the craft.
-**Current focus:** Phase 01 — identity-design-tokens
+**Current focus:** Phase 2 — i18n Shell & Routing
 
 ## Current Position
 
-Phase: 01 (identity-design-tokens) — EXECUTING
-Plan: 2 of 2
-Status: Phase complete — ready for verification
-Last activity: 2026-08-11 — Phase 01 execution started
+Phase: 2 — i18n Shell & Routing
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-08-11 — Phase 01 complete, transitioned to Phase 2
 
 Progress: [██████████] 100%
 
@@ -38,7 +38,7 @@ Progress: [██████████] 100%
 
 **Velocity:**
 
-- Total plans completed: 0
+- Total plans completed: 2
 - Average duration: —
 - Total execution time: 0 hours
 
@@ -46,7 +46,7 @@ Progress: [██████████] 100%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 01 | 2 | - | - |
 
 **Recent Trend:**
 
@@ -71,10 +71,10 @@ Recent decisions affecting current work:
 - Roadmap: Identity-first hard gate — Phase 1 COMPLETE before any component work (prevents v1's root cause)
 - Roadmap: Sanity i18n strategy locked in Phase 3 (document-level) before any frontend wiring
 - Roadmap: Phase 6 depends on Phase 3 (not Phase 5) — SEO pages need schema + routing but not the hero
-- [Phase ?]: Token variable naming: --color-primary not --color-text-primary avoids Tailwind v4 double-prefix antipattern
-- [Phase ?]: styles/tokens.css is established single @theme source of truth for all phases
-- [Phase ?]: SVG path generation via fontTools instancer from .next woff2 — no extra font download needed
-- [Phase ?]: svgo config: convertColors:false + keepRoleAttr:true preserves token hex values and role=img
+- Phase 1: Token variable naming: --color-primary not --color-text-primary avoids Tailwind v4 double-prefix antipattern
+- Phase 1: styles/tokens.css is established single @theme source of truth for all phases
+- Phase 1: SVG path generation via fontTools instancer from .next woff2 — no extra font download needed
+- Phase 1: svgo config: convertColors:false + keepRoleAttr:true preserves token hex values and role=img
 
 ### Pending Todos
 
@@ -82,7 +82,6 @@ None yet.
 
 ### Blockers/Concerns
 
-- Phase 1: Visual direction requires design research and creative work — not solvable by technical patterns alone
 - Phase 5: 3D hero concept (scene geometry, lighting, draw call budget) is undefined; needs research during Phase 5 planning
 - General: Verify Vercel project Node runtime is 22.12+ before Phase 3 deploy (Sanity v6 requirement)
 
@@ -94,6 +93,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-08-11T12:18:07.675Z
-Stopped at: Completed 01-02-PLAN.md (Plan 2 of 2 — Phase 01 complete)
+Last session: 2026-08-11
+Stopped at: Phase 1 complete, ready to plan Phase 2
 Resume file: None
