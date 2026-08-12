@@ -12,7 +12,8 @@
     "test": "npm run test:invariants && npm run test:a11y",
     "test:a11y": "playwright test tests/a11y/contrast.spec.ts",
     "test:i18n": "playwright test tests/i18n/",
-    "test:invariants": "bash tests/invariants/no-raw-hex.sh && bash tests/invariants/no-locale-from-state.sh"
+    "test:invariants": "bash tests/invariants/no-raw-hex.sh && bash tests/invariants/no-locale-from-state.sh && bash tests/invariants/sanity-single-client.sh && bash tests/invariants/no-stega-in-build.sh",
+    "test:content": "node tests/sanity/content-presence.mjs"
   },
   "dependencies": {
     "@sanity/client": "^7.26.2",
