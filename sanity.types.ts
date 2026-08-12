@@ -46,10 +46,155 @@ export type ServiceReference = {
   [internalGroqTypeReferenceTo]?: "service";
 };
 
+export type ProjectReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "project";
+};
+
+export type TestimonialReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "testimonial";
+};
+
+export type SeoPageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "seoPage";
+};
+
+export type SiteSettingsReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "siteSettings";
+};
+
 export type InternationalizedArrayReferenceValue = {
   _type: "internationalizedArrayReferenceValue";
-  value?: ServiceReference;
+  value?:
+    | ServiceReference
+    | ProjectReference
+    | TestimonialReference
+    | SeoPageReference
+    | SiteSettingsReference;
   language?: string;
+};
+
+export type SiteSettings = {
+  _id: string;
+  _type: "siteSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  siteTitle?: string;
+  navLabels?: Array<string>;
+  footerText?: string;
+  contactEmail?: string;
+  address?: string;
+  steuernummer?: string;
+  vatNote?: string;
+  defaultSeo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+  };
+};
+
+export type SeoPage = {
+  _id: string;
+  _type: "seoPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  heading?: string;
+  body?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  metaDescription?: string;
+};
+
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
+};
+
+export type Testimonial = {
+  _id: string;
+  _type: "testimonial";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  quote?: string;
+  author?: string;
+  company?: string;
+  outcomeValue?: string;
+  outcomeLabel?: string;
+  order?: number;
+};
+
+export type SanityImageAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+};
+
+export type Project = {
+  _id: string;
+  _type: "project";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  summary?: string;
+  outcomeNote?: string;
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  order?: number;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
 };
 
 export type Service = {
@@ -65,12 +210,6 @@ export type Service = {
   priceOnRequest?: boolean;
   includes?: Array<string>;
   order?: number;
-};
-
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -109,22 +248,6 @@ export type SanityImageMetadata = {
   thumbHash?: string;
   hasAlpha?: boolean;
   isOpaque?: boolean;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
 };
 
 export type SanityFileAsset = {
@@ -191,15 +314,24 @@ export type AllSanitySchemaTypes =
   | TranslationMetadata
   | InternationalizedArrayReference
   | ServiceReference
+  | ProjectReference
+  | TestimonialReference
+  | SeoPageReference
+  | SiteSettingsReference
   | InternationalizedArrayReferenceValue
-  | Service
+  | SiteSettings
+  | SeoPage
   | Slug
+  | Testimonial
+  | SanityImageAssetReference
+  | Project
+  | SanityImageCrop
+  | SanityImageHotspot
+  | Service
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
   | SanityImageMetadata
-  | SanityImageHotspot
-  | SanityImageCrop
   | SanityFileAsset
   | SanityAssetSourceData
   | SanityImageAsset
@@ -223,10 +355,142 @@ export type SERVICES_QUERY_RESULT = Array<{
   includes: Array<string> | null;
 }>;
 
+// Source: lib/sanity/queries.ts
+// Variable: PROJECTS_QUERY
+// Query: *[_type == "project" && language == $locale] | order(order asc){     _id, title, slug, summary, outcomeNote, image, order   }
+export type PROJECTS_QUERY_RESULT = Array<{
+  _id: string;
+  title: string | null;
+  slug: Slug | null;
+  summary: string | null;
+  outcomeNote: string | null;
+  image: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  order: number | null;
+}>;
+
+// Source: lib/sanity/queries.ts
+// Variable: PROJECT_BY_SLUG_QUERY
+// Query: *[_type == "project" && language == $locale && slug.current == $slug][0]{     _id, title, slug, summary, outcomeNote, image, order   }
+export type PROJECT_BY_SLUG_QUERY_RESULT = {
+  _id: string;
+  title: string | null;
+  slug: Slug | null;
+  summary: string | null;
+  outcomeNote: string | null;
+  image: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  order: number | null;
+} | null;
+
+// Source: lib/sanity/queries.ts
+// Variable: TESTIMONIALS_QUERY
+// Query: *[_type == "testimonial" && language == $locale] | order(order asc){     _id, quote, author, company, outcomeValue, outcomeLabel   }
+export type TESTIMONIALS_QUERY_RESULT = Array<{
+  _id: string;
+  quote: string | null;
+  author: string | null;
+  company: string | null;
+  outcomeValue: string | null;
+  outcomeLabel: string | null;
+}>;
+
+// Source: lib/sanity/queries.ts
+// Variable: SEO_PAGES_QUERY
+// Query: *[_type == "seoPage" && language == $locale]{     _id, title, slug, heading, body, metaDescription   }
+export type SEO_PAGES_QUERY_RESULT = Array<{
+  _id: string;
+  title: string | null;
+  slug: Slug | null;
+  heading: string | null;
+  body: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  metaDescription: string | null;
+}>;
+
+// Source: lib/sanity/queries.ts
+// Variable: SEO_PAGE_BY_SLUG_QUERY
+// Query: *[_type == "seoPage" && language == $locale && slug.current == $slug][0]{     _id, title, slug, heading, body, metaDescription   }
+export type SEO_PAGE_BY_SLUG_QUERY_RESULT = {
+  _id: string;
+  title: string | null;
+  slug: Slug | null;
+  heading: string | null;
+  body: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  metaDescription: string | null;
+} | null;
+
+// Source: lib/sanity/queries.ts
+// Variable: SITE_SETTINGS_QUERY
+// Query: *[_type == "siteSettings" && language == $locale][0]{     _id, siteTitle, navLabels, footerText, contactEmail, address,     steuernummer, vatNote, defaultSeo   }
+export type SITE_SETTINGS_QUERY_RESULT = {
+  _id: string;
+  siteTitle: string | null;
+  navLabels: Array<string> | null;
+  footerText: string | null;
+  contactEmail: string | null;
+  address: string | null;
+  steuernummer: string | null;
+  vatNote: string | null;
+  defaultSeo: {
+    metaTitle?: string;
+    metaDescription?: string;
+  } | null;
+} | null;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '*[_type == "service" && language == $locale] | order(order asc){\n     _id, title, slug, blurb,\n     price{ amount, currency, label, priceFrom },\n     priceOnRequest, includes\n   }': SERVICES_QUERY_RESULT;
+    '*[_type == "project" && language == $locale] | order(order asc){\n     _id, title, slug, summary, outcomeNote, image, order\n   }': PROJECTS_QUERY_RESULT;
+    '*[_type == "project" && language == $locale && slug.current == $slug][0]{\n     _id, title, slug, summary, outcomeNote, image, order\n   }': PROJECT_BY_SLUG_QUERY_RESULT;
+    '*[_type == "testimonial" && language == $locale] | order(order asc){\n     _id, quote, author, company, outcomeValue, outcomeLabel\n   }': TESTIMONIALS_QUERY_RESULT;
+    '*[_type == "seoPage" && language == $locale]{\n     _id, title, slug, heading, body, metaDescription\n   }': SEO_PAGES_QUERY_RESULT;
+    '*[_type == "seoPage" && language == $locale && slug.current == $slug][0]{\n     _id, title, slug, heading, body, metaDescription\n   }': SEO_PAGE_BY_SLUG_QUERY_RESULT;
+    '*[_type == "siteSettings" && language == $locale][0]{\n     _id, siteTitle, navLabels, footerText, contactEmail, address,\n     steuernummer, vatNote, defaultSeo\n   }': SITE_SETTINGS_QUERY_RESULT;
   }
 }
