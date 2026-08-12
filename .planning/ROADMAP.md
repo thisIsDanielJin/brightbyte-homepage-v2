@@ -8,7 +8,7 @@ Seven phases that build the site the way it must be built — identity locked fi
 
 - [x] **Phase 1: Identity & Design Tokens** - Define the full visual identity and token system before any component is built (completed 2026-08-11)
 - [x] **Phase 2: i18n Shell & Routing** - Lay the path-based locale routing foundation that every page and link depends on (completed 2026-08-11)
-- [ ] **Phase 3: Sanity Content Architecture** - Lock the CMS schema and i18n strategy before any frontend is wired to content
+- [x] **Phase 3: Sanity Content Architecture** - Lock the CMS schema and i18n strategy before any frontend is wired to content (completed 2026-08-12)
 - [ ] **Phase 4: 2D Marketing Sections** - Build all P1 sections to a high-end UX bar with Playwright critique and ui-skills
 - [ ] **Phase 5: R3F Hero** - Add the isolated 3D hero with performance budgets met and reduced-motion fallback
 - [ ] **Phase 6: SEO Layer & Programmatic Pages** - Preserve and extend v1's German SEO asset with full bilingual hreflang
@@ -148,7 +148,7 @@ Seven phases that build the site the way it must be built — identity locked fi
 |-------|----------------|--------|-----------|
 | 1. Identity & Design Tokens | 2/2 | Complete    | 2026-08-11 |
 | 2. i18n Shell & Routing | 3/3 | Complete    | 2026-08-11 |
-| 3. Sanity Content Architecture | 3/3 | In Progress|  |
+| 3. Sanity Content Architecture | 3/3 | Complete    | 2026-08-12 |
 | 4. 2D Marketing Sections | 0/TBD | Not started | - |
 | 5. R3F Hero | 0/TBD | Not started | - |
 | 6. SEO Layer & Programmatic Pages | 0/TBD | Not started | - |
