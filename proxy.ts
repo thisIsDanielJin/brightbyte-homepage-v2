@@ -17,6 +17,8 @@
  *   - token-audit (phase-01 dev-only design-token diagnostic page; non-localized
  *     by design — it renders raw token pairs, not user-facing locale content, so
  *     it must stay reachable at /token-audit and NOT be redirected to /de/token-audit)
+ *   - studio (embedded Sanity Studio at /studio, D-01 — a client Studio app gated by
+ *     Sanity's own auth; must NOT be locale-prefixed to /de/studio)
  *
  * Source: next-intl.dev/docs/routing/middleware
  *         node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/proxy.md
@@ -40,7 +42,8 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico, sitemap.xml, robots.txt (metadata files — must NOT be locale-prefixed)
      * - token-audit (phase-01 dev-only diagnostic — non-localized by design)
+     * - studio (embedded Sanity Studio — auth-gated, non-localized by design)
      */
-    '/((?!api|_next/static|_next/image|favicon\\.ico|sitemap\\.xml|robots\\.txt|token-audit).*)',
+    '/((?!api|_next/static|_next/image|favicon\\.ico|sitemap\\.xml|robots\\.txt|token-audit|studio).*)',
   ],
 }
