@@ -24,7 +24,7 @@
 ### Content Architecture (Sanity CMS)
 
 - [x] **CMS-01**: Sanity schema for editable content types (projects, testimonials, services, SEO pages, site settings) with a single chosen i18n strategy (document-level for editorial types)
-- [ ] **CMS-02**: v1 content (bilingual service/pricing/FAQ copy, testimonials, positioning) consolidated from its 3 conflicting sources and migrated into Sanity as the single source of truth
+- [x] **CMS-02**: v1 content (bilingual service/pricing/FAQ copy, testimonials, positioning) consolidated from its 3 conflicting sources and migrated into Sanity as the single source of truth
 - [x] **CMS-03**: Centralized typed GROQ queries with `stega: false` in all metadata/static-params paths
 
 ### Core Marketing Sections (2D)
@@ -93,7 +93,7 @@
 | I18N-02 | Phase 2: i18n Shell & Routing | Complete |
 | I18N-03 | Phase 2: i18n Shell & Routing | Complete |
 | CMS-01 | Phase 3: Sanity Content Architecture | Complete |
-| CMS-02 | Phase 3: Sanity Content Architecture | Pending |
+| CMS-02 | Phase 3: Sanity Content Architecture | Complete |
 | CMS-03 | Phase 3: Sanity Content Architecture | Complete |
 | SEC-01 | Phase 4: 2D Marketing Sections | Pending |
 | SEC-02 | Phase 4: 2D Marketing Sections | Pending |

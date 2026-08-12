@@ -72,11 +72,11 @@ Seven phases that build the site the way it must be built — identity locked fi
   2. All v1 content (bilingual service/pricing/FAQ copy, the 3 outcome-anchored testimonials, and positioning copy) exists in Sanity as the single source of truth — the 3 conflicting v1 sources (inline `.tsx`, `dictionaries/`, `data/content.ts`) are retired
   3. Every GROQ query in `lib/sanity/queries.ts` is typed; `stega: false` is present in all `generateStaticParams` and `generateMetadata` call paths — verified by running a build with no stega corruption in page titles or slugs
 
-**Plans**: 2/3 plans executed
+**Plans**: 3/3 plans executed
 
 - [x] 03-01-PLAN.md
 - [x] 03-02-PLAN.md
-- [ ] 03-03-PLAN.md
+- [x] 03-03-PLAN.md
 
 ### Phase 4: 2D Marketing Sections
 
@@ -148,7 +148,7 @@ Seven phases that build the site the way it must be built — identity locked fi
 |-------|----------------|--------|-----------|
 | 1. Identity & Design Tokens | 2/2 | Complete    | 2026-08-11 |
 | 2. i18n Shell & Routing | 3/3 | Complete    | 2026-08-11 |
-| 3. Sanity Content Architecture | 2/3 | In Progress|  |
+| 3. Sanity Content Architecture | 3/3 | In Progress|  |
 | 4. 2D Marketing Sections | 0/TBD | Not started | - |
 | 5. R3F Hero | 0/TBD | Not started | - |
 | 6. SEO Layer & Programmatic Pages | 0/TBD | Not started | - |
