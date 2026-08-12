@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "types:sanity": "sanity schema extract --force && sanity typegen generate",
+    "prebuild": "npm run types:sanity",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
