@@ -3,8 +3,9 @@
  *
  * A translatable (DE/EN) singleton: nav/footer/legal copy is locale-specific (D-08), so
  * there are TWO docs (DE base id `siteSettings` + plugin-managed EN translation). The
- * `language` field is INJECTED by @sanity/document-internationalization — do NOT
- * hand-author it. QUERY via `language == $locale` (D-10), NOT via the fixed id.
+ * `language` field is a REQUIRED string field the type must declare (plugin README
+ * "Language field") — authored here as readOnly+hidden; the plugin writes patches to it.
+ * QUERY via `language == $locale` (D-10), NOT via the fixed id.
  *
  * D-07 singleton enforcement lives in sanity/structure.ts (fixed documentId) +
  *   sanity.config.ts (disabled create/delete document actions) — not in this schema.
@@ -71,6 +72,13 @@ export const siteSettings = defineType({
         defineField({ name: 'metaTitle', title: 'Meta title', type: 'string' }),
         defineField({ name: 'metaDescription', title: 'Meta description', type: 'text' }),
       ],
+    }),
+    // Required by @sanity/document-internationalization (plugin writes patches here).
+    defineField({
+      name: 'language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
     }),
   ],
 })

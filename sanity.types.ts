@@ -102,6 +102,7 @@ export type SiteSettings = {
     metaTitle?: string;
     metaDescription?: string;
   };
+  language?: string;
 };
 
 export type SeoPage = {
@@ -132,6 +133,7 @@ export type SeoPage = {
     _key: string;
   }>;
   metaDescription?: string;
+  language?: string;
 };
 
 export type Slug = {
@@ -152,6 +154,7 @@ export type Testimonial = {
   outcomeValue?: string;
   outcomeLabel?: string;
   order?: number;
+  language?: string;
 };
 
 export type SanityImageAssetReference = {
@@ -179,6 +182,7 @@ export type Project = {
     _type: "image";
   };
   order?: number;
+  language?: string;
 };
 
 export type SanityImageCrop = {
@@ -210,6 +214,7 @@ export type Service = {
   priceOnRequest?: boolean;
   includes?: Array<string>;
   order?: number;
+  language?: string;
 };
 
 export type SanityImagePaletteSwatch = {

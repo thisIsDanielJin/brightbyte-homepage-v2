@@ -1,9 +1,10 @@
 /**
  * sanity/schemaTypes/project.ts — Project document type (document-internationalized).
  *
- * A translatable (DE/EN) editorial type. The `language` field is INJECTED by the
- * @sanity/document-internationalization plugin (A3: languageField defaults to
- * 'language') — do NOT hand-author it here. Queries filter language == $locale (D-10).
+ * A translatable (DE/EN) editorial type. The `language` field is a REQUIRED string
+ * field the type must declare (plugin README "Language field") — authored here as
+ * readOnly+hidden; the @sanity/document-internationalization plugin writes patches to
+ * it but does NOT inject it. Queries filter language == $locale (D-10).
  *
  * D-11: per-locale, NON-shared slug — each locale doc owns its own slug
  *   (/de/projekt/... vs /en/work/...); source is the doc's own title. Phase 6's
@@ -57,6 +58,13 @@ export const project = defineType({
       title: 'Order',
       type: 'number',
       description: 'Sort order for | order(order asc).',
+    }),
+    // Required by @sanity/document-internationalization (plugin writes patches here).
+    defineField({
+      name: 'language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
     }),
   ],
 })

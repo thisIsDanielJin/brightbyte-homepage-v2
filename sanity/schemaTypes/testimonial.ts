@@ -1,9 +1,10 @@
 /**
  * sanity/schemaTypes/testimonial.ts — Testimonial document type (document-internationalized).
  *
- * A translatable (DE/EN) editorial type. The `language` field is INJECTED by the
- * @sanity/document-internationalization plugin — do NOT hand-author it here.
- * Queries filter language == $locale (D-10).
+ * A translatable (DE/EN) editorial type. The `language` field is a REQUIRED string
+ * field the type must declare (plugin README "Language field") — authored here as
+ * readOnly+hidden; the @sanity/document-internationalization plugin writes patches to
+ * it but does NOT inject it. Queries filter language == $locale (D-10).
  *
  * D-06: the outcome metric is a SEPARATE, queryable pair — `outcomeValue` (e.g. "+200%")
  *   and `outcomeLabel` (e.g. "Umsatz") — INLINE on the document (PATTERNS: prefer inline
@@ -54,6 +55,13 @@ export const testimonial = defineType({
       title: 'Order',
       type: 'number',
       description: 'Sort order for | order(order asc).',
+    }),
+    // Required by @sanity/document-internationalization (plugin writes patches here).
+    defineField({
+      name: 'language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
     }),
   ],
 })
