@@ -4,9 +4,11 @@
  * Single defineConfig default export (mirrors next.config.ts's plugin-wrapping shape).
  * Studio is embedded at /studio inside this Next app, ships to production, gated by
  * Sanity's own auth (D-01/D-02). DE is base/reference language, listed first (D-09).
- * Tracer registers ONLY `service` for document internationalization; Wave 2 expands.
+ * Wave 2 registers all five types for document internationalization (D-08) and locks
+ * the siteSettings singleton via a document.actions resolver (D-07 / T-03-05).
  *
- * D-01: embedded Studio. D-08: document-level i18n (service). D-09: DE base first.
+ * D-01: embedded Studio. D-08: document-level i18n (all five types). D-09: DE base first.
+ * D-07: disable create/delete document actions for siteSettings (singleton lockdown).
  * Source: 03-PATTERNS.md sanity.config.ts; A3 (languageField 'language') verified.
  */
 import { defineConfig } from 'sanity'
@@ -25,16 +27,27 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
   },
+  // D-07 / T-03-05: prevent the siteSettings singleton from being duplicated or
+  // deleted — strip create/delete/duplicate from its document action list.
+  document: {
+    actions: (prev, { schemaType }) =>
+      schemaType === 'siteSettings'
+        ? prev.filter(
+            (action) =>
+              !['duplicate', 'delete', 'unpublish'].includes(action.action ?? ''),
+          )
+        : prev,
+  },
   plugins: [
-    // D-01: desk/structure tool hosts the embedded Studio content list.
+    // D-01: desk/structure tool hosts the embedded Studio content list + singleton.
     structureTool({ structure }),
-    // D-08/D-09: document-level DE/EN pairs; DE base listed first. Tracer: service only.
+    // D-08/D-09: document-level DE/EN pairs; DE base listed first. All five types.
     documentInternationalization({
       supportedLanguages: [
         { id: 'de', title: 'Deutsch' },
         { id: 'en', title: 'English' },
       ],
-      schemaTypes: ['service'],
+      schemaTypes: ['service', 'project', 'testimonial', 'seoPage', 'siteSettings'],
     }),
     // Dev-time GROQ playground.
     visionTool(),

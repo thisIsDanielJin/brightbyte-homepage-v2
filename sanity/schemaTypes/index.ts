@@ -11,6 +11,7 @@ import { service } from './service'
 import { project } from './project'
 import { testimonial } from './testimonial'
 import { seoPage } from './seoPage'
+import { siteSettings } from './siteSettings'
 import { price } from './objects/price'
 
-export const schemaTypes = [service, project, testimonial, seoPage, price]
+export const schemaTypes = [service, project, testimonial, seoPage, siteSettings, price]
