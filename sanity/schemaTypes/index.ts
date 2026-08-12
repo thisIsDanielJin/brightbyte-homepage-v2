@@ -8,6 +8,9 @@
  * CMS-01. Source: 03-PATTERNS.md index.ts (single-source-of-truth export array).
  */
 import { service } from './service'
+import { project } from './project'
+import { testimonial } from './testimonial'
+import { seoPage } from './seoPage'
 import { price } from './objects/price'
 
-export const schemaTypes = [service, price]
+export const schemaTypes = [service, project, testimonial, seoPage, price]
