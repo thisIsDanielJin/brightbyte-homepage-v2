@@ -2,18 +2,18 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 3
-current_phase_name: Sanity Content Architecture
+current_phase: 03
+current_phase_name: sanity-content-architecture
 status: executing
-stopped_at: Phase 3 research + validation done, pricing & Node decisions locked in CONTEXT.md; planner not yet spawned
-last_updated: "2026-08-12T12:34:19.654Z"
-last_activity: 2026-08-11
-last_activity_desc: Roadmap created, 28 v1 requirements mapped across 6 phases (Phase 7 is P2 scope)
+stopped_at: Completed 03-01-PLAN.md (tracer verified)
+last_updated: "2026-08-12T13:22:06.653Z"
+last_activity: 2026-08-12
+last_activity_desc: Phase 03 execution started
 progress:
   total_phases: 3
   completed_phases: 2
   total_plans: 8
-  completed_plans: 5
+  completed_plans: 6
 ---
 
 # Project State
@@ -23,16 +23,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-08-11)
 
 **Core value:** The site must feel refined, modern, and quietly stunning on first impression — calm, confident visual identity — so a local SMB owner immediately trusts the craft.
-**Current focus:** Phase 02 — i18n-shell-routing
+**Current focus:** Phase 03 — sanity-content-architecture
 
 ## Current Position
 
-Phase: 3 — Sanity Content Architecture
-Plan: Not started
+Phase: 03 (sanity-content-architecture) — EXECUTING
+Plan: 2 of 3
 Status: Ready to execute
-Last activity: 2026-08-11 — Phase 02 complete, transitioned to Phase 3
+Last activity: 2026-08-12 — Phase 03 execution started
 
-Progress: [██████████] 100%
+Progress: [████████░░] 75%
 
 ## Performance Metrics
 
@@ -76,6 +76,9 @@ Recent decisions affecting current work:
 - Phase 1: styles/tokens.css is established single @theme source of truth for all phases
 - Phase 1: SVG path generation via fontTools instancer from .next woff2 — no extra font download needed
 - Phase 1: svgo config: convertColors:false + keepRoleAttr:true preserves token hex values and role=img
+- [Phase ?]: D-10 $locale-filter query contract confirmed as-is; typed SERVICES_QUERY via defineQuery + getServices(locale)
+- [Phase ?]: sanity typegen wired via sanity-typegen.json path glob (no src/ dir); schema.json gitignored, sanity.types.ts committed
+- [Phase ?]: Studio metadata moved to server layout.tsx (Next 16 forbids metadata export from 'use client')
 
 ### Pending Todos
 
@@ -85,6 +88,7 @@ None yet.
 
 - Phase 5: 3D hero concept (scene geometry, lighting, draw call budget) is undefined; needs research during Phase 5 planning
 - General: Verify Vercel project Node runtime is 22.12+ before Phase 3 deploy (Sanity v6 requirement)
+- Tokenless anonymous read of ddrca30s/production returns empty despite public ACL — Sanity dashboard: enable public API reads (or add server-only read token) before Phase 4 build-time reads
 
 ## Deferred Items
 
@@ -94,6 +98,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-08-12T12:16:23.692Z
-Stopped at: Phase 3 research + validation done, pricing & Node decisions locked in CONTEXT.md; planner not yet spawned
-Resume file: .planning/phases/03-sanity-content-architecture/03-CONTEXT.md
+Last session: 2026-08-12T13:22:06.638Z
+Stopped at: Completed 03-01-PLAN.md (tracer verified)
+Resume file: None
