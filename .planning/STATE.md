@@ -5,15 +5,15 @@ milestone_name: milestone
 current_phase: 03
 current_phase_name: sanity-content-architecture
 status: executing
-stopped_at: Completed 03-01-PLAN.md (tracer verified)
-last_updated: "2026-08-12T13:22:06.653Z"
+stopped_at: Completed 03-02-PLAN.md
+last_updated: "2026-08-12T13:44:28.845Z"
 last_activity: 2026-08-12
 last_activity_desc: Phase 03 execution started
 progress:
   total_phases: 3
   completed_phases: 2
   total_plans: 8
-  completed_plans: 6
+  completed_plans: 7
 ---
 
 # Project State
@@ -28,11 +28,11 @@ See: .planning/PROJECT.md (updated 2026-08-11)
 ## Current Position
 
 Phase: 03 (sanity-content-architecture) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-08-12 — Phase 03 execution started
 
-Progress: [████████░░] 75%
+Progress: [█████████░] 88%
 
 ## Performance Metrics
 
@@ -61,6 +61,7 @@ Progress: [████████░░] 75%
 |------|----------|-------|-------|
 | Phase 01-identity-design-tokens P01 | 23min | 3 tasks | 15 files |
 | Phase 01 P02 | 6min | 2 tasks | 5 files |
+| Phase 03 P02 | ~15m | 7 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -79,6 +80,7 @@ Recent decisions affecting current work:
 - [Phase ?]: D-10 $locale-filter query contract confirmed as-is; typed SERVICES_QUERY via defineQuery + getServices(locale)
 - [Phase ?]: sanity typegen wired via sanity-typegen.json path glob (no src/ dir); schema.json gitignored, sanity.types.ts committed
 - [Phase ?]: Studio metadata moved to server layout.tsx (Next 16 forbids metadata export from 'use client')
+- [Phase ?]: Added required readOnly 'language' field to all 5 doc-i18n types (plugin mandates declaration; Wave 1 assumed injection) — Rule 2 fix
 
 ### Pending Todos
 
@@ -98,6 +100,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-08-12T13:22:06.638Z
-Stopped at: Completed 03-01-PLAN.md (tracer verified)
+Last session: 2026-08-12T13:43:51.547Z
+Stopped at: Completed 03-02-PLAN.md
 Resume file: None
