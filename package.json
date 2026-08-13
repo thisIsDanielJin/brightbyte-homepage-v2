@@ -11,6 +11,7 @@
     "lint": "next lint",
     "test": "npm run test:invariants && npm run test:a11y",
     "test:a11y": "playwright test tests/a11y/contrast.spec.ts",
+    "test:sections": "playwright test tests/sections/ tests/layout/ tests/motion/ tests/a11y/axe.spec.ts",
     "test:i18n": "playwright test tests/i18n/",
     "test:invariants": "bash tests/invariants/no-raw-hex.sh && bash tests/invariants/no-locale-from-state.sh && bash tests/invariants/sanity-single-client.sh && bash tests/invariants/no-stega-in-build.sh",
     "test:content": "node tests/sanity/content-presence.mjs"
@@ -24,6 +25,7 @@
     "next-sanity": "^13.3.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "resend": "^6.19.0",
     "sanity": "^6.9.2",
     "sharp": "0.35.3",
     "styled-components": "^6.5.2"

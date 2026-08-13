@@ -1,12 +1,15 @@
 import { defineConfig, devices } from '@playwright/test'
 
 /**
- * Playwright configuration — Wave 0 setup
+ * Playwright configuration — Phase 4 Wave 0
+ *
+ * Projects:
+ *   - mobile-375:  375×812 viewport (iOS portrait — the spec breakpoint)
+ *   - desktop-1440: 1440×900 viewport (wide desktop — the spec breakpoint)
  *
  * baseURL: http://localhost:3000 (Next.js dev server)
- * webServer: starts `next dev` before tests; reuses existing server if already running.
+ * webServer: starts `next start` before tests; reuses existing server if already running.
  * testDir: ./tests
- * project: chromium only — fast single-browser CI (30s target per VALIDATION.md)
  * No watch-mode flags.
  *
  * See: https://playwright.dev/docs/test-configuration
@@ -24,8 +27,18 @@ export default defineConfig({
   },
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'mobile-375',
+      use: {
+        ...devices['iPhone SE'],
+        viewport: { width: 375, height: 812 },
+      },
+    },
+    {
+      name: 'desktop-1440',
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1440, height: 900 },
+      },
     },
   ],
   webServer: {
