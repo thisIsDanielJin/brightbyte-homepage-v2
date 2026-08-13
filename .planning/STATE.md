@@ -5,15 +5,15 @@ milestone_name: milestone
 current_phase: 4
 current_phase_name: 2D Marketing Sections
 status: planning
-stopped_at: "Completed 04-01-PLAN.md (tracer: Hero + Header + Footer + MotionSection)"
-last_updated: "2026-08-13T13:53:58.999Z"
+stopped_at: Completed 04-02-PLAN.md — 5 content sections built
+last_updated: "2026-08-13T14:31:09.503Z"
 last_activity: 2026-08-13
 last_activity_desc: Phase 04 planned (4 plans, checker PASS, all 14 req IDs covered)
 progress:
   total_phases: 4
   completed_phases: 3
   total_plans: 12
-  completed_plans: 9
+  completed_plans: 10
 ---
 
 # Project State
@@ -32,7 +32,7 @@ Plan: Not started
 Status: Ready to plan
 Last activity: 2026-08-12 — Phase 3 complete, transitioned to Phase 4
 
-Progress: [████████░░] 75%
+Progress: [████████░░] 83%
 
 ## Performance Metrics
 
@@ -65,6 +65,7 @@ Progress: [████████░░] 75%
 | Phase 03 P02 | ~15m | 7 tasks | 11 files |
 | Phase 03 P03 | ~40m | 5 tasks | 5 files |
 | Phase 04-2d-marketing-sections P01 | 30 | 5 tasks | 22 files |
+| Phase 04-2d-marketing-sections P02 | 32 | 3 tasks | 16 files |
 
 ## Accumulated Context
 
@@ -88,6 +89,9 @@ Recent decisions affecting current work:
 - [Phase ?]: Stega build guard uses Perl -CSD codepoint scan, not grep -P (BSD grep lacks -P; GNU grep -P is locale-fragile)
 - [Phase ?]: MotionSection thin 'use client' wrapper — RSC sections remain async and pass children to motion.section to avoid pushing client boundary too high (Pitfall 4)
 - [Phase ?]: proxy.ts matcher extended to exclude static file extensions — SVG logos were being 301-redirected to locale-prefixed URLs by next-intl middleware
+- [Phase ?]: Pricing sourced exclusively from Sanity price object — no hardcoded figures (T-04-04 mitigated)
+- [Phase ?]: aboutPhoto optional field added to siteSettings — initials DJ fallback ships now, real photo uploads with no code change
+- [Phase ?]: WorkSection always renders empty state; Services/Pricing/Testimonials return null on 0 data
 
 ### Pending Todos
 
@@ -107,6 +111,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-08-13T13:53:58.974Z
-Stopped at: Completed 04-01-PLAN.md (tracer: Hero + Header + Footer + MotionSection)
+Last session: 2026-08-13T14:31:01.642Z
+Stopped at: Completed 04-02-PLAN.md — 5 content sections built
 Resume file: None

@@ -30,15 +30,15 @@
 ### Core Marketing Sections (2D)
 
 - [x] **SEC-01**: Hero section with a clear positioning statement targeting Berlin SMB owners
-- [ ] **SEC-02**: Services section in plain language (no technical jargon)
-- [ ] **SEC-03**: Fixed pricing prominently displayed (~€690 landing, ~€2,500 multi-page)
-- [ ] **SEC-04**: Portfolio/work grid (4–6 projects with outcome notes)
-- [ ] **SEC-05**: Testimonials section featuring the 3 verified outcome-anchored quotes (Blumenspiess +200%, Learnstep 92%, Lumo +47%)
-- [ ] **SEC-06**: About section — real photo, solo-studio "you work directly with me" framing
+- [x] **SEC-02**: Services section in plain language (no technical jargon)
+- [x] **SEC-03**: Fixed pricing prominently displayed (~€690 landing, ~€2,500 multi-page)
+- [x] **SEC-04**: Portfolio/work grid (4–6 projects with outcome notes)
+- [x] **SEC-05**: Testimonials section featuring the 3 verified outcome-anchored quotes (Blumenspiess +200%, Learnstep 92%, Lumo +47%)
+- [x] **SEC-06**: About section — real photo, solo-studio "you work directly with me" framing
 - [ ] **SEC-07**: Contact form (≤5 fields, confirmation feedback) delivering via Resend with Zod validation
 - [x] **SEC-08**: Site header + footer + navigation
 - [ ] **SEC-09**: Impressum + Datenschutz pages (German legal requirement)
-- [ ] **SEC-10**: Full mobile-responsive pass across all sections
+- [x] **SEC-10**: Full mobile-responsive pass across all sections
 - [x] **SEC-11**: Subtle, restrained viewport-triggered motion on 2D sections — readability first
 
 ### 3D Hero
@@ -96,15 +96,15 @@
 | CMS-02 | Phase 3: Sanity Content Architecture | Complete |
 | CMS-03 | Phase 3: Sanity Content Architecture | Complete |
 | SEC-01 | Phase 4: 2D Marketing Sections | Complete |
-| SEC-02 | Phase 4: 2D Marketing Sections | Pending |
-| SEC-03 | Phase 4: 2D Marketing Sections | Pending |
-| SEC-04 | Phase 4: 2D Marketing Sections | Pending |
-| SEC-05 | Phase 4: 2D Marketing Sections | Pending |
-| SEC-06 | Phase 4: 2D Marketing Sections | Pending |
+| SEC-02 | Phase 4: 2D Marketing Sections | Complete |
+| SEC-03 | Phase 4: 2D Marketing Sections | Complete |
+| SEC-04 | Phase 4: 2D Marketing Sections | Complete |
+| SEC-05 | Phase 4: 2D Marketing Sections | Complete |
+| SEC-06 | Phase 4: 2D Marketing Sections | Complete |
 | SEC-07 | Phase 4: 2D Marketing Sections | Pending |
 | SEC-08 | Phase 4: 2D Marketing Sections | Complete |
 | SEC-09 | Phase 4: 2D Marketing Sections | Pending |
-| SEC-10 | Phase 4: 2D Marketing Sections | Pending |
+| SEC-10 | Phase 4: 2D Marketing Sections | Complete |
 | SEC-11 | Phase 4: 2D Marketing Sections | Complete |
 | QA-01 | Phase 4: 2D Marketing Sections (primary; recurs Phase 5, 7) | Complete |
 | QA-02 | Phase 4: 2D Marketing Sections (primary; recurs Phase 5, 7) | Complete |
