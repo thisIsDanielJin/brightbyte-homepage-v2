@@ -537,23 +537,97 @@ Cards are `cursor-default` (not pointer) since they have no link target in this 
 
 ## UI Considerations
 
-Shape-rooted state coverage for this phase's data-driven components.
+Shape-rooted UI-state coverage produced by the post-verification UI-consideration probe
+(`ui-consideration-probe.cjs`), then resolved against this UI-SPEC's prose and the Phase 4
+CONTEXT.md decisions. 62 applicable considerations were raised across 10 surfaces.
 
-Applicable state considerations resolved: 8 covered, 2 backstop, 1 unresolved
+**Coverage:** 62 applicable — 59 resolved (explicit), 2 resolved (backstop), 1 unresolved.
 
-| Category | Element(s) | Status | Resolution / Reason |
-|----------|------------|--------|---------------------|
-| empty | Work grid (0 projects from Sanity) | ✅ covered | Renders "Projekte folgen in Kürze" / "Projects coming soon" copy with body text per Copywriting Contract |
-| empty | Testimonials (0 testimonials) | ✅ covered | Section hidden entirely when 0 testimonials returned — no empty-state shell rendered (no "coming soon" for social proof) |
-| empty | Services (0 services) | ✅ covered | Section hidden entirely when 0 services returned — fallback prevents a broken pricing/services layout |
-| loading | All Sanity-fetched sections | ✅ covered | Server Components with `async/await` — data fetched at build/request time; no client-side loading spinner needed. Suspense boundary wraps page for streaming if needed. |
-| error | Contact form submission | ✅ covered | Inline error message below submit button per Copywriting Contract; button re-enabled; no full-page reload |
-| error | Sanity fetch failure (build time) | ✅ covered | `getServices`/`getProjects`/`getTestimonials` return empty arrays on error — sections with empty checks hide gracefully |
-| long-text | Service card blurb | 🧪 backstop | Blurb with 200+ chars should not break card grid at 375px; verify in Playwright screenshot at mobile viewport with seeded long-text content |
-| long-text | Testimonial quote text | 🧪 backstop | Multi-sentence quote (4+ lines) must not overflow 3-column grid at 1440px; verify column equalization |
-| overflow | Work grid with 7+ projects | ⚠ unresolved | Sanity currently has 3 projects; planner should assume grid wraps gracefully via auto-fill; no explicit max-items cap in this spec |
-| zero-one-many | Pricing tiers (exactly 2 seeded) | ✅ covered | Two-column layout assumes exactly 2 tiers; if 1 tier returned, grid falls back to single centered column via CSS grid auto-placement |
-| photo-absent | About section photo | ✅ covered | Initials-mark fallback (circular `bg-surface-muted` with "DJ" text) renders when Sanity `image` field is null/absent |
+Resolution key: **explicit** = a concrete truth is stated here or in CONTEXT.md; **backstop** =
+resolved by a held-out visual (Playwright screenshot) check during the per-section QA loop, no
+explicit spec rule; **unresolved** = planner must treat as an assumption. `backstop` rows lift
+into `must_haves.truths` and, at verify time, pass only on explicit test evidence or route to
+`human_needed` — never a silent pass.
+
+Global resolutions that cover many rows at once (stated once, applied per surface below):
+
+- **loading (all Sanity-fed sections + header/hero):** No client-side loading state. All content
+  sections are React Server Components with `async/await`; Sanity is read at build/request time,
+  so there is no in-flight client fetch to spinner. (explicit — Motion Contract + Established
+  Patterns: Server Components fetch content.)
+- **error (all Sanity read paths):** `getServices`/`getPricing`/`getProjects`/`getTestimonials`/
+  `getSiteSettings` return empty arrays / null on read failure; every collection section applies
+  its empty/hidden rule below, so a failed read degrades to the same graceful state as zero data —
+  never a thrown page. (explicit — Established Patterns + empty-state rules.)
+
+| # | Category | Surface | Status | Verification | Resolution / Reason |
+|---|----------|---------|--------|--------------|---------------------|
+| 1 | loading | Header | resolved | explicit | Static structural chrome; no data fetch. Logo served with explicit width/height (no CLS). |
+| 2 | error | Header | resolved | explicit | No data dependency to fail; nav is static anchor hrefs. |
+| 3 | overflow | Header | resolved | explicit | Fixed nav set (4 anchors + switcher) at 1440px; at 375px nav collapses to hamburger overlay — no horizontal overflow. |
+| 4 | long-text | Header | resolved | explicit | Nav labels are fixed short i18n strings (Leistungen/Preise/Projekte/Kontakt); no user/CMS text in the bar. |
+| 5 | loading | Hero | resolved | explicit | Headline/subline from Sanity at build/request time (SSR) — no client loading state; container is fixed-height (CLS-zero). |
+| 6 | error | Hero | resolved | explicit | If `siteSettings` hero fields are absent/null, next-intl fallback copy renders (D-07 research flag: add fields or fallback message). |
+| 7 | overflow | Hero | resolved | explicit | `min-h-svh` container, centered column; text column capped at 50% (desktop) / max-width 560px (subline) — content cannot exceed the viewport container. |
+| 8 | long-text | Hero | resolved | backstop | A long CMS-authored headline must wrap without pushing the CTA below the fold at 375px — verify in the hero QA screenshot pass. |
+| 9 | empty | Services | resolved | explicit | Section hidden entirely when 0 services returned (no empty shell). |
+| 10 | loading | Services | resolved | explicit | See global loading resolution (RSC). |
+| 11 | error | Services | resolved | explicit | See global error resolution → empty array → section hidden. |
+| 12 | populated | Services | resolved | explicit | Happy path = exactly 2 seeded tiers; 375px single-column stack, 1440px 2-column grid. |
+| 13 | partial | Services | resolved | explicit | Card fields required by schema (title/blurb/includes/price validation, Phase 3 T-03-06); price falls back to "Auf Anfrage"/"On request" when `priceOnRequest`. No half-rendered card. |
+| 14 | overflow | Services | resolved | explicit | 2 cards fit the grid at both viewports; `includes` list wraps within the card. |
+| 15 | zero-one-many | Services | resolved | explicit | 0 → hidden; 1 → single centered card via grid auto-placement; 2 (typical) → 2-col. Layout reads at each count. |
+| 16 | long-text | Services | resolved | backstop | 200+ char blurb must not break the card grid at 375px — verify in Services mobile QA screenshot with seeded long-text (per user decision: Playwright backstop). |
+| 17 | empty | Pricing | resolved | explicit | Section hidden when 0 tiers returned (mirrors Services). |
+| 18 | loading | Pricing | resolved | explicit | See global loading resolution (RSC). |
+| 19 | error | Pricing | resolved | explicit | See global error resolution → empty → hidden. |
+| 20 | populated | Pricing | resolved | explicit | Happy path = 2 seeded tiers (priceFrom landing tier + price-on-request full-site tier); 375px stacked, 1440px 2-col max-width 900px. |
+| 21 | partial | Pricing | resolved | explicit | Price object validated in schema; `priceOnRequest` tier renders "Auf Anfrage"/"On request" instead of a numeric amount — no blank price. |
+| 22 | overflow | Pricing | resolved | explicit | 2 cards centered at max-width 900px; includes list wraps within card. |
+| 23 | zero-one-many | Pricing | resolved | explicit | 0 → hidden; 1 → single centered column via grid auto-placement; 2 (typical) → 2-col. |
+| 24 | long-text | Pricing | resolved | explicit | Price sublabel + includes are short structured strings; long includes items wrap in-card (same as Services blurb backstop covers the extreme). |
+| 25 | empty | Work grid | resolved | explicit | 0 projects → "Projekte folgen in Kürze" / "Projects coming soon" heading + body per Copywriting Contract (explicit empty state, D-11). |
+| 26 | loading | Work grid | resolved | explicit | See global loading resolution (RSC); `next/image` handles its own progressive image load with reserved aspect-ratio box (no CLS). |
+| 27 | error | Work grid | resolved | explicit | Read failure → empty array → the empty-state copy renders (same as zero projects). |
+| 28 | populated | Work grid | resolved | explicit | Happy path = 4–6 cards; 375px 1-col, 1440px 2–3 col grid. |
+| 29 | partial | Work grid | resolved | explicit | Card requires image + name + outcome note (schema-validated); a project missing an image falls back to a `surface-muted` block at the same 4/3 aspect ratio (no broken layout). |
+| 30 | overflow | Work grid | resolved | explicit | **User decision: auto-wrap, show all.** `grid-cols-2 lg:grid-cols-3` wraps additional projects into more rows; no max-items cap, every project renders. |
+| 31 | zero-one-many | Work grid | resolved | explicit | 0 → empty-state copy; 1 → single card (grid auto-placement, left-aligned); many → wraps into rows (row 30). |
+| 32 | empty | Testimonials | resolved | explicit | Section hidden entirely when 0 testimonials (no "coming soon" for social proof — deliberate). |
+| 33 | loading | Testimonials | resolved | explicit | See global loading resolution (RSC). |
+| 34 | error | Testimonials | resolved | explicit | Read failure → empty → section hidden. |
+| 35 | populated | Testimonials | resolved | explicit | Happy path = exactly 3 seeded; 375px stacked, 1440px 3-col grid; outcome metric rendered as its own visual field above the quote. |
+| 36 | partial | Testimonials | resolved | explicit | outcomeValue/outcomeLabel/quote/author/company schema-required; metric renders separately from quote — no card with a quote but no attribution. |
+| 37 | overflow | Testimonials | resolved | explicit | 3 cards fit the 3-col grid; quote wraps within card. |
+| 38 | zero-one-many | Testimonials | resolved | explicit | 0 → hidden; 1 → single centered card; 3 (typical) → 3-col. |
+| 39 | long-text | Testimonials | resolved | backstop | A 4+ line quote must not overflow the 3-col grid at 1440px — verify column height equalization in the Testimonials desktop QA screenshot (per user decision: Playwright backstop). |
+| 40 | empty | About | resolved | explicit | Photo-absent → initials-mark fallback ("DJ" in a circular `surface-muted` container); bio text always present (name is structural). |
+| 41 | loading | About | resolved | explicit | See global loading resolution (RSC); `next/image` reserves the 1/1 aspect box for the photo. |
+| 42 | error | About | resolved | explicit | Missing Sanity image → initials fallback (row 40); missing bio → next-intl fallback framing string. |
+| 43 | populated | About | resolved | explicit | Happy path = photo (or fallback) + heading + subline + body; 375px photo-above-text, 1440px 40/60 two-column. |
+| 44 | partial | About | resolved | explicit | Only the image field is optional (fallback handles it); all other fields are static or fallback-backed — no partial-render gap. |
+| 45 | overflow | About | resolved | explicit | Text column at 60% (desktop) / full width (mobile); body wraps; photo fixed at 120/160px. |
+| 46 | long-text | About | resolved | explicit | Bio body wraps at `leading-relaxed`; no truncation intended for an editorial bio; column width bounds line length. |
+| 47 | empty | Contact form | resolved | explicit | Unfilled form is the idle happy path — labels + placeholders shown; submit enabled; no data required to render. |
+| 48 | loading | Contact form | resolved | explicit | Submit → loading state: spinner (inline 16px SVG) + "Wird gesendet…"/"Sending…", button disabled + `opacity-75`. |
+| 49 | error | Contact form | resolved | explicit | Network/server failure → inline error copy below button ("…try again or email directly"), button re-enabled, no reload. |
+| 50 | partial | Contact form | resolved | explicit | Per-field validation (required + email format) blocks submit; each invalid field shows `border-destructive` + inline message; valid fields unaffected. |
+| 51 | overflow | Contact form | resolved | explicit | Single column, max-width 560/640px; textarea `rows=5` then scrolls internally; fields stack with `space-y-4`. |
+| 52 | long-text | Contact form | resolved | explicit | Message textarea scrolls internally past 5 rows; Name/Email inputs scroll horizontally within the field — no layout break. |
+| 53 | empty | Footer | resolved | explicit | Footer chrome is static (logo/nav/legal/copyright); email + year from `siteSettings` with a static fallback if absent. |
+| 54 | loading | Footer | resolved | explicit | See global loading resolution (RSC). |
+| 55 | error | Footer | resolved | explicit | Missing `siteSettings` email/year → static fallback (copyright year via `getFullYear()` if CMS value absent). |
+| 56 | populated | Footer | resolved | explicit | Happy path = logo + tagline + anchor nav + 2 legal links + copyright; 375px stacked, 1440px 3-col row. |
+| 57 | partial | Footer | resolved | explicit | Legal links + nav are static hrefs (always present); only email/year are CMS-backed with fallback (row 55). |
+| 58 | overflow | Footer | resolved | explicit | Fixed link set; 3-col row at desktop, single stacked column at mobile — no overflow. |
+| 59 | zero-one-many | Footer | resolved | explicit | Link counts are fixed (not data-driven); layout is static at both viewports. |
+| 60 | long-text | Footer | resolved | explicit | Tagline is a fixed short i18n string; copyright is fixed format — no variable-length CMS text in footer chrome. |
+| 61 | overflow | Legal pages | resolved | explicit | Single-column editorial layout, max-width 720px; long legal prose flows vertically (natural page scroll), no clipping. |
+| 62 | long-text | Legal pages | resolved | explicit | Legal body is expected long-form prose; `leading-relaxed` + 720px measure bound line length; address details in monospace wrap. |
+
+**Planner note (row 30):** No max-items cap on the Work grid is an accepted, intentional choice
+(auto-wrap, show all). If a future phase adds many projects and the section grows unwieldy, a cap
++ "view all" affordance is the deferred escalation (Phase 7 case-study routes are the natural home).
 
 ---
 
@@ -588,11 +662,11 @@ These are enforced by `tests/invariants/*.sh` — the CI gate stays green.
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
+- [x] Dimension 1 Copywriting: PASS
+- [x] Dimension 2 Visuals: PASS
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: PASS (justified override — locked Phase 1 token system)
+- [x] Dimension 5 Spacing: PASS
+- [x] Dimension 6 Registry Safety: PASS
 
-**Approval:** pending
+**Approval:** verified 2026-08-13 (gsd-ui-checker, revision 1 — 6/6 dimensions pass)
