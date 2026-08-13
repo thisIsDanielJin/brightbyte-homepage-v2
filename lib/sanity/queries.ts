@@ -84,7 +84,8 @@ export function getSeoPageBySlug(locale: string, slug: string) {
 export const SITE_SETTINGS_QUERY = defineQuery(
   `*[_type == "siteSettings" && language == $locale][0]{
      _id, siteTitle, navLabels, footerText, heroHeadline, heroSubline,
-     contactEmail, address, steuernummer, vatNote, defaultSeo
+     contactEmail, address, steuernummer, vatNote, defaultSeo,
+     aboutPhoto
    }`,
 )
 

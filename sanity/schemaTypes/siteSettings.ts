@@ -81,6 +81,16 @@ export const siteSettings = defineType({
       description: 'Kleinunternehmerregelung note.',
       initialValue: 'Gemäß §19 UStG wird keine Umsatzsteuer berechnet',
     }),
+    // SEC-06: Optional about-section photo. When absent, AboutSection shows "DJ" initials
+    // fallback. When Daniel uploads a photo to Sanity Studio and populates this field,
+    // the photo renders with no code change needed (deferred asset — CONTEXT.md).
+    defineField({
+      name: 'aboutPhoto',
+      title: 'About photo',
+      type: 'image',
+      options: { hotspot: true },
+      description: 'Photo of Daniel for the About section. Optional — initials "DJ" mark shown if absent.',
+    }),
     defineField({
       name: 'defaultSeo',
       title: 'Default SEO',

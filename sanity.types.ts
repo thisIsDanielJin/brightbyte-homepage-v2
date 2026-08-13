@@ -85,6 +85,13 @@ export type InternationalizedArrayReferenceValue = {
   language?: string;
 };
 
+export type SanityImageAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+};
+
 export type SiteSettings = {
   _id: string;
   _type: "siteSettings";
@@ -100,11 +107,34 @@ export type SiteSettings = {
   address?: string;
   steuernummer?: string;
   vatNote?: string;
+  aboutPhoto?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
   defaultSeo?: {
     metaTitle?: string;
     metaDescription?: string;
   };
   language?: string;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
 };
 
 export type SeoPage = {
@@ -159,13 +189,6 @@ export type Testimonial = {
   language?: string;
 };
 
-export type SanityImageAssetReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-};
-
 export type Project = {
   _id: string;
   _type: "project";
@@ -185,22 +208,6 @@ export type Project = {
   };
   order?: number;
   language?: string;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
 };
 
 export type Service = {
@@ -326,14 +333,14 @@ export type AllSanitySchemaTypes =
   | SeoPageReference
   | SiteSettingsReference
   | InternationalizedArrayReferenceValue
+  | SanityImageAssetReference
   | SiteSettings
+  | SanityImageCrop
+  | SanityImageHotspot
   | SeoPage
   | Slug
   | Testimonial
-  | SanityImageAssetReference
   | Project
-  | SanityImageCrop
-  | SanityImageHotspot
   | Service
   | SanityImagePaletteSwatch
   | SanityImagePalette
@@ -472,7 +479,7 @@ export type SEO_PAGE_BY_SLUG_QUERY_RESULT = {
 
 // Source: lib/sanity/queries.ts
 // Variable: SITE_SETTINGS_QUERY
-// Query: *[_type == "siteSettings" && language == $locale][0]{     _id, siteTitle, navLabels, footerText, heroHeadline, heroSubline,     contactEmail, address, steuernummer, vatNote, defaultSeo   }
+// Query: *[_type == "siteSettings" && language == $locale][0]{     _id, siteTitle, navLabels, footerText, heroHeadline, heroSubline,     contactEmail, address, steuernummer, vatNote, defaultSeo,     aboutPhoto   }
 export type SITE_SETTINGS_QUERY_RESULT = {
   _id: string;
   siteTitle: string | null;
@@ -488,6 +495,13 @@ export type SITE_SETTINGS_QUERY_RESULT = {
     metaTitle?: string;
     metaDescription?: string;
   } | null;
+  aboutPhoto: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
 } | null;
 
 // Query TypeMap
@@ -500,6 +514,6 @@ declare module "@sanity/client" {
     '*[_type == "testimonial" && language == $locale] | order(order asc){\n     _id, quote, author, company, outcomeValue, outcomeLabel\n   }': TESTIMONIALS_QUERY_RESULT;
     '*[_type == "seoPage" && language == $locale]{\n     _id, title, slug, heading, body, metaDescription\n   }': SEO_PAGES_QUERY_RESULT;
     '*[_type == "seoPage" && language == $locale && slug.current == $slug][0]{\n     _id, title, slug, heading, body, metaDescription\n   }': SEO_PAGE_BY_SLUG_QUERY_RESULT;
-    '*[_type == "siteSettings" && language == $locale][0]{\n     _id, siteTitle, navLabels, footerText, heroHeadline, heroSubline,\n     contactEmail, address, steuernummer, vatNote, defaultSeo\n   }': SITE_SETTINGS_QUERY_RESULT;
+    '*[_type == "siteSettings" && language == $locale][0]{\n     _id, siteTitle, navLabels, footerText, heroHeadline, heroSubline,\n     contactEmail, address, steuernummer, vatNote, defaultSeo,\n     aboutPhoto\n   }': SITE_SETTINGS_QUERY_RESULT;
   }
 }
