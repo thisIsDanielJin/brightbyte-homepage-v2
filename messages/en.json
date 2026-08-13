@@ -21,6 +21,38 @@
     "cta": "Start a project",
     "scrollHint": "Learn more"
   },
+  "Services": {
+    "eyebrow": "Services",
+    "heading": "What I offer",
+    "priceFrom": "from",
+    "priceOnRequest": "On request",
+    "includes": "What's included"
+  },
+  "Pricing": {
+    "eyebrow": "Pricing",
+    "heading": "Transparent Pricing",
+    "priceFrom": "from",
+    "priceOnRequest": "On request",
+    "priceSuffix": "One-time, incl. hosting recommendation",
+    "cta": "Start a project"
+  },
+  "Work": {
+    "eyebrow": "Portfolio",
+    "heading": "Selected Projects",
+    "emptyHeading": "Projects coming soon",
+    "emptyBody": "I'll share concrete outcomes soon."
+  },
+  "Testimonials": {
+    "eyebrow": "Testimonials",
+    "heading": "What clients say"
+  },
+  "About": {
+    "eyebrow": "About",
+    "heading": "About me",
+    "name": "Daniel Jin Wodke",
+    "subline": "Freelance Web Designer, Berlin",
+    "body": "You work directly with me — no agency, no middleman. I design and build your website personally, with fixed prices and a clear delivery timeline. Every project gets my full attention."
+  },
   "Footer": {
     "tagline": "Web design for small businesses in Berlin.",
     "legal": "Legal",

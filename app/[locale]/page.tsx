@@ -1,26 +1,29 @@
 /**
- * app/[locale]/page.tsx — Home page: Hero section wired to Sanity siteSettings.
+ * app/[locale]/page.tsx — Home page: all content sections wired to Sanity.
  *
- * Phase 4 Plan 01 (Tracer): wires the full vertical — Sanity read → RSC → token-styled
- * section → motion → QA loop — on exactly ONE fully-built section (Hero).
+ * Phase 4 Plan 02: extends the tracer (HeroSection) with the five content sections
+ * in D-05 DOM order: Hero → Services → Pricing → Work → Testimonials → About → (Contact: 04-03).
  *
- * Fetches getSiteSettings(locale) at page level (server-side, at request time).
- * Passes heroHeadline/heroSubline to HeroSection as props; HeroSection falls back
- * to next-intl messages when props are null (never an empty heading — D-07).
+ * Single page-level Promise.all fetches all Sanity data (Pattern 2 — no per-section fetch).
+ * Sections receive data as props; RSC sections have no client-side fetch.
  *
  * D-09 invariant: locale from awaited params (URL segment only, never client state).
  * IDENT-01: zero raw hex, zero text-gray-* in this file.
- *
- * Plan 04-02 extends this page with the remaining 6 sections (Services through Contact).
+ * T-04-04 mitigation: prices rendered only from Sanity — no hardcoded figures.
  *
  * Sources:
  *   04-RESEARCH.md Pattern 2 (page-level Sanity fetch); 04-UI-SPEC.md layout contract
- *   node_modules/next/dist/docs/01-app/03-api-reference/04-functions/generate-metadata.md
+ *   04-01-SUMMARY.md (tracer pattern established here)
  */
 import type { Metadata } from 'next'
 import { buildHreflangAlternates, BASE_URL } from '@/lib/i18n/metadata'
-import { getSiteSettings } from '@/lib/sanity/queries'
+import { getSiteSettings, getServices, getProjects, getTestimonials } from '@/lib/sanity/queries'
 import { HeroSection } from '@/components/sections/HeroSection'
+import { ServicesSection } from '@/components/sections/ServicesSection'
+import { PricingSection } from '@/components/sections/PricingSection'
+import { WorkSection } from '@/components/sections/WorkSection'
+import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
+import { AboutSection } from '@/components/sections/AboutSection'
 
 type PageProps = {
   params: Promise<{ locale: string }>
@@ -53,21 +56,51 @@ export default async function HomePage({ params }: PageProps) {
   // Next.js 16 requires awaiting params (async params API).
   const { locale } = await params
 
-  // Fetch siteSettings at request time — tokenless, stega:false client (D-03).
-  // heroHeadline/heroSubline: null when absent → HeroSection falls back to next-intl messages.
-  const settings = await getSiteSettings(locale)
+  // Single page-level Promise.all — Pattern 2: one fetch waterfall, all sections get props.
+  // stega:false lives on the client (lib/sanity/client.ts); never added here.
+  const [settings, services, projects, testimonials] = await Promise.all([
+    getSiteSettings(locale),
+    getServices(locale),
+    getProjects(locale),
+    getTestimonials(locale),
+  ])
 
   return (
     <main>
+      {/* D-05 section order: Hero → Services → Pricing → Work → Testimonials → About → Contact */}
+
+      {/* SEC-01 — Hero: static backdrop, Sanity copy (Phase 5 swaps backdrop for R3F canvas) */}
       <HeroSection
         headline={settings?.heroHeadline}
         subline={settings?.heroSubline}
       />
+
+      {/* SEC-02 — Services: 1-col mobile / 2-col desktop, hidden when 0 */}
+      <ServicesSection services={services} locale={locale} />
+
+      {/* SEC-03 — Pricing: from Sanity price object only, never hardcoded (T-04-04) */}
+      <PricingSection services={services} locale={locale} />
+
+      {/* SEC-04 — Work grid: images + outcome notes, hover lift, empty state */}
+      <WorkSection projects={projects} locale={locale} />
+
+      {/* SEC-05 — Testimonials: metric as own field above quote */}
+      <TestimonialsSection testimonials={testimonials} locale={locale} />
+
+      {/* SEC-06 — About: photo or DJ initials fallback */}
+      <AboutSection settings={settings} locale={locale} />
+
       {/*
-        Sections 2–7 (Services → Contact) are added in Plan 04-02.
-        This page intentionally renders only the Hero tracer section.
-        An empty main element after HeroSection is acceptable during the tracer phase.
+        SEC-07 — Contact form (Plan 04-03). Placeholder anchor target so nav works.
+        The real ContactSection (Route Handler + Resend + Zod) is built in Wave 3.
       */}
+      <section id="contact" className="py-16 px-4 md:px-8 lg:px-16">
+        <div className="max-w-5xl mx-auto text-center">
+          <p className="text-secondary text-sm">
+            {/* Contact section placeholder — Plan 04-03 fills this */}
+          </p>
+        </div>
+      </section>
     </main>
   )
 }

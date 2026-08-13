@@ -21,6 +21,38 @@
     "cta": "Projekt anfragen",
     "scrollHint": "Mehr erfahren"
   },
+  "Services": {
+    "eyebrow": "Leistungen",
+    "heading": "Was ich anbiete",
+    "priceFrom": "ab",
+    "priceOnRequest": "Auf Anfrage",
+    "includes": "Leistungsumfang"
+  },
+  "Pricing": {
+    "eyebrow": "Preise",
+    "heading": "Transparente Preise",
+    "priceFrom": "ab",
+    "priceOnRequest": "Auf Anfrage",
+    "priceSuffix": "Einmalig, inkl. Hosting-Empfehlung",
+    "cta": "Projekt anfragen"
+  },
+  "Work": {
+    "eyebrow": "Referenzen",
+    "heading": "Ausgewählte Projekte",
+    "emptyHeading": "Projekte folgen in Kürze",
+    "emptyBody": "Ich zeige dir bald konkrete Ergebnisse."
+  },
+  "Testimonials": {
+    "eyebrow": "Kundenstimmen",
+    "heading": "Was Kunden sagen"
+  },
+  "About": {
+    "eyebrow": "Über mich",
+    "heading": "Über mich",
+    "name": "Daniel Jin Wodke",
+    "subline": "Freelance Webdesigner, Berlin",
+    "body": "Du arbeitest direkt mit mir — keine Agentur, kein Mittelsmann. Ich designe und baue deine Website persönlich, mit Festpreisen und einer klaren Lieferzeit. Jedes Projekt bekommt meine volle Aufmerksamkeit."
+  },
   "Footer": {
     "tagline": "Webdesign für kleine Unternehmen in Berlin.",
     "legal": "Rechtliches",
