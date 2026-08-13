@@ -39,6 +39,23 @@ export const siteSettings = defineType({
       title: 'Footer text',
       type: 'text',
     }),
+    // D-07: Hero headline/subline for Phase 4 HeroSection (added in 04-01).
+    // Plain string/text — no Portable Text (Phase 3 D-04 convention).
+    defineField({
+      name: 'heroHeadline',
+      title: 'Hero headline',
+      type: 'string',
+      validation: (Rule) => Rule.required().max(80),
+      description: 'Main positioning headline in the hero section. Max 80 chars.',
+    }),
+    defineField({
+      name: 'heroSubline',
+      title: 'Hero subline',
+      type: 'text',
+      rows: 2,
+      validation: (Rule) => Rule.max(200),
+      description: 'Supporting subline below the hero headline. Max 200 chars.',
+    }),
     defineField({
       name: 'contactEmail',
       title: 'Contact email',

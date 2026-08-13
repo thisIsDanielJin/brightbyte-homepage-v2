@@ -94,6 +94,8 @@ export type SiteSettings = {
   siteTitle?: string;
   navLabels?: Array<string>;
   footerText?: string;
+  heroHeadline?: string;
+  heroSubline?: string;
   contactEmail?: string;
   address?: string;
   steuernummer?: string;
@@ -470,12 +472,14 @@ export type SEO_PAGE_BY_SLUG_QUERY_RESULT = {
 
 // Source: lib/sanity/queries.ts
 // Variable: SITE_SETTINGS_QUERY
-// Query: *[_type == "siteSettings" && language == $locale][0]{     _id, siteTitle, navLabels, footerText, contactEmail, address,     steuernummer, vatNote, defaultSeo   }
+// Query: *[_type == "siteSettings" && language == $locale][0]{     _id, siteTitle, navLabels, footerText, heroHeadline, heroSubline,     contactEmail, address, steuernummer, vatNote, defaultSeo   }
 export type SITE_SETTINGS_QUERY_RESULT = {
   _id: string;
   siteTitle: string | null;
   navLabels: Array<string> | null;
   footerText: string | null;
+  heroHeadline: string | null;
+  heroSubline: string | null;
   contactEmail: string | null;
   address: string | null;
   steuernummer: string | null;
@@ -496,6 +500,6 @@ declare module "@sanity/client" {
     '*[_type == "testimonial" && language == $locale] | order(order asc){\n     _id, quote, author, company, outcomeValue, outcomeLabel\n   }': TESTIMONIALS_QUERY_RESULT;
     '*[_type == "seoPage" && language == $locale]{\n     _id, title, slug, heading, body, metaDescription\n   }': SEO_PAGES_QUERY_RESULT;
     '*[_type == "seoPage" && language == $locale && slug.current == $slug][0]{\n     _id, title, slug, heading, body, metaDescription\n   }': SEO_PAGE_BY_SLUG_QUERY_RESULT;
-    '*[_type == "siteSettings" && language == $locale][0]{\n     _id, siteTitle, navLabels, footerText, contactEmail, address,\n     steuernummer, vatNote, defaultSeo\n   }': SITE_SETTINGS_QUERY_RESULT;
+    '*[_type == "siteSettings" && language == $locale][0]{\n     _id, siteTitle, navLabels, footerText, heroHeadline, heroSubline,\n     contactEmail, address, steuernummer, vatNote, defaultSeo\n   }': SITE_SETTINGS_QUERY_RESULT;
   }
 }
