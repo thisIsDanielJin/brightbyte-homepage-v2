@@ -92,7 +92,13 @@ Seven phases that build the site the way it must be built — identity locked fi
   4. `axe-playwright` reports zero violations across all sections; all interactive elements have `:focus-visible` styles; text contrast meets WCAG AA against actual rendered backgrounds
   5. Section entrance animations use `motion/react` viewport triggers; no animation plays if `prefers-reduced-motion: reduce` is set
 
-**Plans**: TBD
+**Plans**: 4 plans
+
+- [ ] 04-01-PLAN.md — Tracer: Wave 0 (resend install, Playwright projects, spec scaffolds, siteSettings heroHeadline/heroSubline + re-seed) -> real Header + Footer + Hero fully built & QA'd end-to-end (SEC-01, SEC-08, SEC-11, QA-01/02/03)
+- [ ] 04-02-PLAN.md — Content sections: Services, Pricing, Work grid, Testimonials, About + aboutPhoto field, each through the per-section QA loop (SEC-02, SEC-03, SEC-04, SEC-05, SEC-06, SEC-10)
+- [ ] 04-03-PLAN.md — Contact form: Route Handler (Zod + Resend + honeypot/timing/rate-limit) + client submit UX with inline success/error (SEC-07)
+- [ ] 04-04-PLAN.md — Legal routes (Impressum + Datenschutz from Sanity, datenschutzBody field) + footer dark-surface verification + final phase a11y/mobile/motion gate (SEC-09, SEC-10, SEC-11, QA-01/02/03)
+
 **UI hint**: yes
 
 ### Phase 5: R3F Hero
@@ -149,7 +155,7 @@ Seven phases that build the site the way it must be built — identity locked fi
 | 1. Identity & Design Tokens | 2/2 | Complete    | 2026-08-11 |
 | 2. i18n Shell & Routing | 3/3 | Complete    | 2026-08-11 |
 | 3. Sanity Content Architecture | 3/3 | Complete    | 2026-08-12 |
-| 4. 2D Marketing Sections | 0/TBD | Not started | - |
+| 4. 2D Marketing Sections | 0/4 | In progress | - |
 | 5. R3F Hero | 0/TBD | Not started | - |
 | 6. SEO Layer & Programmatic Pages | 0/TBD | Not started | - |
 | 7. P2 Differentiators & Polish | 0/TBD | Not started | - |
