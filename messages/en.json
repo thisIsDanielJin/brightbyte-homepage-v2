@@ -6,5 +6,26 @@
     "label": "Language",
     "de": "German",
     "en": "English"
+  },
+  "Nav": {
+    "services": "Services",
+    "pricing": "Pricing",
+    "work": "Work",
+    "contact": "Contact",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "Hero": {
+    "headline": "Web design that wins clients",
+    "subline": "Fixed prices, no agency overhead. You work directly with me.",
+    "cta": "Start a project",
+    "scrollHint": "Learn more"
+  },
+  "Footer": {
+    "tagline": "Web design for small businesses in Berlin.",
+    "legal": "Legal",
+    "impressum": "Legal Notice",
+    "datenschutz": "Privacy Policy",
+    "copyright": "BrightByte Berlin — Daniel Jin Wodke"
   }
 }

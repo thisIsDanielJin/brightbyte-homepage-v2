@@ -1,39 +1,36 @@
 /**
- * app/[locale]/layout.tsx — Locale-aware root layout.
+ * app/[locale]/layout.tsx — Locale-aware root layout with real Header + Footer.
  *
- * This is the root layout for all locale routes. It:
- *   - Sets <html lang={locale}> dynamically from the [locale] URL segment
- *   - Preserves the Plus Jakarta Sans next/font/google bridge from Phase 1
- *     (--font-plus-jakarta-sans CSS variable → --font-sans via globals.css)
- *   - Preserves the Phase 1 body token classes (bg-surface text-primary
- *     font-sans antialiased) — IDENT-01 invariant
- *   - Mounts NextIntlClientProvider (no messages prop needed — v4 picks up
- *     from getRequestConfig automatically, Pitfall 5)
- *   - Renders a minimal <header> inside NextIntlClientProvider holding ONLY
- *     <LocaleSwitcher /> — no footer, no nav, no branding (D-06)
- *     Full identity chrome is Phase 4.
- *   - Exports generateStaticParams to generate static routes for both locales
+ * Phase 4 update: replaces the switcher-only minimal header with:
+ *   - <Header /> — sticky, frosted backdrop, anchor nav, mobile hamburger
+ *   - <Footer /> — dark surface accent moment (D-13), siteSettings data
+ *
+ * Preserved from Phase 2/3:
+ *   - Plus Jakarta Sans next/font/google bridge (--font-plus-jakarta-sans → --font-sans)
+ *   - NextIntlClientProvider (no messages prop — v4 auto-resolves from getRequestConfig)
+ *   - body token classes (bg-surface text-primary font-sans antialiased)
+ *   - generateStaticParams for both locales
+ *   - metadataBase for hreflang absolute URLs
+ *
+ * D-09 locale invariant: locale from awaited params (URL only, never client state).
  *
  * Sources:
- *   github.com/amannn/next-intl examples/example-app-router
- *   RESEARCH §Pattern 4
- *   CONTEXT.md D-06 (minimal unstyled header, switcher only)
- *   node_modules/next/dist/docs/01-app/02-guides/internationalization.md
+ *   04-RESEARCH.md Pattern 2 (page-level Sanity fetch); 04-UI-SPEC.md layout contract
+ *   node_modules/next/dist/docs/01-app/03-api-reference/04-functions/generate-metadata.md
  */
 import type { Metadata } from 'next'
 import { Plus_Jakarta_Sans } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { routing } from '@/i18n/routing'
-import LocaleSwitcher from '@/components/LocaleSwitcher'
+import { Header } from '@/components/layout/Header'
+import { Footer } from '@/components/layout/Footer'
+import { getSiteSettings } from '@/lib/sanity/queries'
 import { BASE_URL } from '@/lib/i18n/metadata'
 import '../globals.css'
 
 /**
  * Plus Jakarta Sans — single variable font covering weights 200–800.
- * Preserved verbatim from the Phase 1 flat app/layout.tsx.
- * The `variable` option emits --font-plus-jakarta-sans on the <html> element,
- * wired into Tailwind via `@theme inline { --font-sans: var(--font-plus-jakarta-sans) }`
- * in globals.css.
+ * Preserved verbatim from Phase 1.
  */
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -42,9 +39,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 })
 
 /**
- * metadataBase set once here so all child pages' alternates.languages absolute URLs
- * resolve correctly (Next.js 16 requires metadataBase to emit hreflang link tags).
- * Shared BASE_URL from lib/i18n/metadata.ts — single source of truth (D-07).
+ * metadataBase — set once so all child pages' alternates.languages resolve correctly.
  */
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -52,7 +47,6 @@ export const metadata: Metadata = {
 
 /**
  * Generate static params for all supported locales.
- * Required for static generation with [locale] dynamic segment.
  */
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
@@ -65,30 +59,26 @@ export default async function LocaleLayout({
   children: React.ReactNode
   params: Promise<{ locale: string }>
 }) {
-  // Read locale from the [locale] URL segment (D-09: locale from URL only).
+  // Locale from URL segment only (D-09 invariant: never client state).
   // Awaiting params is required in Next.js 16 (async params API).
   const { locale } = await params
+
+  // Fetch siteSettings at layout level so Footer receives contactEmail.
+  // Header is fully self-contained ('use client' with static nav labels from messages).
+  const settings = await getSiteSettings(locale)
 
   return (
     <html lang={locale} className={plusJakartaSans.variable}>
       <body className="bg-surface text-primary font-sans antialiased">
         {/*
           NextIntlClientProvider makes translations available to Client Components.
-          No `messages` prop needed — v4 picks up messages from getRequestConfig
-          automatically via React Server Component context (Pitfall 5).
-          D-06: minimal unstyled header (switcher) is added in Plan 03.
+          No `messages` prop needed — v4 auto-resolves via React Server Component context.
+          Header is inside the provider so it can use useTranslations (client component).
         */}
         <NextIntlClientProvider>
-          {/*
-            Minimal header — ONLY the language switcher (D-06).
-            No nav links, no footer, no branding chrome yet — that is Phase 4.
-            Header is inside NextIntlClientProvider so LocaleSwitcher's
-            useTranslations / useLocale hooks can resolve (Pitfall 5).
-          */}
-          <header className="flex justify-end p-4">
-            <LocaleSwitcher />
-          </header>
+          <Header />
           {children}
+          <Footer settings={settings} locale={locale} />
         </NextIntlClientProvider>
       </body>
     </html>
