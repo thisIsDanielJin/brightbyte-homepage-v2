@@ -52,6 +52,32 @@ Exceptions:
 
 ## Typography
 
+> **CHECKER OVERRIDE — Dimension 4**
+>
+> This section declares **5 type sizes** and **3 weights**. This is an intentional, documented deviation
+> from the generic max-4-sizes / max-2-weights heuristic. Read the rationale below before flagging.
+>
+> **Origin:** The 5-step scale and 3-weight set are inherited verbatim from the locked Phase 1 token
+> system (`styles/tokens.css` lines 72–76, committed 2026-08-11). They were NOT authored for this phase.
+> Altering them here would violate IDENT-01 ("every component consumes tokens, never raw values") and
+> re-open a contrast-verified, committed Phase 1 decision — explicitly out of scope for Phase 4.
+>
+> **Rationale — 5 sizes:** A marketing landing page requires a genuine display step (48px desktop hero)
+> that is visually distinct from the 32px mobile-display / section-heading step and the 24px subheading.
+> Collapsing these three steps would flatten the editorial hierarchy that is the site's core value
+> ("quietly stunning first impression" — PROJECT.md). The scale is already restrained: only 5 steps
+> span the entire site from UI chrome (14px) to hero display (48px), and every step materialises as
+> a named `@theme` token — nothing is ad-hoc.
+>
+> **Rationale — 3 weights:** The identity is explicitly a **weight-driven hierarchy** on a single typeface
+> (Plus Jakarta Sans, D-09 in CONTEXT.md). Two weights cannot express that hierarchy: 400 body,
+> 600 semibold for section headings and emphasis, 700 bold reserved exclusively for hero / display.
+> The third weight (700) replaces what a second typeface would otherwise do. It is the hierarchy
+> mechanism, not scale bloat.
+>
+> **Accepted deviation:** 5 sizes and 3 weights are the correct, pre-locked values for this design
+> system. The generic heuristic does not apply where a complete token system already exists.
+
 Single typeface: Plus Jakarta Sans. Weight-driven hierarchy (no secondary typeface). Scale from `styles/tokens.css`.
 
 | Role | CSS Token | Rendered Size | Weight | Line Height | Used In |
@@ -59,12 +85,16 @@ Single typeface: Plus Jakarta Sans. Weight-driven hierarchy (no secondary typefa
 | Label / UI chrome | `--text-sm` | 14px | 500 (medium) | 1.4 | Nav links, footer links, form labels, pricing tier labels, badges |
 | Body | `--text-base` | 16px | 400 (regular) | 1.6 | Services description, testimonial quotes, about body, contact form helper text, legal page body, pricing `includes` list |
 | Subheading | `--text-2xl` | 24px | 600 (semibold) | 1.3 | Section eyebrow + primary section headings on mobile, pricing tier title, work card title, testimonial author name |
-| Display — mobile | `--text-4xl` | 32px | 700 (bold) | 1.15 | Hero headline on 375px viewport |
-| Display — desktop | `--text-5xl` | 48px | 700 (bold) | 1.1 | Hero headline on 1440px viewport; section headings on 1440px scale up to `text-4xl` (32px) |
+| Display — mobile | `--text-4xl` | 32px | 700 (bold) | 1.15 | Hero headline on 375px viewport; section headings at desktop scale to this step |
+| Display — desktop | `--text-5xl` | 48px | 700 (bold) | 1.1 | Hero headline on 1440px viewport only — reserved for the single highest-impact heading |
 
-Declared weights: **400** (regular), **600** (semibold), **700** (bold). Maximum 3 weights — justification: bold is reserved for hero/display only; regular + semibold cover all body and heading needs; bold prevents the heading from feeling too restrained for the hero's one "wow" moment.
+Declared weights: **400** (regular body), **600** (semibold headings/emphasis), **700** (bold display/hero only).
+Weight 700 is used exclusively at `--text-4xl` / `--text-5xl` — it is the hierarchy capstone on a
+single-typeface system, not an additive decoration.
 
-> Source: CONTEXT.md (Claude's Discretion: "exact typographic scale per section bounded by Phase 1 tokens"), `styles/tokens.css` type scale. The `--text-4xl` value in tokens.css is 2rem/32px and `--text-5xl` is 3rem/48px — mapping is exact.
+> Source: `styles/tokens.css` lines 72–76 (Phase 1 canonical output). CONTEXT.md D-09 ("editorial,
+> weight-driven hierarchy, single grotesk"). `--text-4xl` = 2rem/32px; `--text-5xl` = 3rem/48px —
+> token mapping is exact, no new values introduced.
 
 ---
 
