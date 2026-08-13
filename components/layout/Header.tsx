@@ -94,6 +94,7 @@ export function Header() {
             width={140}
             height={32}
             priority
+            unoptimized
             className="h-8 w-auto"
           />
         </a>

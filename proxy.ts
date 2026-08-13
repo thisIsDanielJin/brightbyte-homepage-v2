@@ -43,7 +43,9 @@ export const config = {
      * - favicon.ico, sitemap.xml, robots.txt (metadata files — must NOT be locale-prefixed)
      * - token-audit (phase-01 dev-only diagnostic — non-localized by design)
      * - studio (embedded Sanity Studio — auth-gated, non-localized by design)
+     * - Static file extensions (svg, png, jpg, ico, webp, woff, woff2) in /public/
+     *   These are served directly and must NOT be locale-prefixed.
      */
-    '/((?!api|_next/static|_next/image|favicon\\.ico|sitemap\\.xml|robots\\.txt|token-audit|studio).*)',
+    '/((?!api|_next/static|_next/image|favicon\\.ico|sitemap\\.xml|robots\\.txt|token-audit|studio|.*\\.(?:svg|png|jpg|jpeg|gif|ico|webp|woff|woff2|ttf|eot)).*)',
   ],
 }

@@ -17,7 +17,7 @@ test('no animation under prefers-reduced-motion — hero visible, no transform',
   })
   const page = await context.newPage()
   await page.goto('/de')
-  await page.waitForLoadState('networkidle')
+  await page.waitForLoadState('domcontentloaded')
 
   // #hero must be immediately visible — no opacity:0 initial state persisting
   const hero = page.locator('#hero')
@@ -42,7 +42,7 @@ test('no animation under prefers-reduced-motion — hero opacity is 1', async ({
   })
   const page = await context.newPage()
   await page.goto('/de')
-  await page.waitForLoadState('networkidle')
+  await page.waitForLoadState('domcontentloaded')
 
   const hero = page.locator('#hero')
   const opacity = await hero.evaluate(

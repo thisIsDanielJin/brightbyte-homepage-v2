@@ -53,6 +53,7 @@ export async function Footer({ settings, locale }: FooterProps) {
                 alt="BrightByte Berlin"
                 width={140}
                 height={32}
+                unoptimized
                 className="h-8 w-auto"
               />
             </a>

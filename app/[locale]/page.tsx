@@ -1,21 +1,26 @@
 /**
- * app/[locale]/page.tsx — Home placeholder with locale-aware string + hreflang metadata.
+ * app/[locale]/page.tsx — Home page: Hero section wired to Sanity siteSettings.
  *
- * generateMetadata: calls buildHreflangAlternates('/') to emit bidirectional
- * hreflang in the page <head> via Next.js alternates.languages API (D-07).
- * No hand-rolled <link rel="alternate"> tags — Next.js emits them automatically.
- * Locale-appropriate title/description included per locale param.
+ * Phase 4 Plan 01 (Tracer): wires the full vertical — Sanity read → RSC → token-styled
+ * section → motion → QA loop — on exactly ONE fully-built section (Hero).
  *
- * HomePage: renders ONE real translated shell string (Shell.tagline) from messages/
- * via getTranslations (server component) — proving messages load per-locale.
- * DE and EN values differ; smoke tests (4)/(5) verify hreflang tags.
+ * Fetches getSiteSettings(locale) at page level (server-side, at request time).
+ * Passes heroHeadline/heroSubline to HeroSection as props; HeroSection falls back
+ * to next-intl messages when props are null (never an empty heading — D-07).
  *
- * D-02: no speculative namespace pre-seeding; only Shell.tagline rendered here.
- * The full home page section is built in Phase 3+.
+ * D-09 invariant: locale from awaited params (URL segment only, never client state).
+ * IDENT-01: zero raw hex, zero text-gray-* in this file.
+ *
+ * Plan 04-02 extends this page with the remaining 6 sections (Services through Contact).
+ *
+ * Sources:
+ *   04-RESEARCH.md Pattern 2 (page-level Sanity fetch); 04-UI-SPEC.md layout contract
+ *   node_modules/next/dist/docs/01-app/03-api-reference/04-functions/generate-metadata.md
  */
 import type { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
 import { buildHreflangAlternates, BASE_URL } from '@/lib/i18n/metadata'
+import { getSiteSettings } from '@/lib/sanity/queries'
+import { HeroSection } from '@/components/sections/HeroSection'
 
 type PageProps = {
   params: Promise<{ locale: string }>
@@ -38,20 +43,31 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     description: descriptions[locale] ?? descriptions.de,
     alternates: {
       ...buildHreflangAlternates('/'),
-      canonical: `${BASE_URL}/${locale}`,  // WR-01: per-locale canonical, not always /de
+      canonical: `${BASE_URL}/${locale}`, // WR-01: per-locale canonical
     },
   }
 }
 
-export default async function HomePage() {
-  const t = await getTranslations('Shell')
+export default async function HomePage({ params }: PageProps) {
+  // Locale from URL segment only (D-09: never client state).
+  // Next.js 16 requires awaiting params (async params API).
+  const { locale } = await params
+
+  // Fetch siteSettings at request time — tokenless, stega:false client (D-03).
+  // heroHeadline/heroSubline: null when absent → HeroSection falls back to next-intl messages.
+  const settings = await getSiteSettings(locale)
 
   return (
-    <main className="font-sans min-h-screen flex items-center justify-center bg-surface">
-      <div className="text-center">
-        <h1 className="text-5xl font-bold text-primary mb-4">BrightByte Berlin</h1>
-        <p className="text-base text-secondary">{t('tagline')}</p>
-      </div>
+    <main>
+      <HeroSection
+        headline={settings?.heroHeadline}
+        subline={settings?.heroSubline}
+      />
+      {/*
+        Sections 2–7 (Services → Contact) are added in Plan 04-02.
+        This page intentionally renders only the Hero tracer section.
+        An empty main element after HeroSection is acceptable during the tracer phase.
+      */}
     </main>
   )
 }

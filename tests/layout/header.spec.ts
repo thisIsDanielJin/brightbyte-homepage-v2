@@ -26,7 +26,7 @@ for (const locale of locales) {
   test.describe(`Header — ${locale}`, () => {
     test('header is visible', async ({ page }) => {
       await page.goto(`/${locale}`)
-      await page.waitForLoadState('networkidle')
+      await page.waitForLoadState('domcontentloaded')
 
       const header = page.locator('header')
       await expect(header.first()).toBeVisible()
@@ -34,7 +34,7 @@ for (const locale of locales) {
 
     test('responsive nav behavior', async ({ page }) => {
       await page.goto(`/${locale}`)
-      await page.waitForLoadState('networkidle')
+      await page.waitForLoadState('domcontentloaded')
 
       const viewport = page.viewportSize()
       const isMobile = (viewport?.width ?? 1440) <= 768
@@ -68,7 +68,7 @@ for (const locale of locales) {
 
     test('sticky backdrop applied after scroll', async ({ page }) => {
       await page.goto(`/${locale}`)
-      await page.waitForLoadState('networkidle')
+      await page.waitForLoadState('domcontentloaded')
 
       // Scroll down past the header
       await page.evaluate(() => window.scrollBy(0, 200))

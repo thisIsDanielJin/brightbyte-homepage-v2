@@ -54,3 +54,14 @@
     outline-offset: 2px;
   }
 }
+
+/* Hero backdrop — static CSS radial-gradient using token variables.
+ * This is the Phase 5 swap target; Phase 5 replaces with R3F canvas (D-06).
+ * Defined here (not inline) to keep component files free of inline styles. */
+@utility hero-backdrop {
+  background: radial-gradient(
+    ellipse 80% 60% at 60% 40%,
+    var(--color-surface-subtle) 0%,
+    var(--color-surface) 70%
+  );
+}

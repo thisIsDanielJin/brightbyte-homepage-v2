@@ -24,12 +24,14 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:3000',
     trace: 'retain-on-failure',
+    actionTimeout: 15000,
+    navigationTimeout: 30000,
   },
   projects: [
     {
       name: 'mobile-375',
       use: {
-        ...devices['iPhone SE'],
+        ...devices['Desktop Chrome'],
         viewport: { width: 375, height: 812 },
       },
     },

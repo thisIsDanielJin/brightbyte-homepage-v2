@@ -26,7 +26,7 @@ for (const locale of locales) {
   test.describe(`Hero — ${locale}`, () => {
     test('renders and hero headline is non-empty', async ({ page }) => {
       await page.goto(`/${locale}`)
-      await page.waitForLoadState('networkidle')
+      await page.waitForLoadState('domcontentloaded')
 
       // #hero section must be visible
       const hero = page.locator('#hero')

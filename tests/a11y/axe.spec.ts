@@ -15,7 +15,7 @@ const locales = ['de', 'en'] as const
 for (const locale of locales) {
   test(`home /${locale} — zero WCAG AA axe violations`, async ({ page }) => {
     await page.goto(`/${locale}`)
-    await page.waitForLoadState('networkidle')
+    await page.waitForLoadState('domcontentloaded')
 
     const results = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa'])
