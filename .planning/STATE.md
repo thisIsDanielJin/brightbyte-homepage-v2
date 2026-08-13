@@ -5,15 +5,15 @@ milestone_name: milestone
 current_phase: 4
 current_phase_name: 2D Marketing Sections
 status: planning
-stopped_at: Phase 4 planned — 4 plans written, plan-checker PASS
-last_updated: "2026-08-13T12:00:00.000Z"
+stopped_at: "Completed 04-01-PLAN.md (tracer: Hero + Header + Footer + MotionSection)"
+last_updated: "2026-08-13T13:53:58.999Z"
 last_activity: 2026-08-13
 last_activity_desc: Phase 04 planned (4 plans, checker PASS, all 14 req IDs covered)
 progress:
   total_phases: 4
   completed_phases: 3
-  total_plans: 8
-  completed_plans: 8
+  total_plans: 12
+  completed_plans: 9
 ---
 
 # Project State
@@ -32,7 +32,7 @@ Plan: Not started
 Status: Ready to plan
 Last activity: 2026-08-12 — Phase 3 complete, transitioned to Phase 4
 
-Progress: [██████████] 100%
+Progress: [████████░░] 75%
 
 ## Performance Metrics
 
@@ -64,6 +64,7 @@ Progress: [██████████] 100%
 | Phase 01 P02 | 6min | 2 tasks | 5 files |
 | Phase 03 P02 | ~15m | 7 tasks | 11 files |
 | Phase 03 P03 | ~40m | 5 tasks | 5 files |
+| Phase 04-2d-marketing-sections P01 | 30 | 5 tasks | 22 files |
 
 ## Accumulated Context
 
@@ -85,6 +86,8 @@ Recent decisions affecting current work:
 - [Phase ?]: Added required readOnly 'language' field to all 5 doc-i18n types (plugin mandates declaration; Wave 1 assumed injection) — Rule 2 fix
 - [Phase ?]: Content-presence check reads via authenticated Sanity CLI (documents query) — anonymous reads still return [] pending public-read toggle (03-01 D4); no token committed
 - [Phase ?]: Stega build guard uses Perl -CSD codepoint scan, not grep -P (BSD grep lacks -P; GNU grep -P is locale-fragile)
+- [Phase ?]: MotionSection thin 'use client' wrapper — RSC sections remain async and pass children to motion.section to avoid pushing client boundary too high (Pitfall 4)
+- [Phase ?]: proxy.ts matcher extended to exclude static file extensions — SVG logos were being 301-redirected to locale-prefixed URLs by next-intl middleware
 
 ### Pending Todos
 
@@ -104,6 +107,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-08-13T12:00:00.000Z
-Stopped at: Phase 4 planned — 4 plans written, plan-checker PASS
-Resume file: .planning/phases/04-2d-marketing-sections/04-01-PLAN.md
+Last session: 2026-08-13T13:53:58.974Z
+Stopped at: Completed 04-01-PLAN.md (tracer: Hero + Header + Footer + MotionSection)
+Resume file: None

@@ -29,17 +29,17 @@
 
 ### Core Marketing Sections (2D)
 
-- [ ] **SEC-01**: Hero section with a clear positioning statement targeting Berlin SMB owners
+- [x] **SEC-01**: Hero section with a clear positioning statement targeting Berlin SMB owners
 - [ ] **SEC-02**: Services section in plain language (no technical jargon)
 - [ ] **SEC-03**: Fixed pricing prominently displayed (~€690 landing, ~€2,500 multi-page)
 - [ ] **SEC-04**: Portfolio/work grid (4–6 projects with outcome notes)
 - [ ] **SEC-05**: Testimonials section featuring the 3 verified outcome-anchored quotes (Blumenspiess +200%, Learnstep 92%, Lumo +47%)
 - [ ] **SEC-06**: About section — real photo, solo-studio "you work directly with me" framing
 - [ ] **SEC-07**: Contact form (≤5 fields, confirmation feedback) delivering via Resend with Zod validation
-- [ ] **SEC-08**: Site header + footer + navigation
+- [x] **SEC-08**: Site header + footer + navigation
 - [ ] **SEC-09**: Impressum + Datenschutz pages (German legal requirement)
 - [ ] **SEC-10**: Full mobile-responsive pass across all sections
-- [ ] **SEC-11**: Subtle, restrained viewport-triggered motion on 2D sections — readability first
+- [x] **SEC-11**: Subtle, restrained viewport-triggered motion on 2D sections — readability first
 
 ### 3D Hero
 
@@ -54,9 +54,9 @@
 
 ### Quality Bar
 
-- [ ] **QA-01**: Each section iterated to high-end UX via a Playwright screenshot-critique loop (desktop + mobile)
-- [ ] **QA-02**: ui-skills.com principles applied per UI phase via the `npx ui-skills` CLI (load smallest relevant skill)
-- [ ] **QA-03**: Accessibility pass (WCAG AA contrast against actual backgrounds, `:focus-visible`, `axe-playwright` zero violations)
+- [x] **QA-01**: Each section iterated to high-end UX via a Playwright screenshot-critique loop (desktop + mobile)
+- [x] **QA-02**: ui-skills.com principles applied per UI phase via the `npx ui-skills` CLI (load smallest relevant skill)
+- [x] **QA-03**: Accessibility pass (WCAG AA contrast against actual backgrounds, `:focus-visible`, `axe-playwright` zero violations)
 
 ---
 
@@ -95,20 +95,20 @@
 | CMS-01 | Phase 3: Sanity Content Architecture | Complete |
 | CMS-02 | Phase 3: Sanity Content Architecture | Complete |
 | CMS-03 | Phase 3: Sanity Content Architecture | Complete |
-| SEC-01 | Phase 4: 2D Marketing Sections | Pending |
+| SEC-01 | Phase 4: 2D Marketing Sections | Complete |
 | SEC-02 | Phase 4: 2D Marketing Sections | Pending |
 | SEC-03 | Phase 4: 2D Marketing Sections | Pending |
 | SEC-04 | Phase 4: 2D Marketing Sections | Pending |
 | SEC-05 | Phase 4: 2D Marketing Sections | Pending |
 | SEC-06 | Phase 4: 2D Marketing Sections | Pending |
 | SEC-07 | Phase 4: 2D Marketing Sections | Pending |
-| SEC-08 | Phase 4: 2D Marketing Sections | Pending |
+| SEC-08 | Phase 4: 2D Marketing Sections | Complete |
 | SEC-09 | Phase 4: 2D Marketing Sections | Pending |
 | SEC-10 | Phase 4: 2D Marketing Sections | Pending |
-| SEC-11 | Phase 4: 2D Marketing Sections | Pending |
-| QA-01 | Phase 4: 2D Marketing Sections (primary; recurs Phase 5, 7) | Pending |
-| QA-02 | Phase 4: 2D Marketing Sections (primary; recurs Phase 5, 7) | Pending |
-| QA-03 | Phase 4: 2D Marketing Sections (primary; recurs Phase 5, 7) | Pending |
+| SEC-11 | Phase 4: 2D Marketing Sections | Complete |
+| QA-01 | Phase 4: 2D Marketing Sections (primary; recurs Phase 5, 7) | Complete |
+| QA-02 | Phase 4: 2D Marketing Sections (primary; recurs Phase 5, 7) | Complete |
+| QA-03 | Phase 4: 2D Marketing Sections (primary; recurs Phase 5, 7) | Complete |
 | HERO-01 | Phase 5: R3F Hero | Pending |
 | HERO-02 | Phase 5: R3F Hero | Pending |
 | SEO-01 | Phase 6: SEO Layer & Programmatic Pages | Pending |
