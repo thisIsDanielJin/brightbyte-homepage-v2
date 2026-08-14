@@ -35,7 +35,7 @@
 - [x] **SEC-04**: Portfolio/work grid (4–6 projects with outcome notes)
 - [x] **SEC-05**: Testimonials section featuring the 3 verified outcome-anchored quotes (Blumenspiess +200%, Learnstep 92%, Lumo +47%)
 - [x] **SEC-06**: About section — real photo, solo-studio "you work directly with me" framing
-- [ ] **SEC-07**: Contact form (≤5 fields, confirmation feedback) delivering via Resend with Zod validation
+- [x] **SEC-07**: Contact form (≤5 fields, confirmation feedback) delivering via Resend with Zod validation
 - [x] **SEC-08**: Site header + footer + navigation
 - [ ] **SEC-09**: Impressum + Datenschutz pages (German legal requirement)
 - [x] **SEC-10**: Full mobile-responsive pass across all sections
@@ -101,7 +101,7 @@
 | SEC-04 | Phase 4: 2D Marketing Sections | Complete |
 | SEC-05 | Phase 4: 2D Marketing Sections | Complete |
 | SEC-06 | Phase 4: 2D Marketing Sections | Complete |
-| SEC-07 | Phase 4: 2D Marketing Sections | Pending |
+| SEC-07 | Phase 4: 2D Marketing Sections | Complete |
 | SEC-08 | Phase 4: 2D Marketing Sections | Complete |
 | SEC-09 | Phase 4: 2D Marketing Sections | Pending |
 | SEC-10 | Phase 4: 2D Marketing Sections | Complete |
