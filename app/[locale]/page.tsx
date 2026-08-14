@@ -24,6 +24,7 @@ import { PricingSection } from '@/components/sections/PricingSection'
 import { WorkSection } from '@/components/sections/WorkSection'
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
 import { AboutSection } from '@/components/sections/AboutSection'
+import { ContactSection } from '@/components/sections/ContactSection'
 
 type PageProps = {
   params: Promise<{ locale: string }>
@@ -91,16 +92,10 @@ export default async function HomePage({ params }: PageProps) {
       <AboutSection settings={settings} locale={locale} />
 
       {/*
-        SEC-07 — Contact form (Plan 04-03). Placeholder anchor target so nav works.
-        The real ContactSection (Route Handler + Resend + Zod) is built in Wave 3.
+        SEC-07 — Contact form (Plan 04-03): the ONLY client island of Phase 4.
+        Route Handler + Resend + Zod, mounted as the FINAL section (D-05 order, after About).
       */}
-      <section id="contact" className="py-16 px-4 md:px-8 lg:px-16">
-        <div className="max-w-5xl mx-auto text-center">
-          <p className="text-secondary text-sm">
-            {/* Contact section placeholder — Plan 04-03 fills this */}
-          </p>
-        </div>
-      </section>
+      <ContactSection />
     </main>
   )
 }

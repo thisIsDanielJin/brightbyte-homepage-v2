@@ -46,6 +46,23 @@
     "eyebrow": "Testimonials",
     "heading": "What clients say"
   },
+  "Contact": {
+    "heading": "Let's start",
+    "subline": "Tell me briefly about your project — I'll reply within 24 hours.",
+    "labelName": "Your name",
+    "labelEmail": "Your email",
+    "labelMessage": "Your project",
+    "placeholderName": "Jane Smith",
+    "placeholderEmail": "jane@example.com",
+    "placeholderMessage": "Tell me about your business and what you need…",
+    "submitIdle": "Send message",
+    "submitLoading": "Sending…",
+    "successHeading": "Message received!",
+    "successBody": "I'll get back to you within 24 hours.",
+    "errorGeneric": "Something went wrong. Please try again or email hello@brightbyte-berlin.com directly.",
+    "validationRequired": "This field is required.",
+    "validationEmail": "Please enter a valid email address."
+  },
   "About": {
     "eyebrow": "About",
     "heading": "About me",

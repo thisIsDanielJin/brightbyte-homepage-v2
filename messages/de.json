@@ -46,6 +46,23 @@
     "eyebrow": "Kundenstimmen",
     "heading": "Was Kunden sagen"
   },
+  "Contact": {
+    "heading": "Starten wir",
+    "subline": "Beschreib kurz dein Projekt — ich melde mich innerhalb von 24h.",
+    "labelName": "Dein Name",
+    "labelEmail": "Deine E-Mail",
+    "labelMessage": "Dein Projekt",
+    "placeholderName": "Max Mustermann",
+    "placeholderEmail": "max@beispiel.de",
+    "placeholderMessage": "Erzähl mir von deinem Unternehmen und was du brauchst…",
+    "submitIdle": "Nachricht senden",
+    "submitLoading": "Wird gesendet…",
+    "successHeading": "Nachricht erhalten!",
+    "successBody": "Ich melde mich innerhalb von 24 Stunden.",
+    "errorGeneric": "Etwas ist schiefgelaufen. Bitte versuche es erneut oder schreib direkt an hello@brightbyte-berlin.com.",
+    "validationRequired": "Dieses Feld ist erforderlich.",
+    "validationEmail": "Bitte gib eine gültige E-Mail-Adresse ein."
+  },
   "About": {
     "eyebrow": "Über mich",
     "heading": "Über mich",
