@@ -107,6 +107,8 @@ export type SiteSettings = {
   address?: string;
   steuernummer?: string;
   vatNote?: string;
+  impressumBody?: string;
+  datenschutzBody?: string;
   aboutPhoto?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -479,7 +481,7 @@ export type SEO_PAGE_BY_SLUG_QUERY_RESULT = {
 
 // Source: lib/sanity/queries.ts
 // Variable: SITE_SETTINGS_QUERY
-// Query: *[_type == "siteSettings" && language == $locale][0]{     _id, siteTitle, navLabels, footerText, heroHeadline, heroSubline,     contactEmail, address, steuernummer, vatNote, defaultSeo,     aboutPhoto   }
+// Query: *[_type == "siteSettings" && language == $locale][0]{     _id, siteTitle, navLabels, footerText, heroHeadline, heroSubline,     contactEmail, address, steuernummer, vatNote, defaultSeo,     aboutPhoto, impressumBody, datenschutzBody   }
 export type SITE_SETTINGS_QUERY_RESULT = {
   _id: string;
   siteTitle: string | null;
@@ -502,6 +504,8 @@ export type SITE_SETTINGS_QUERY_RESULT = {
     crop?: SanityImageCrop;
     _type: "image";
   } | null;
+  impressumBody: string | null;
+  datenschutzBody: string | null;
 } | null;
 
 // Query TypeMap
@@ -514,6 +518,6 @@ declare module "@sanity/client" {
     '*[_type == "testimonial" && language == $locale] | order(order asc){\n     _id, quote, author, company, outcomeValue, outcomeLabel\n   }': TESTIMONIALS_QUERY_RESULT;
     '*[_type == "seoPage" && language == $locale]{\n     _id, title, slug, heading, body, metaDescription\n   }': SEO_PAGES_QUERY_RESULT;
     '*[_type == "seoPage" && language == $locale && slug.current == $slug][0]{\n     _id, title, slug, heading, body, metaDescription\n   }': SEO_PAGE_BY_SLUG_QUERY_RESULT;
-    '*[_type == "siteSettings" && language == $locale][0]{\n     _id, siteTitle, navLabels, footerText, heroHeadline, heroSubline,\n     contactEmail, address, steuernummer, vatNote, defaultSeo,\n     aboutPhoto\n   }': SITE_SETTINGS_QUERY_RESULT;
+    '*[_type == "siteSettings" && language == $locale][0]{\n     _id, siteTitle, navLabels, footerText, heroHeadline, heroSubline,\n     contactEmail, address, steuernummer, vatNote, defaultSeo,\n     aboutPhoto, impressumBody, datenschutzBody\n   }': SITE_SETTINGS_QUERY_RESULT;
   }
 }

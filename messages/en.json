@@ -76,5 +76,14 @@
     "impressum": "Legal Notice",
     "datenschutz": "Privacy Policy",
     "copyright": "BrightByte Berlin — Daniel Jin Wodke"
+  },
+  "Impressum": {
+    "title": "Legal Notice",
+    "addressHeading": "Address",
+    "taxHeading": "Tax information",
+    "steuernummerLabel": "Tax number"
+  },
+  "Datenschutz": {
+    "title": "Privacy Policy"
   }
 }

@@ -81,6 +81,27 @@ export const siteSettings = defineType({
       description: 'Kleinunternehmerregelung note.',
       initialValue: 'Gemäß §19 UStG wird keine Umsatzsteuer berechnet',
     }),
+    // SEC-09 / D-12: Legal page bodies. Plain text (no Portable Text — Phase 3 D-04
+    // convention); rendered whitespace-pre-wrap so authored line breaks survive.
+    // impressumBody is OPTIONAL (address/steuernummer/vatNote already cover the core
+    // Impressum). datenschutzBody is REQUIRED — the Datenschutz route has no other
+    // content source, so it must be seeded to render. Legal copy is Daniel's content
+    // deliverable authored in Studio, not a code deliverable.
+    defineField({
+      name: 'impressumBody',
+      title: 'Impressum body',
+      type: 'text',
+      rows: 8,
+      description: 'Optional additional Impressum prose beyond address / Steuernummer / §19 note.',
+    }),
+    defineField({
+      name: 'datenschutzBody',
+      title: 'Datenschutz body (DSGVO)',
+      type: 'text',
+      rows: 20,
+      validation: (Rule) => Rule.required(),
+      description: 'Full DSGVO Datenschutzerklärung prose for this locale. Required — the Datenschutz page renders this field.',
+    }),
     // SEC-06: Optional about-section photo. When absent, AboutSection shows "DJ" initials
     // fallback. When Daniel uploads a photo to Sanity Studio and populates this field,
     // the photo renders with no code change needed (deferred asset — CONTEXT.md).

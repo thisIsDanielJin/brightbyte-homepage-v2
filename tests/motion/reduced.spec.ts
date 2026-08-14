@@ -52,3 +52,21 @@ test('no animation under prefers-reduced-motion — hero opacity is 1', async ({
 
   await context.close()
 })
+
+// Legal routes are static RSC with no entrance animation — under reduced motion the
+// h1 must be immediately visible (SEC-11 / D-14: no animation anywhere).
+for (const path of ['/de/impressum', '/de/datenschutz', '/en/impressum', '/en/datenschutz']) {
+  test(`no animation under prefers-reduced-motion — ${path} content visible`, async ({ browser }) => {
+    const context = await browser.newContext({ reducedMotion: 'reduce' })
+    const page = await context.newPage()
+    await page.goto(path)
+    await page.waitForLoadState('domcontentloaded')
+
+    const h1 = page.locator('main h1').first()
+    await expect(h1).toBeVisible()
+    const opacity = await h1.evaluate((el) => window.getComputedStyle(el).opacity)
+    expect(opacity).toBe('1')
+
+    await context.close()
+  })
+}

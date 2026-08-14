@@ -11,20 +11,25 @@ import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 
 const locales = ['de', 'en'] as const
+const paths = ['', '/impressum', '/datenschutz'] as const
 
 for (const locale of locales) {
-  test(`home /${locale} — zero WCAG AA axe violations`, async ({ page }) => {
-    await page.goto(`/${locale}`)
-    await page.waitForLoadState('domcontentloaded')
+  for (const path of paths) {
+    const url = `/${locale}${path}`
+    const label = path === '' ? `home /${locale}` : `${path} /${locale}`
+    test(`${label} — zero WCAG AA axe violations`, async ({ page }) => {
+      await page.goto(url)
+      await page.waitForLoadState('domcontentloaded')
 
-    const results = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa'])
-      .exclude('[data-decorative="true"]')
-      .analyze()
+      const results = await new AxeBuilder({ page })
+        .withTags(['wcag2a', 'wcag2aa'])
+        .exclude('[data-decorative="true"]')
+        .analyze()
 
-    expect(
-      results.violations,
-      `Axe violations on /${locale}:\n${JSON.stringify(results.violations.map((v) => ({ id: v.id, impact: v.impact, description: v.description, nodes: v.nodes.map((n) => n.html) })), null, 2)}`
-    ).toHaveLength(0)
-  })
+      expect(
+        results.violations,
+        `Axe violations on ${url}:\n${JSON.stringify(results.violations.map((v) => ({ id: v.id, impact: v.impact, description: v.description, nodes: v.nodes.map((n) => n.html) })), null, 2)}`
+      ).toHaveLength(0)
+    })
+  }
 }
