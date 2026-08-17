@@ -4,16 +4,16 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 4
 current_phase_name: 2D Marketing Sections
-status: planning
-stopped_at: Completed 04-03-PLAN.md
-last_updated: "2026-08-14T12:40:56.450Z"
-last_activity: 2026-08-13
-last_activity_desc: Phase 04 planned (4 plans, checker PASS, all 14 req IDs covered)
+status: complete
+stopped_at: Completed 04-04-PLAN.md — Phase 4 gate approved
+last_updated: "2026-08-17T00:00:00.000Z"
+last_activity: 2026-08-17
+last_activity_desc: Phase 04 complete (4/4 plans; human-verify gate approved; full suite green vs production server)
 progress:
   total_phases: 4
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 12
-  completed_plans: 11
+  completed_plans: 12
 ---
 
 # Project State
@@ -28,11 +28,11 @@ See: .planning/PROJECT.md (updated 2026-08-11)
 ## Current Position
 
 Phase: 4 — 2D Marketing Sections
-Plan: 04-03 complete (Contact form) — Wave 3 of 4 done; 04-04 remaining
-Status: In progress
-Last activity: 2026-08-14 — 04-03 Contact form (Resend Route Handler + ContactSection) complete
+Plan: 04-04 complete (Legal pages + phase gate) — all 4 waves done; Phase 4 COMPLETE
+Status: Complete — ready for /gsd-verify-work
+Last activity: 2026-08-17 — 04-04 Impressum + Datenschutz + phase verification gate approved
 
-Progress: [█████████░] 92%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -102,16 +102,22 @@ None yet.
 
 - Phase 5: 3D hero concept (scene geometry, lighting, draw call budget) is undefined; needs research during Phase 5 planning
 - General: Verify Vercel project Node runtime is 22.12+ before Phase 3 deploy (Sanity v6 requirement)
-- Tokenless anonymous read of ddrca30s/production returns empty despite public ACL — Sanity dashboard: enable public API reads (or add server-only read token) before Phase 4 build-time reads
+- RESOLVED (2026-08-17): tokenless anon read impossible on Sanity free tier — fixed with server-only SANITY_API_READ_TOKEN (D-03 supersession, commit 8dc010c). ⚠️ Must add SANITY_API_READ_TOKEN to Vercel env (all environments) before deploy.
+- Pre-launch: rotate the exposed Resend API key before public deploy.
 
 ## Deferred Items
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
 | P2 scope | Case studies, FAQ, Process, Guarantee | Phase 7 | Roadmap creation |
+| Legal content | Author real DSGVO Datenschutz + review Impressum copy (DE+EN) in Studio — currently PLACEHOLDER | Before public launch | Phase 04 (D-12) |
+| Test | mobile-375 language-switcher smoke (tests/i18n/smoke.spec.ts:63) — switcher inside collapsed hamburger; accepted pre-existing | Later phase | Phase 04 gate |
+| QA-02 | ui-skills interactive design critique of legal pages + contact form (screenshots in tests/screenshots/) | Post-phase | Phase 04 |
+| Verify | Real dev email-send test for contact form (submit → confirm delivery to hello@brightbyte-berlin.com) | Before deploy | Phase 03/04 |
+| Deploy | Add SANITY_API_READ_TOKEN to Vercel env (all environments) | Before deploy | Phase 04 |
 
 ## Session Continuity
 
-Last session: 2026-08-14T12:40:56.431Z
-Stopped at: Completed 04-03-PLAN.md
+Last session: 2026-08-17T00:00:00.000Z
+Stopped at: Completed 04-04-PLAN.md — Phase 4 gate approved
 Resume file: None
