@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 4
-current_phase_name: 2D Marketing Sections
-status: complete
-stopped_at: Completed 04-04-PLAN.md — Phase 4 gate approved
-last_updated: "2026-08-17T00:00:00.000Z"
-last_activity: 2026-08-17
-last_activity_desc: Phase 04 complete (4/4 plans; human-verify gate approved; full suite green vs production server)
+current_phase: 5
+current_phase_name: R3F Hero
+status: planning
+stopped_at: Phase 04 complete, ready to plan Phase 05
+last_updated: "2026-08-18T12:19:51.668Z"
+last_activity: 2026-08-18
+last_activity_desc: Phase 04 complete, transitioned to Phase 5
 progress:
   total_phases: 4
   completed_phases: 4
@@ -20,25 +20,25 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-08-11)
+See: .planning/PROJECT.md (updated 2026-08-18)
 
 **Core value:** The site must feel refined, modern, and quietly stunning on first impression — calm, confident visual identity — so a local SMB owner immediately trusts the craft.
-**Current focus:** Phase 03 — sanity-content-architecture
+**Current focus:** Phase 05 — R3F Hero
 
 ## Current Position
 
-Phase: 4 — 2D Marketing Sections
-Plan: 04-04 complete (Legal pages + phase gate) — all 4 waves done; Phase 4 COMPLETE
-Status: Complete — ready for /gsd-verify-work
-Last activity: 2026-08-17 — 04-04 Impressum + Datenschutz + phase verification gate approved
+Phase: 5 — R3F Hero
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-08-18 — Phase 04 complete, transitioned to Phase 5
 
-Progress: [██████████] 100%
+Progress: [█████▌────] 57% (4/7 phases)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 8
+- Total plans completed: 12
 - Average duration: —
 - Total execution time: 0 hours
 
@@ -49,6 +49,7 @@ Progress: [██████████] 100%
 | 01 | 2 | - | - |
 | 02 | 3 | - | - |
 | 3 | 3 | - | - |
+| 04 | 4 | - | - |
 
 **Recent Trend:**
 
@@ -101,9 +102,8 @@ None yet.
 ### Blockers/Concerns
 
 - Phase 5: 3D hero concept (scene geometry, lighting, draw call budget) is undefined; needs research during Phase 5 planning
-- General: Verify Vercel project Node runtime is 22.12+ before Phase 3 deploy (Sanity v6 requirement)
-- RESOLVED (2026-08-17): tokenless anon read impossible on Sanity free tier — fixed with server-only SANITY_API_READ_TOKEN (D-03 supersession, commit 8dc010c). ⚠️ Must add SANITY_API_READ_TOKEN to Vercel env (all environments) before deploy.
-- Pre-launch: rotate the exposed Resend API key before public deploy.
+- General: Verify Vercel project Node runtime is 22.12+ before deploy (Sanity v6 requirement)
+- Pre-deploy (not code-gating): add SANITY_API_READ_TOKEN to Vercel env (all environments); rotate the exposed Resend API key; author real DSGVO Datenschutz copy (DE+EN) in Studio.
 
 ## Deferred Items
 
@@ -113,11 +113,11 @@ None yet.
 | Legal content | Author real DSGVO Datenschutz + review Impressum copy (DE+EN) in Studio — currently PLACEHOLDER | Before public launch | Phase 04 (D-12) |
 | Test | mobile-375 language-switcher smoke (tests/i18n/smoke.spec.ts:63) — switcher inside collapsed hamburger; accepted pre-existing | Later phase | Phase 04 gate |
 | QA-02 | ui-skills interactive design critique of legal pages + contact form (screenshots in tests/screenshots/) | Post-phase | Phase 04 |
-| Verify | Real dev email-send test for contact form (submit → confirm delivery to hello@brightbyte-berlin.com) | Before deploy | Phase 03/04 |
+| Verify | Real dev email-send test for contact form | ✓ Done — UAT Test 6 confirmed real delivery to hello@brightbyte-berlin.com (2026-08-18) | Phase 03/04 |
 | Deploy | Add SANITY_API_READ_TOKEN to Vercel env (all environments) | Before deploy | Phase 04 |
 
 ## Session Continuity
 
-Last session: 2026-08-17T00:00:00.000Z
-Stopped at: Completed 04-04-PLAN.md — Phase 4 gate approved
+Last session: 2026-08-18
+Stopped at: Phase 04 complete, ready to plan Phase 05
 Resume file: None

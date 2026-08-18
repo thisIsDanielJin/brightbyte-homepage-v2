@@ -9,7 +9,7 @@ Seven phases that build the site the way it must be built — identity locked fi
 - [x] **Phase 1: Identity & Design Tokens** - Define the full visual identity and token system before any component is built (completed 2026-08-11)
 - [x] **Phase 2: i18n Shell & Routing** - Lay the path-based locale routing foundation that every page and link depends on (completed 2026-08-11)
 - [x] **Phase 3: Sanity Content Architecture** - Lock the CMS schema and i18n strategy before any frontend is wired to content (completed 2026-08-12)
-- [ ] **Phase 4: 2D Marketing Sections** - Build all P1 sections to a high-end UX bar with Playwright critique and ui-skills
+- [x] **Phase 4: 2D Marketing Sections** - Build all P1 sections to a high-end UX bar with Playwright critique and ui-skills (completed 2026-08-18)
 - [ ] **Phase 5: R3F Hero** - Add the isolated 3D hero with performance budgets met and reduced-motion fallback
 - [ ] **Phase 6: SEO Layer & Programmatic Pages** - Preserve and extend v1's German SEO asset with full bilingual hreflang
 - [ ] **Phase 7: P2 Differentiators & Polish** - Case studies, FAQ, process section, motion tuning, final a11y audit
@@ -92,12 +92,12 @@ Seven phases that build the site the way it must be built — identity locked fi
   4. `axe-playwright` reports zero violations across all sections; all interactive elements have `:focus-visible` styles; text contrast meets WCAG AA against actual rendered backgrounds
   5. Section entrance animations use `motion/react` viewport triggers; no animation plays if `prefers-reduced-motion: reduce` is set
 
-**Plans**: 3/4 plans executed
+**Plans**: 4/4 plans executed
 
 - [x] 04-01-PLAN.md — Tracer: Wave 0 (resend install, Playwright projects, spec scaffolds, siteSettings heroHeadline/heroSubline + re-seed) -> real Header + Footer + Hero fully built & QA'd end-to-end (SEC-01, SEC-08, SEC-11, QA-01/02/03)
 - [x] 04-02-PLAN.md — Content sections: Services, Pricing, Work grid, Testimonials, About + aboutPhoto field, each through the per-section QA loop (SEC-02, SEC-03, SEC-04, SEC-05, SEC-06, SEC-10)
 - [x] 04-03-PLAN.md — Contact form: Route Handler (Zod + Resend + honeypot/timing/rate-limit) + client submit UX with inline success/error (SEC-07)
-- [ ] 04-04-PLAN.md — Legal routes (Impressum + Datenschutz from Sanity, datenschutzBody field) + footer dark-surface verification + final phase a11y/mobile/motion gate (SEC-09, SEC-10, SEC-11, QA-01/02/03)
+- [x] 04-04-PLAN.md — Legal routes (Impressum + Datenschutz from Sanity, datenschutzBody field) + footer dark-surface verification + final phase a11y/mobile/motion gate (SEC-09, SEC-10, SEC-11, QA-01/02/03)
 
 **UI hint**: yes
 
@@ -155,7 +155,7 @@ Seven phases that build the site the way it must be built — identity locked fi
 | 1. Identity & Design Tokens | 2/2 | Complete    | 2026-08-11 |
 | 2. i18n Shell & Routing | 3/3 | Complete    | 2026-08-11 |
 | 3. Sanity Content Architecture | 3/3 | Complete    | 2026-08-12 |
-| 4. 2D Marketing Sections | 3/4 | In Progress|  |
+| 4. 2D Marketing Sections | 4/4 | Complete    | 2026-08-18 |
 | 5. R3F Hero | 0/TBD | Not started | - |
 | 6. SEO Layer & Programmatic Pages | 0/TBD | Not started | - |
 | 7. P2 Differentiators & Polish | 0/TBD | Not started | - |

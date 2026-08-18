@@ -25,3 +25,9 @@ test-results/
 
 # Sanity typegen intermediate (sanity.types.ts is committed; schema.json is not)
 schema.json
+
+# GSD tooling scratch
+.gsd/
+
+# Editor
+.vscode/

@@ -22,17 +22,16 @@ The site must *feel* refined, modern, and quietly stunning on first impression �
 - ✓ Define a real brand identity from scratch: palette, typography, visual language, tone — Phase 1
 - ✓ Create a resolved logo (light + dark, text-as-paths SVG), replacing v1's inline SVG + abandoned experiments — Phase 1
 - ✓ Bilingual DE/EN with path-based routing (`/de`, `/en`) and correct per-URL hreflang — Phase 2
+- ✓ Keep Sanity CMS for editable content, consolidated from v1's 3 conflicting sources into a single typed source of truth — Phase 3
+- ✓ Rearchitect the content/section structure from scratch (D-05 order: Hero→Services→Pricing→Work→Testimonials→About→Contact + Impressum/Datenschutz) — Phase 4
+- ✓ Rewrite copy/framing for v2 and resolve the two-bios / two-headlines inconsistency (all copy now sourced from Sanity) — Phase 4
+- ✓ Rest of site is clean 2D with subtle, restrained motion — readability first (motion/react viewport triggers, reduced-motion honored) — Phase 4
+- ✓ Apply ui-skills.com principles + Playwright screenshot-critique loop on every 2D section (axe-clean, focus-visible, 375/1440 responsive) — Phase 4
 
 ### Active
 
 - [ ] Deep design research to land a modern, refined-minimal visual direction that fits the brand and reads as professional to SMB clients
 - [ ] One elegant three.js / @react-three/fiber 3D hero centerpiece (tasteful, not a tech demo)
-- [ ] Rest of site is clean 2D with subtle, restrained motion — readability first
-- [ ] Rearchitect the content/section structure from scratch (v1's 11 sections are reference, not a mandate)
-- [ ] Rewrite copy, framing, and texts for v2; consolidate v1's 3 conflicting content sources and fix the two-bios / two-headlines inconsistency
-- [ ] Keep Sanity CMS for editable content (projects, blog, testimonials)
-- [ ] Apply ui-skills.com principles via the `npx ui-skills` CLI on every UI phase (load smallest relevant skill, "impeccable" among favorites)
-- [ ] Iterate each section to high-end UX via Playwright screenshot-critique loop (desktop + mobile)
 - [ ] Preserve strong v1 SEO assets: German programmatic SEO pages (`/s/[slug]`, ~30 keyword pages), JSON-LD structured data, sitemap/robots
 
 ### Out of Scope
@@ -64,15 +63,18 @@ The site must *feel* refined, modern, and quietly stunning on first impression �
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
 | Define identity first, then express across sections | v1's per-section improvisation is the root cause of "unclear visual language" | ✓ Phase 1 — single `styles/tokens.css` `@theme` block; zero raw hex / gray utilities enforced by invariant test |
-| Rearchitect content, rewrite copy | Content is fully open; v1 has conflicting duplicated sources | — Pending |
-| three.js for hero (over OGL) | User preference; single budgeted 3D moment | — Pending |
-| Path-based i18n `/de` `/en` | SEO correctness for bilingual local-market site | — Pending |
-| Keep Sanity CMS | Editable projects/blog/testimonials without code changes | — Pending |
-| ui-skills CLI + Playwright screenshot-critique loop | Objective, high-end UX bar per section instead of guessing | — Pending |
-| No target ship date | Goal is the best possible version; resolve ambiguity up front | — Pending |
+| Rearchitect content, rewrite copy | Content is fully open; v1 has conflicting duplicated sources | ✓ Phase 3–4 — consolidated into Sanity; all section copy sourced from CMS in D-05 order |
+| three.js for hero (over OGL) | User preference; single budgeted 3D moment | — Pending (Phase 5) |
+| Path-based i18n `/de` `/en` | SEO correctness for bilingual local-market site | ✓ Phase 2 |
+| Keep Sanity CMS | Editable projects/blog/testimonials without code changes | ✓ Phase 3 — 5 typed schema types, document-level i18n, single stega:false client |
+| ui-skills CLI + Playwright screenshot-critique loop | Objective, high-end UX bar per section instead of guessing | ✓ Phase 4 — every 2D section iterated; axe-clean, focus-visible, 375/1440 |
+| No target ship date | Goal is the best possible version; resolve ambiguity up front | — Ongoing |
 | Token naming `--color-primary` (not `--color-text-primary`) | Avoids Tailwind v4 double-prefix antipattern | ✓ Phase 1 |
 | Logo as text-as-paths SVG via fontTools instancer from woff2 | No extra font download; svgo strips script/metadata for safe static asset | ✓ Phase 1 |
 | Plus Jakarta Sans, weight-driven hierarchy (single typeface) | Calm/editorial read; WCAG AA verified (accent 8.93:1) before any component work | ✓ Phase 1 |
+| Server-only `SANITY_API_READ_TOKEN` for reads (D-03 supersession) | Sanity free tier cannot make the dataset publicly readable; token stays browser-guarded, single client + stega:false intact | ✓ Phase 4 — commit 8dc010c; no token in the client bundle |
+| Pricing sourced exclusively from Sanity `price` object | No hardcoded figures drifting from CMS (T-04-04) | ✓ Phase 4 |
+| Contact form = Resend Route Handler + Zod + honeypot/timing/per-IP rate-limit | Debuggable/rate-limitable vs Server Action; `{ data, error }` branch (no try/catch) | ✓ Phase 4 — single 'use client' island, inline success/error, real send confirmed |
 
 ## Evolution
 
@@ -92,4 +94,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-08-11 after Phase 2*
+*Last updated: 2026-08-18 after Phase 4*
