@@ -326,7 +326,7 @@ export const GLASS_SAMPLES_MOBILE     = 2
 export const GLASS_RESOLUTION_MOBILE  = 32
 ```
 
-**IDENT-01 note:** The invariant script `tests/invariants/no-raw-hex.sh` scans `app/` only [VERIFIED: tests/invariants/no-raw-hex.sh:18 — `APP_DIR="${REPO_ROOT}/app"`]. The scene file lives in `components/hero/constants.ts` — outside the scanned path. However, per the UI-SPEC FLAG, each constant must have a comment naming its source token so the token derivation remains auditable. The planner must NOT extend the invariant scan to include `components/hero/` without careful exclusions — constants.ts legitimately holds hex values that trace back to tokens.
+**IDENT-01 note:** The invariant script `tests/invariants/no-raw-hex.sh` scans `app/` only [VERIFIED: tests/invariants/no-raw-hex.sh:28 — `APP_DIR="${REPO_ROOT}/app"`]. The scene file lives in `components/hero/constants.ts` — outside the scanned path. However, per the UI-SPEC FLAG, each constant must have a comment naming its source token so the token derivation remains auditable. The planner must NOT extend the invariant scan to include `components/hero/` without careful exclusions — constants.ts legitimately holds hex values that trace back to tokens.
 
 ### Pattern 5: Mobile Degradation Strategy (D-12 — primary risk)
 
@@ -633,7 +633,7 @@ export function HeroFallback() {
 | A4 | The no-raw-hex invariant scan (`tests/invariants/no-raw-hex.sh`) does NOT scan `components/` — only `app/` | Pattern 4 / constants.ts | If scan is extended to `components/`, `constants.ts` will fail; would need scan exclusion for hero constants file |
 | A5 | `drei <Environment>` preset values are loaded from external network at runtime (GitHub-hosted HDRIs) | Pattern 4 | If presets are bundled locally in the npm package, LCP impact would be different — but avoidance is still correct (large file size) |
 
-**A4 is VERIFIED**: `tests/invariants/no-raw-hex.sh` line 18 sets `APP_DIR="${REPO_ROOT}/app"` and all grep commands target `"${APP_DIR}"` only. [VERIFIED: tests/invariants/no-raw-hex.sh:18-26]
+**A4 is VERIFIED**: `tests/invariants/no-raw-hex.sh` line 28 sets `APP_DIR="${REPO_ROOT}/app"` and all grep commands target `"${APP_DIR}"` only. [VERIFIED: tests/invariants/no-raw-hex.sh:28-36]
 
 ---
 
@@ -779,7 +779,7 @@ The following directives from `.claude/CLAUDE.md` and `AGENTS.md` directly bind 
 - `components/sections/HeroSection.tsx` — exact swap contract, `'use client'` confirmed, `.hero-backdrop` layer at line 48 [VERIFIED: components/sections/HeroSection.tsx:48]
 - `app/globals.css` — `.hero-backdrop` CSS utility, exact gradient values [VERIFIED: app/globals.css:61-67]
 - `styles/tokens.css` — all color token hex values [VERIFIED: styles/tokens.css:38-51]
-- `tests/invariants/no-raw-hex.sh` — scan scope is `app/` only [VERIFIED: tests/invariants/no-raw-hex.sh:18]
+- `tests/invariants/no-raw-hex.sh` — scan scope is `app/` only [VERIFIED: tests/invariants/no-raw-hex.sh:28]
 - `tests/sections/hero.spec.ts` — existing test structure
 - `tests/motion/reduced.spec.ts` — existing reduced-motion test structure
 - `playwright.config.ts` — `next start` as web server confirmed
