@@ -6,14 +6,14 @@ current_phase: 5
 current_phase_name: R3F Hero
 status: executing
 stopped_at: Phase 5 UI-SPEC approved
-last_updated: "2026-08-23T20:17:18.711Z"
+last_updated: "2026-08-24T20:53:21.199Z"
 last_activity: 2026-08-18
 last_activity_desc: Phase 04 complete, transitioned to Phase 5
 progress:
   total_phases: 5
   completed_phases: 4
-  total_plans: 15
-  completed_plans: 12
+  total_plans: 16
+  completed_plans: 15
 ---
 
 # Project State
@@ -104,6 +104,7 @@ None yet.
 - Phase 5: 3D hero concept (scene geometry, lighting, draw call budget) is undefined; needs research during Phase 5 planning
 - General: Verify Vercel project Node runtime is 22.12+ before deploy (Sanity v6 requirement)
 - Pre-deploy (not code-gating): add SANITY_API_READ_TOKEN to Vercel env (all environments); rotate the exposed Resend API key; author real DSGVO Datenschutz copy (DE+EN) in Studio.
+- 05-04: D-12 LCP<2.5s gate cannot be met by idle-gating alone. Idle gate works (TBT 1450ms→~170ms, three.js off critical path, CLS=0, isolation intact) but simulated Moto-G4/CPU-4x LCP stays 3.1-4.5s. Probe with canvas fully disabled still shows ~2.8s. Root cause: plan premise is wrong — the LCP element is the H1 headline (obs 368ms), not the .hero-backdrop gradient; residual ~2.8s is lantern's CPU-4x simulation of the base-page critical chain (framework JS+CSS), independent of three.js. Needs replan: either (a) reduce base-page JS/CSS critical path, or (b) reconcile the D-12 gate to observed LCP (0.3-1.3s, well under budget) vs simulated.
 
 ## Deferred Items
 

@@ -61,3 +61,10 @@ export const GLASS_SCALE_MOBILE = 0.95
 // No exact 400ms token exists. Use 500ms (--duration-entrance) as the conservative
 // pick within the D-11 "300–500ms" window. Do NOT add a new token to tokens.css.
 export const HERO_FADE_MS = 500 // from --duration-entrance
+
+// ── Idle-mount fallback delay (05-04 D-12 LCP fix) ────────────────────────────
+// The three.js import + Canvas creation are idle-gated (post-LCP) in HeroCanvas so
+// the ~1.45s three.js TBT no longer inflates the simulated LCP. requestIdleCallback
+// is the primary signal; this is the setTimeout fallback delay (ms) used when rIC is
+// undefined (older Safari) so the glass ALWAYS eventually mounts. NOT a design token.
+export const IDLE_MOUNT_TIMEOUT_MS = 200

@@ -1,0 +1,3 @@
+
+## Flaky test (out of scope for 05-04)
+- **tests/motion/reduced.spec.ts:39 "hero opacity is 1"** — intermittently fails right after a fresh build/server start: reads `#hero` computed opacity immediately post-`domcontentloaded` while HeroSection's `motion.section` reduced-motion fade is still settling (1/3 runs fail). PASSES on clean HEAD too under warm conditions → pre-existing race, NOT caused by the 05-04 HeroCanvas idle gate (which returns HeroFallback under reduced-motion, before any idle code). Fix: assert opacity with a short poll/`toHaveCSS` retry, or `waitForFunction(opacity===1)`. Discovered during 05-04.
