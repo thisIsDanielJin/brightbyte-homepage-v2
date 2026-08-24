@@ -54,11 +54,18 @@ for (const locale of locales) {
       if (webglAvailable) {
         // Canvas mounts and fades in over the always-painted gradient fallback.
         await expect(canvas).toBeVisible()
-        // Canvas is decorative — accessibility contract (aria-hidden on wrapper/canvas).
-        await expect(canvas).toHaveAttribute('aria-hidden', 'true')
+        // Canvas is decorative: it sits inside an aria-hidden wrapper div so the
+        // 3D scene is not exposed to the accessibility tree. R3F does not forward
+        // aria-hidden onto the inner <canvas> element itself — an ancestor carries
+        // it (matches UI-SPEC "aria-hidden on wrapper"; the a11y outcome is identical).
+        // Assert via closest() so the contract holds regardless of nesting depth.
+        const hiddenByAncestor = await canvas.evaluate(
+          (el) => el.closest('[aria-hidden="true"]') !== null
+        )
+        expect(hiddenByAncestor).toBe(true)
       } else {
         // No-WebGL branch: gradient fallback visible, no canvas mounted at all.
-        await expect(hero.locator('.hero-backdrop')).toBeVisible()
+        await expect(hero.locator('.hero-backdrop').first()).toBeVisible()
         await expect(canvas).toHaveCount(0)
       }
 
@@ -79,8 +86,11 @@ for (const locale of locales) {
 
       // Canvas is never mounted — HeroCanvas early-returns HeroFallback (D-06).
       await expect(page.locator('#hero canvas')).toHaveCount(0)
-      // The static gradient fallback remains the backdrop.
-      await expect(page.locator('#hero .hero-backdrop')).toBeVisible()
+      // The static gradient fallback remains the backdrop. Under reduced motion
+      // there are TWO .hero-backdrop divs by design — HeroSection's always-painted
+      // one plus the HeroFallback that HeroCanvas returns from its early-return
+      // gate — both identical, both correct (CLS = 0). Assert the first is visible.
+      await expect(page.locator('#hero .hero-backdrop').first()).toBeVisible()
 
       await context.close()
     })
