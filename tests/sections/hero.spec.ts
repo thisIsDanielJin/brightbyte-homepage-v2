@@ -38,12 +38,51 @@ for (const locale of locales) {
       const headlineText = await headline.textContent()
       expect(headlineText?.trim().length).toBeGreaterThan(0)
 
+      // ── Phase 5: Canvas visibility (HERO-01) ────────────────────────────────
+      // The happy path (Canvas visible) depends on WebGL being available in the
+      // headless Chromium — which is NOT guaranteed. Sniff WebGL support in-page
+      // on a throwaway probe canvas; only then assert the Canvas branch. When
+      // WebGL is absent, production canUseWebGL() returns false and the gradient
+      // fallback shows with zero <canvas> — a legitimate green branch (mirrors
+      // the real no-WebGL fallback), keeping this suite deterministic.
+      const webglAvailable = await page.evaluate(() => {
+        const c = document.createElement('canvas')
+        return !!(c.getContext('webgl2') || c.getContext('webgl'))
+      })
+
+      const canvas = page.locator('#hero canvas')
+      if (webglAvailable) {
+        // Canvas mounts and fades in over the always-painted gradient fallback.
+        await expect(canvas).toBeVisible()
+        // Canvas is decorative — accessibility contract (aria-hidden on wrapper/canvas).
+        await expect(canvas).toHaveAttribute('aria-hidden', 'true')
+      } else {
+        // No-WebGL branch: gradient fallback visible, no canvas mounted at all.
+        await expect(hero.locator('.hero-backdrop')).toBeVisible()
+        await expect(canvas).toHaveCount(0)
+      }
+
       // Capture screenshot for manual QA-02 review
       const viewport = page.viewportSize()
       const label = `${viewport?.width ?? 'x'}px`
       await hero.screenshot({
         path: `${SCREENSHOT_DIR}/hero-${locale}-${label}.png`,
       })
+    })
+
+    // D-06 / HERO-02: no <canvas> anywhere in #hero under reduced motion.
+    test('no canvas in #hero when prefers-reduced-motion: reduce', async ({ browser }) => {
+      const context = await browser.newContext({ reducedMotion: 'reduce' })
+      const page = await context.newPage()
+      await page.goto(`/${locale}`)
+      await page.waitForLoadState('domcontentloaded')
+
+      // Canvas is never mounted — HeroCanvas early-returns HeroFallback (D-06).
+      await expect(page.locator('#hero canvas')).toHaveCount(0)
+      // The static gradient fallback remains the backdrop.
+      await expect(page.locator('#hero .hero-backdrop')).toBeVisible()
+
+      await context.close()
     })
   })
 }

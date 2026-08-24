@@ -70,3 +70,21 @@ for (const path of ['/de/impressum', '/de/datenschutz', '/en/impressum', '/en/da
     await context.close()
   })
 }
+
+// D-06 / HERO-02 (Phase 5): the R3F hero Canvas must not exist AT ALL under
+// prefers-reduced-motion — not merely paused. useReducedMotion() in HeroCanvas
+// takes the early-return HeroFallback branch, so no <canvas> is ever mounted.
+test('no canvas element in DOM under prefers-reduced-motion (D-06 / HERO-02)', async ({ browser }) => {
+  const context = await browser.newContext({
+    reducedMotion: 'reduce',
+  })
+  const page = await context.newPage()
+  await page.goto('/de')
+  await page.waitForLoadState('domcontentloaded')
+
+  // D-06 locked contract: Canvas must not exist at all when reduced motion is active
+  // (not merely paused — the element must be absent from the DOM entirely)
+  await expect(page.locator('canvas')).toHaveCount(0)
+
+  await context.close()
+})
