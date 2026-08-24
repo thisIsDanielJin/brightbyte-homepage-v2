@@ -2,7 +2,9 @@
  * components/sections/HeroSection.tsx — Hero section (D-06 Phase-5 swap container).
  *
  * The CLS-zero swap container: `<section id="hero" className="relative min-h-svh flex items-center">`.
- * Phase 5 inserts an absolute-inset R3F Canvas; the static CSS gradient backdrop is the swap target.
+ * Phase 5 mounts an absolute-inset R3F Canvas (<HeroCanvas />) OVER the static CSS
+ * gradient backdrop; the gradient (.hero-backdrop) is the always-painted LCP element
+ * and the reduced-motion / no-WebGL fallback (D-06, D-10, D-11).
  *
  * TYPOGRAPHY (UI-SPEC):
  *   - Headline: text-4xl md:text-5xl font-bold text-primary
@@ -21,6 +23,7 @@
 
 import { useTranslations } from 'next-intl'
 import { MotionSection } from '@/components/ui/MotionSection'
+import { HeroCanvas } from '@/components/hero/HeroCanvas'
 
 interface HeroSectionProps {
   headline?: string | null
@@ -40,12 +43,16 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
       className="relative min-h-svh flex items-center bg-surface"
     >
       {/*
-        Static CSS radial-gradient backdrop — the Phase 5 swap target.
-        No image, no JS, no 3D. Uses hero-backdrop utility class (globals.css)
-        which references token variables — no inline styles, no raw hex (IDENT-01).
-        Phase 5 inserts <Canvas position:absolute inset-0> here.
+        Phase 5 backdrop swap (D-06, D-10, D-11):
+        - HeroFallback (.hero-backdrop radial gradient) is ALWAYS painted first —
+          it is the LCP element and is never removed (guarantees CLS = 0).
+        - <HeroCanvas /> mounts the R3F Canvas OVER it (ssr:false dynamic import),
+          fading in once ready; under reduced-motion or no-WebGL it early-returns
+          the same gradient, so the fallback is the single source of visual truth.
+        No inline styles, no raw hex here (IDENT-01). Text column below stays z-10.
       */}
       <div className="absolute inset-0 hero-backdrop" aria-hidden="true" />
+      <HeroCanvas />
 
       {/* Text content — relative child, stays above Phase 5 canvas */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 py-32">

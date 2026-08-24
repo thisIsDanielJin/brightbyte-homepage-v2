@@ -36,12 +36,21 @@ if [ ! -d "${BUILD_DIR}/server" ]; then
   exit 1
 fi
 
-# ── Scan server chunks for WebGL/three/@react-three imports ───────────────────
+# ── Scan server chunks for three.js / @react-three MODULE code ────────────────
 # grep -rEl lists FILES with a match (never the raw lines). Guard with `|| true`
 # so a no-match (grep exit 1) does not kill the script under `set -e`. We then
 # gate on whether the match variable is non-empty — never a bare `== 0` on files.
+#
+# Signature = actual three.js / R3F module code, NOT a WebGL capability probe.
+# `canUseWebGL()` in HeroCanvas.tsx calls `getContext('webgl')` on a throwaway
+# canvas purely to gate the mount; HeroCanvas is a Client Component that Next
+# legitimately prerenders into .next/server/chunks/ssr/. That DOM feature-detect
+# is NOT a three.js leak, so it must not trip this gate (Plan 01 tracer finding).
+# The real leak we guard against is HeroScene's three.js/@react-three imports
+# reaching the server bundle — those carry the `@react-three` / `three` module
+# markers below and are what the ssr:false boundary must keep out.
 CANVAS_HITS=$(
-  grep -rEl "getContext\(['\"]webgl|THREE\.|@react-three|react-three-fiber" "${BUILD_DIR}/server" \
+  grep -rEl "@react-three/fiber|@react-three/drei|three/build/three|react-three-fiber|__THREE__|REVISION.*three" "${BUILD_DIR}/server" \
     --include="*.js" \
   || true
 )
