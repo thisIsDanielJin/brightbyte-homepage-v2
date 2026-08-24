@@ -41,6 +41,7 @@ import {
   GLASS_THICKNESS,
   GLASS_SAMPLES,
   GLASS_RESOLUTION,
+  GLASS_DETAIL,
   GLASS_SAMPLES_MOBILE,
   GLASS_RESOLUTION_MOBILE,
   ROTATION_SPEED,
@@ -82,8 +83,10 @@ export function GlassMesh({ degraded = false }: { degraded?: boolean }) {
       <pointLight intensity={0.6} position={[-3, -2, 2]} color={ACCENT_HEX} />
 
       <mesh ref={meshRef} position={position} scale={scale}>
-        {/* icosahedron: smooth, minimal polygons, rounded solid look (D-03). */}
-        <icosahedronGeometry args={[1, 4]} />
+        {/* icosahedron: smooth, minimal polygons, rounded solid look (D-03).
+            Detail from GLASS_DETAIL (Tier 2: 2, was 4) — fewer polys cut the
+            per-frame transmission cost that dominated the throttled LCP/TBT. */}
+        <icosahedronGeometry args={[1, GLASS_DETAIL]} />
         <MeshTransmissionMaterial
           color={ACCENT_HEX}
           ior={GLASS_IOR}

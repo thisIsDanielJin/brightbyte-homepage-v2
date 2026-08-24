@@ -30,10 +30,40 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useThree } from '@react-three/fiber'
 import { PerformanceMonitor, AdaptiveDpr } from '@react-three/drei'
 import { CAMERA_FOV, CAMERA_Z } from './constants'
 import { GlassMesh } from './GlassMesh'
+
+/**
+ * Mount-only read-only debug hook for the Phase 5 perf gate (05-03).
+ *
+ * Exposes exactly two read functions over the already-decorative canvas so the
+ * production perf gate can assert draw calls < 200 and observe PerformanceMonitor
+ * DPR adaptation under CPU throttle — with NO new data/input surface (threat
+ * register unchanged). It is INTENTIONALLY not production-guarded: the gate runs
+ * against `next start`, so the hook must exist in the production bundle. It renders
+ * nothing and never touches the scene/material.
+ */
+declare global {
+  interface Window {
+    __r3f_hero?: { calls: () => number; dpr: () => number }
+  }
+}
+
+function DebugHook() {
+  const gl = useThree((s) => s.gl)
+  useEffect(() => {
+    window.__r3f_hero = {
+      calls: () => gl.info.render.calls,
+      dpr: () => gl.getPixelRatio(),
+    }
+    return () => {
+      delete window.__r3f_hero
+    }
+  }, [gl])
+  return null
+}
 
 export function HeroScene({ onReady }: { onReady?: () => void }) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -70,6 +100,7 @@ export function HeroScene({ onReady }: { onReady?: () => void }) {
         >
           <AdaptiveDpr />
           <GlassMesh degraded={degraded} />
+          <DebugHook />
         </PerformanceMonitor>
       </Canvas>
     </div>

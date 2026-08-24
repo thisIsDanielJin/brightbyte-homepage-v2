@@ -27,8 +27,15 @@ export const SURFACE_DARK_HEX = '#0F0F10' // from --color-surface-dark
 export const GLASS_IOR = 1.5
 export const GLASS_ROUGHNESS = 0.05
 export const GLASS_THICKNESS = 0.3
-export const GLASS_SAMPLES = 6
-export const GLASS_RESOLUTION = 256
+// Tier 2 (05-03 perf-gate escalation, RESEARCH Pattern 5): the tier1-first defaults
+// (samples 6 / resolution 256 / geometry detail 4) pushed the throttled Moto G4 LCP
+// past the 2.5s budget (main-thread cost of the transmission passes → high TBT). The
+// D-12 budget is non-negotiable, so quality is reduced (samples/resolution/detail ↓)
+// while KEEPING the transmission look — the WCAG-AA rendered-glass gate is re-run and
+// still holds. Do NOT relax the budget; this is the researched Tier 2 fallback.
+export const GLASS_SAMPLES = 3
+export const GLASS_RESOLUTION = 128
+export const GLASS_DETAIL = 2 // icosahedron subdivision (was 4) — fewer polys, cheaper transmission
 // Mobile degradation thresholds (PerformanceMonitor.onDecline)
 export const GLASS_SAMPLES_MOBILE = 2
 export const GLASS_RESOLUTION_MOBILE = 32
