@@ -38,6 +38,18 @@ export const ROTATION_SPEED = 0.003 // radians/frame at 60fps (~35s/revolution)
 export const CAMERA_FOV = 45
 export const CAMERA_Z = 5
 
+// ── Glass placement (UI-SPEC Responsive Behavior Contract) ────────────────────
+// Local scene layout constants (NOT design tokens — pure R3F world-space values).
+// Desktop: focal mass right-of-center (~65-70% horizontal) opposite the left text
+// column (Option A scrim strategy). Mobile: centered + pushed back so it does not
+// crowd the full-width text column at narrow widths. Breakpoint mirrors the 375px
+// mobile baseline vs the 1440px desktop baseline.
+export const GLASS_BREAKPOINT_PX = 768 // < this width → mobile placement
+export const GLASS_POSITION_DESKTOP: [number, number, number] = [0.9, 0, 0] // ~65-70% horizontal
+export const GLASS_POSITION_MOBILE: [number, number, number] = [0, 0.15, -0.6] // centered, pushed back
+export const GLASS_SCALE_DESKTOP = 1.25
+export const GLASS_SCALE_MOBILE = 0.95
+
 // ── Transition timing (from --duration-entrance: 500ms) ───────────────────────
 // No exact 400ms token exists. Use 500ms (--duration-entrance) as the conservative
 // pick within the D-11 "300–500ms" window. Do NOT add a new token to tokens.css.
