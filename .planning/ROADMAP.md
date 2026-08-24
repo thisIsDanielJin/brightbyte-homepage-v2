@@ -114,14 +114,14 @@ Seven phases that build the site the way it must be built — identity locked fi
   3. When `prefers-reduced-motion: reduce` is set, no Canvas element is rendered — the static `HeroFallback` component displays instead with the same container dimensions (no layout shift)
   4. Draw call count stays under 200 in a production build; `PerformanceMonitor` adaptive DPR scaling is active and verified on a throttled connection
 
-**Plans**: 3 plans
+**Plans**: 2/3 plans executed
 **Wave 1**
 
-- [ ] 05-01-PLAN.md — Tracer: Wave 0 (install three/fiber/drei + constants + no-canvas-server-bundle invariant + test scaffolds) → minimal Canvas mounted behind hero text, ssr:false-isolated, reduced-motion/no-WebGL → gradient fallback, verified end-to-end (HERO-01, HERO-02)
+- [x] 05-01-PLAN.md — Tracer: Wave 0 (install three/fiber/drei + constants + no-canvas-server-bundle invariant + test scaffolds) → minimal Canvas mounted behind hero text, ssr:false-isolated, reduced-motion/no-WebGL → gradient fallback, verified end-to-end (HERO-01, HERO-02)
 
 **Wave 2** *(blocked on Wave 1)*
 
-- [ ] 05-02-PLAN.md — Expansion: GlassMesh (MeshTransmissionMaterial + token lighting, no HDRI) + rotation + IntersectionObserver offscreen-pause + PerformanceMonitor/AdaptiveDpr + locked mobile degradation + fade-in (HERO-01, HERO-02)
+- [x] 05-02-PLAN.md — Expansion: GlassMesh (MeshTransmissionMaterial + token lighting, no HDRI) + rotation + IntersectionObserver offscreen-pause + PerformanceMonitor/AdaptiveDpr + locked mobile degradation + fade-in (HERO-01, HERO-02)
 
 **Wave 3** *(blocked on Wave 2)*
 
@@ -168,6 +168,6 @@ Seven phases that build the site the way it must be built — identity locked fi
 | 2. i18n Shell & Routing | 3/3 | Complete    | 2026-08-11 |
 | 3. Sanity Content Architecture | 3/3 | Complete    | 2026-08-12 |
 | 4. 2D Marketing Sections | 4/4 | Complete    | 2026-08-18 |
-| 5. R3F Hero | 0/3 | Not started | - |
+| 5. R3F Hero | 2/3 | In Progress|  |
 | 6. SEO Layer & Programmatic Pages | 0/TBD | Not started | - |
 | 7. P2 Differentiators & Polish | 0/TBD | Not started | - |
