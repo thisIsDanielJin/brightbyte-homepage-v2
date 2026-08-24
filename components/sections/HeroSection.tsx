@@ -54,6 +54,29 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
       <div className="absolute inset-0 hero-backdrop" aria-hidden="true" />
       <HeroCanvas />
 
+      {/*
+        D-08 legibility scrim (UI-SPEC Option B): a token-only `bg-surface` wash
+        over the copy region, sitting ABOVE the canvas (z-0 wrapper) and BELOW
+        the z-10 text column. No raw hex (bg-surface + v4 opacity modifiers);
+        pointer-events-none so it never blocks the CTA.
+
+        - Mobile (< md): the glass is centered + pushed back, so the copy sits over
+          dark scene pixels. A near-solid full-bleed `bg-surface/85` band restores
+          WCAG AA for headline (#18181B) AND subline (#52525B) across the whole
+          full-width column.
+        - Desktop (md+): the glass focal mass is right-of-center (~65-70%), so a
+          left-anchored gradient that fades to transparent lightens the copy while
+          leaving the glass reveal on the right fully intact.
+      */}
+      <div
+        className="absolute inset-0 z-0 bg-surface/85 md:hidden pointer-events-none"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-y-0 left-0 z-0 hidden md:block md:w-3/5 bg-gradient-to-r from-surface/90 via-surface/70 to-transparent pointer-events-none"
+        aria-hidden="true"
+      />
+
       {/* Text content — relative child, stays above Phase 5 canvas */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 py-32">
         <div className="max-w-[640px] md:max-w-[50%]">
