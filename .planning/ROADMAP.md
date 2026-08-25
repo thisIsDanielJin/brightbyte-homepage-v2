@@ -114,7 +114,7 @@ Seven phases that build the site the way it must be built — identity locked fi
   3. When `prefers-reduced-motion: reduce` is set, no Canvas element is rendered — the static `HeroFallback` component displays instead with the same container dimensions (no layout shift)
   4. Draw call count stays under 200 in a production build; `PerformanceMonitor` adaptive DPR scaling is active and verified on a throttled connection
 
-**Plans**: 2/3 plans executed
+**Plans**: 4/5 plans executed
 **Wave 1**
 
 - [x] 05-01-PLAN.md — Tracer: Wave 0 (install three/fiber/drei + constants + no-canvas-server-bundle invariant + test scaffolds) → minimal Canvas mounted behind hero text, ssr:false-isolated, reduced-motion/no-WebGL → gradient fallback, verified end-to-end (HERO-01, HERO-02)
@@ -126,6 +126,8 @@ Seven phases that build the site the way it must be built — identity locked fi
 **Wave 3** *(blocked on Wave 2)*
 
 - [ ] 05-03-PLAN.md — Phase gate: register isolation invariant in CI + WCAG-AA-against-rendered-glass (D-08) + production Lighthouse Moto G4 LCP<2.5s/CLS=0 + draw calls<200 + PerformanceMonitor DPR + human-verify (HERO-01, HERO-02)
+- [x] 05-04-PLAN.md — Idle-gate the HeroScene mount post-LCP (TBT 1450ms→184ms); halted — bare requestIdleCallback fired too early under Lantern, simulated LCP unmoved; root cause is the base-page critical chain, not three.js (HERO-01, HERO-02)
+- [ ] 05-05-PLAN.md — Close the D-12 simulated-LCP gate: fix the mount trigger to fire provably post-LCP (interaction-or-timeout-floor) + experimental.inlineCss to inline render-blocking CSS; honest halt if it stalls at framework-fixed Lantern residual (HERO-01, HERO-02)
 
 **UI hint**: yes
 
