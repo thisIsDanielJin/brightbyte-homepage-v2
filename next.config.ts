@@ -28,6 +28,14 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: projectRoot,
   },
+  // Lever 2 (05-05 D-12 LCP fix): inline the ~7KB render-blocking CSS chunk into
+  // <head> as a <style> tag so FCP/LCP no longer wait on a CSS round-trip
+  // (metricSavings FCP 150 / LCP 150). Production-build only, not dev.
+  // Next 16 doc-supported; explicitly recommended for Tailwind / atomic CSS.
+  // Source: node_modules/next/dist/docs/ inlineCss.md (verified this session).
+  experimental: {
+    inlineCss: true,
+  },
 }
 
 export default withNextIntl(nextConfig)
