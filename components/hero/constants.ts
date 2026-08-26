@@ -62,9 +62,12 @@ export const GLASS_SCALE_MOBILE = 0.95
 // pick within the D-11 "300–500ms" window. Do NOT add a new token to tokens.css.
 export const HERO_FADE_MS = 500 // from --duration-entrance
 
-// ── Idle-mount fallback delay (05-04 D-12 LCP fix) ────────────────────────────
-// The three.js import + Canvas creation are idle-gated (post-LCP) in HeroCanvas so
-// the ~1.45s three.js TBT no longer inflates the simulated LCP. requestIdleCallback
-// is the primary signal; this is the setTimeout fallback delay (ms) used when rIC is
-// undefined (older Safari) so the glass ALWAYS eventually mounts. NOT a design token.
-export const IDLE_MOUNT_TIMEOUT_MS = 200
+// ── Mount-trigger timeout floor (05-05 D-12 LCP fix) ─────────────────────────
+// The HeroScene mount is now gated behind first user interaction OR this timeout
+// floor, whichever fires first (interaction-or-timeout trigger in HeroCanvas).
+// Set well past the ~2811ms observed-LCP mark so the three.js chunk fetch +
+// ~747ms bootup land in Lantern's POST-LCP task graph and no longer inflate the
+// simulated LCP. 3000ms means: on a real device the glass appears ~3s in if the
+// user never interacts (a calm, acceptable reveal for a decorative background),
+// and appears immediately on first pointer/scroll/key. NOT a design token.
+export const HERO_MOUNT_DELAY_MS = 3000

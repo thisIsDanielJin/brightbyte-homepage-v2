@@ -113,7 +113,10 @@ for (const locale of locales) {
       const canvas = page.locator('#hero canvas')
       if (webglAvailable) {
         // Canvas mounts and fades in over the always-painted gradient fallback.
-        await expect(canvas).toBeVisible()
+        // The post-LCP mount trigger (interaction-or-3000ms-floor) means headless
+        // Playwright must wait for the setTimeout floor before the canvas appears.
+        // Give it a generous timeout well past the 3000ms floor + render time.
+        await expect(canvas).toBeVisible({ timeout: 8000 })
         // Canvas is decorative: it sits inside an aria-hidden wrapper div so the
         // 3D scene is not exposed to the accessibility tree. R3F does not forward
         // aria-hidden onto the inner <canvas> element itself — an ancestor carries
