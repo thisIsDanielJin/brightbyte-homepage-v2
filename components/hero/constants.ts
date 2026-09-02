@@ -62,12 +62,16 @@ export const GLASS_SCALE_MOBILE = 0.95
 // pick within the D-11 "300–500ms" window. Do NOT add a new token to tokens.css.
 export const HERO_FADE_MS = 500 // from --duration-entrance
 
-// ── Mount-trigger timeout floor (05-05 D-12 LCP fix) ─────────────────────────
-// The HeroScene mount is now gated behind first user interaction OR this timeout
-// floor, whichever fires first (interaction-or-timeout trigger in HeroCanvas).
-// Set well past the ~2811ms observed-LCP mark so the three.js chunk fetch +
-// ~747ms bootup land in Lantern's POST-LCP task graph and no longer inflate the
-// simulated LCP. 3000ms means: on a real device the glass appears ~3s in if the
-// user never interacts (a calm, acceptable reveal for a decorative background),
-// and appears immediately on first pointer/scroll/key. NOT a design token.
-export const HERO_MOUNT_DELAY_MS = 3000
+// ── Idle-mount fallback timeout (05-06 UX fix) ───────────────────────────────
+// The HeroScene mount is gated behind requestIdleCallback so the three.js import +
+// Canvas creation happen once the main thread is free post-hydration — the hero then
+// fades in gracefully on load (D-11), no blank wait, no click-to-summon.
+// This constant is only the FALLBACK for browsers without requestIdleCallback
+// (older Safari): a short setTimeout so the mount still happens promptly.
+//
+// History: 05-05 set this to a 3000ms floor as an interaction-or-timeout trigger to
+// push three.js boot past Lantern's simulated-LCP window. That produced a visible
+// 3s blank-then-pop-in. Since D-12 was reconciled to observed LCP (2026-08-26), the
+// simulated metric no longer gates the phase, so the UX cost bought nothing —
+// reverted to a graceful idle mount (user decision 2026-09-02). NOT a design token.
+export const HERO_IDLE_FALLBACK_MS = 200

@@ -20,18 +20,20 @@
  * IN OVER it, so there is no pop-in and CLS = 0. Duration 500ms / ease-out
  * (--duration-entrance / --ease-out; see HERO_FADE_MS in constants.ts).
  *
- * Post-LCP mount (D-12, 05-04→05-05): the <HeroScene> child mount is gated behind a
- * trigger that is ORDERING-GUARANTEED-AFTER-LCP: first user interaction (pointerdown /
- * scroll / keydown, each {once,passive}) OR a setTimeout(HERO_MOUNT_DELAY_MS=3000)
- * floor, whichever fires first. The floor (3000ms) is set well past the ~2811ms
- * observed-LCP mark so the three.js chunk fetch + ~747ms bootup land in Lantern's
- * POST-LCP task graph and no longer inflate the simulated LCP. 05-04 replaced the bare
- * requestIdleCallback (which fired ~2.3s post-hydration, BEFORE observed LCP under 4x
- * throttle) with this interaction-or-timeout trigger that is provably post-LCP.
- * The absolute inset-0 wrapper is rendered UNCONDITIONALLY (identical geometry always →
- * CLS = 0); only the child is deferred. The glass fades in over the gradient as before.
- * Cut TBT 1450ms → ~184ms (05-04); 05-05 adds experimental.inlineCss:true to remove
- * the render-blocking CSS chunk from the LCP critical path (Lever 2).
+ * Idle mount (D-11, 05-06): the <HeroScene> child mount is deferred to browser idle
+ * via requestIdleCallback (with a setTimeout(HERO_IDLE_FALLBACK_MS) fallback for
+ * browsers without rIC, e.g. older Safari). This keeps the ~747ms three.js bootup off
+ * the initial hydration critical path while still mounting promptly once the main
+ * thread is free — the glass fades in over the gradient on load (no blank wait, no
+ * click-to-summon). The absolute inset-0 wrapper is rendered UNCONDITIONALLY (identical
+ * geometry always → CLS = 0); only the child is deferred.
+ *
+ * History: 05-05 gated the mount behind an interaction-or-3000ms-floor trigger to push
+ * three.js boot past Lantern's simulated-LCP window. That produced a visible 3s
+ * blank-then-pop-in. Since D-12 was reconciled to observed LCP (2026-08-26), the
+ * simulated metric no longer gates the phase, so the trigger was reverted to a graceful
+ * idle mount (user decision 2026-09-02). TBT stays low (three.js still off the initial
+ * critical path); 05-05's experimental.inlineCss:true is retained.
  *
  * Source: 05-PATTERNS.md §"HeroCanvas.tsx"; 05-UI-SPEC.md Reduced-Motion + Fade-in Contracts.
  */
@@ -41,7 +43,7 @@ import dynamic from 'next/dynamic'
 import { useEffect, useRef, useState } from 'react'
 import { useReducedMotion } from 'motion/react'
 import { HeroFallback } from './HeroFallback'
-import { HERO_MOUNT_DELAY_MS } from './constants'
+import { HERO_IDLE_FALLBACK_MS } from './constants'
 
 // Module-level dynamic() — Next.js requires this at module scope, never inside
 // render, and ssr:false must live in a Client Component (this file has 'use client').
@@ -69,42 +71,27 @@ function canUseWebGL(): boolean {
 export function HeroCanvas() {
   const prefersReduced = useReducedMotion()
   const wrapperRef = useRef<HTMLDivElement>(null)
-  // Idle gate: defer the three.js import + Canvas creation to browser idle (post-LCP)
-  // so their ~1.45s main-thread cost is off the LCP critical path (D-12, 05-04).
+  // Idle gate: defer the three.js import + Canvas creation to browser idle so their
+  // ~747ms main-thread cost stays off the initial hydration critical path while the
+  // hero still fades in promptly on load (D-11, 05-06).
   const [shouldMount, setShouldMount] = useState(false)
 
-  // Post-LCP mount trigger (05-05, Lever 1): fire AFTER LCP, not before.
-  // The bare requestIdleCallback fired ~2.3s post-hydration — BEFORE observed LCP
-  // (~2811ms) under 4x CPU throttle — pulling three.js bootup into Lantern's pre-LCP
-  // task graph. Replace with interaction-or-timeout-floor:
-  //   • First user interaction (pointerdown / scroll / keydown) fires immediately on
-  //     any real interaction, cannot occur during the headless Lighthouse LCP window.
-  //   • setTimeout(HERO_MOUNT_DELAY_MS) floor guarantees the canvas ALWAYS eventually
-  //     mounts (headless Playwright, Lighthouse never interact), set at 3000ms — well
-  //     past the ~2811ms observed-LCP mark so three.js bootup lands post-LCP.
-  // The handler is idempotent: once one signal fires it marks mounted and no-ops the
-  // rest. Cleanup removes all listeners + clears the timeout on unmount.
+  // Idle mount (05-06): mount at the first browser idle window post-hydration via
+  // requestIdleCallback, with a short setTimeout(HERO_IDLE_FALLBACK_MS) fallback for
+  // browsers without rIC (older Safari). No interaction required — the glass fades in
+  // over the gradient on load. Cleanup cancels whichever primitive is pending.
   // Hooks must run unconditionally before the D-06 early return below — harmless for
   // reduced-motion/no-WebGL users since they never reach the mount path.
   useEffect(() => {
-    let mounted = false
-    const trigger = () => {
-      if (mounted) return
-      mounted = true
-      setShouldMount(true)
+    const mount = () => setShouldMount(true)
+
+    if (typeof window.requestIdleCallback === 'function') {
+      const idleId = window.requestIdleCallback(mount)
+      return () => window.cancelIdleCallback(idleId)
     }
 
-    window.addEventListener('pointerdown', trigger, { once: true, passive: true })
-    window.addEventListener('scroll', trigger, { once: true, passive: true })
-    window.addEventListener('keydown', trigger, { once: true, passive: true })
-    const timerId = window.setTimeout(trigger, HERO_MOUNT_DELAY_MS)
-
-    return () => {
-      window.removeEventListener('pointerdown', trigger)
-      window.removeEventListener('scroll', trigger)
-      window.removeEventListener('keydown', trigger)
-      window.clearTimeout(timerId)
-    }
+    const timerId = window.setTimeout(mount, HERO_IDLE_FALLBACK_MS)
+    return () => window.clearTimeout(timerId)
   }, [])
 
   // Reduced-motion / no-WebGL gate: no Canvas rendered at all (D-06, HERO-02).
@@ -118,9 +105,8 @@ export function HeroCanvas() {
       aria-hidden="true"
     >
       {/* Wrapper geometry is identical whether or not HeroScene has mounted (CLS = 0);
-          only the child is gated behind the post-LCP mount trigger. The .hero-backdrop
-          gradient painted by HeroSection stays underneath, so the glass fades IN OVER
-          it (D-11, D-12). */}
+          only the child is gated behind the idle mount. The .hero-backdrop gradient
+          painted by HeroSection stays underneath, so the glass fades IN OVER it (D-11). */}
       {shouldMount ? (
         <HeroScene
           onReady={() => {
