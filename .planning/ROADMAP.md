@@ -10,7 +10,7 @@ Seven phases that build the site the way it must be built — identity locked fi
 - [x] **Phase 2: i18n Shell & Routing** - Lay the path-based locale routing foundation that every page and link depends on (completed 2026-08-11)
 - [x] **Phase 3: Sanity Content Architecture** - Lock the CMS schema and i18n strategy before any frontend is wired to content (completed 2026-08-12)
 - [x] **Phase 4: 2D Marketing Sections** - Build all P1 sections to a high-end UX bar with Playwright critique and ui-skills (completed 2026-08-18)
-- [ ] **Phase 5: R3F Hero** - Add the isolated 3D hero with performance budgets met and reduced-motion fallback
+- [x] **Phase 5: R3F Hero** - Add the isolated 3D hero with performance budgets met and reduced-motion fallback (COMPLETE 2026-09-02 — fade-in + visual polish deferred to Phase 7)
 - [ ] **Phase 6: SEO Layer & Programmatic Pages** - Preserve and extend v1's German SEO asset with full bilingual hreflang
 - [ ] **Phase 7: P2 Differentiators & Polish** - Case studies, FAQ, process section, motion tuning, final a11y audit
 
@@ -114,7 +114,11 @@ Seven phases that build the site the way it must be built — identity locked fi
   3. When `prefers-reduced-motion: reduce` is set, no Canvas element is rendered — the static `HeroFallback` component displays instead with the same container dimensions (no layout shift)
   4. Draw call count stays under 200 in a production build; `PerformanceMonitor` adaptive DPR scaling is active and verified on a throttled connection
 
-**Plans**: 4/5 plans executed
+> **[Hero visual polish deferred to Phase 7 — human-verify 2026-09-02]** Phase 5 ships the hero as a *functionally complete* but *visually unrefined* placeholder: the `MeshTransmissionMaterial` currently renders as a low-poly, near-opaque dark sphere (Tier 2 quality: samples 3 / resolution 128 / icosahedron detail 2), not the intended frosted-glass look. This meets the structural/perf/a11y criteria above but does NOT yet meet the D-01 taste bar ("refined, quietly stunning"). Visual redesign — material/refraction/lighting, poly count, placement, and the calm-editorial finish — is explicitly scoped to Phase 7 (P2 Differentiators & Polish → motion tuning). Phase 5 completion is signed off *with this caveat*, not as a finished hero.
+>
+> **[D-11 fade-in bug — known debt, deferred 2026-09-02]** The hero glass hard-cuts in on mount instead of fading over 500ms (D-11). Root cause is under investigation: the `HeroCanvas` wrapper div renders at runtime with className `absolute inset-0 hero-backdrop` (the adjacent gradient sibling's class) instead of its source `opacity-0 [transition:opacity_500ms…] data-[ready=true]:opacity-100` — the compiled CSS is correct, so the leading hypothesis is React reusing the key-less `hero-backdrop` sibling DOM node for the wrapper. `data-ready=true` DOES get set (onReady + double-rAF fire), but on the mis-classed node, so no 0→1 transition renders. This is a cosmetic entrance-animation defect, NOT one of the four graded success criteria. Deferred to Phase 7 alongside the visual redesign.
+
+**Plans**: 5/5 plans executed
 **Wave 1**
 
 - [x] 05-01-PLAN.md — Tracer: Wave 0 (install three/fiber/drei + constants + no-canvas-server-bundle invariant + test scaffolds) → minimal Canvas mounted behind hero text, ssr:false-isolated, reduced-motion/no-WebGL → gradient fallback, verified end-to-end (HERO-01, HERO-02)
@@ -125,7 +129,7 @@ Seven phases that build the site the way it must be built — identity locked fi
 
 **Wave 3** *(blocked on Wave 2)*
 
-- [ ] 05-03-PLAN.md — Phase gate: register isolation invariant in CI + WCAG-AA-against-rendered-glass (D-08) + production Lighthouse Moto G4 LCP<2.5s/CLS=0 + draw calls<200 + PerformanceMonitor DPR + human-verify (HERO-01, HERO-02)
+- [x] 05-03-PLAN.md — Phase gate: register isolation invariant in CI + WCAG-AA-against-rendered-glass (D-08) + production Lighthouse Moto G4 LCP<2.5s/CLS=0 + draw calls<200 + PerformanceMonitor DPR + human-verify (HERO-01, HERO-02) — human-verify signed off 2026-09-02 (pass w/ fade-in + visual-polish caveats → Phase 7)
 - [x] 05-04-PLAN.md — Idle-gate the HeroScene mount post-LCP (TBT 1450ms→184ms); halted — bare requestIdleCallback fired too early under Lantern, simulated LCP unmoved; root cause is the base-page critical chain, not three.js (HERO-01, HERO-02)
 - [x] 05-05-PLAN.md — Close the D-12 simulated-LCP gate: fix the mount trigger to fire provably post-LCP (interaction-or-timeout-floor) + experimental.inlineCss to inline render-blocking CSS; simLCP 4541→3032ms (framework-fixed residual), D-12 reconciled to observed LCP 2026-08-26 (HERO-01, HERO-02)
 
@@ -170,6 +174,6 @@ Seven phases that build the site the way it must be built — identity locked fi
 | 2. i18n Shell & Routing | 3/3 | Complete    | 2026-08-11 |
 | 3. Sanity Content Architecture | 3/3 | Complete    | 2026-08-12 |
 | 4. 2D Marketing Sections | 4/4 | Complete    | 2026-08-18 |
-| 5. R3F Hero | 2/3 | In Progress|  |
+| 5. R3F Hero | 5/5 | Complete    | 2026-09-02 |
 | 6. SEO Layer & Programmatic Pages | 0/TBD | Not started | - |
 | 7. P2 Differentiators & Polish | 0/TBD | Not started | - |

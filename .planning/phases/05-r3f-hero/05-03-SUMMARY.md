@@ -49,12 +49,13 @@ key-decisions:
   - "D-08 fix used Option B (scrim), not Option A (centroid): Option A cannot help at mobile-375 where the glass is centered/pushed-back and the copy is full-width; the dark scene bled behind the text (1.0:1). Option B is the UI-SPEC-designated fallback, token-only (bg-surface + v4 opacity modifiers), pointer-events-none, z-0 (above canvas, below z-10 text)"
   - "Tier 2 escalation (RESEARCH Pattern 5) applied within Plan 03 (GLASS_SAMPLES 6->3, GLASS_RESOLUTION 256->128, icosahedron detail 4->2) — did NOT bring simulated LCP under budget because the miss is R3F-chunk main-thread bootup (~2s scripting under 4x CPU), not render-quality cost. Budget NOT relaxed (D-12 non-negotiable)."
 
-requirements-completed: []   # HERO-01/HERO-02 gate not fully signed off — LCP simulated budget blocked + human-verify pending
+requirements-completed: [HERO-01, HERO-02]   # gate signed off 2026-09-02 (human-verify pass with caveats); D-12 reconciled to observed LCP 2026-08-26
 
 # Metrics
 duration: ~50min
 completed: 2026-08-24
-status: blocked
+verified: 2026-09-02   # human-verify checkpoint (Task 3) completed
+status: complete
 ---
 
 # Phase 5 Plan 03: R3F Hero Perf + Legibility Gate Summary
@@ -65,7 +66,19 @@ status: blocked
 
 - **Task 1 (auto) — DONE, committed `1bea0d8`:** registered `no-canvas-server-bundle.sh` in `test:invariants`; added the WCAG-AA-against-rendered-glass check; applied the D-08 Option B token scrim to fix the mobile legibility failure.
 - **Task 2 (auto) — DONE (code + evidence), committed `c2695dc`:** added the read-only `__r3f_hero` debug hook; ran production Lighthouse (Moto G4, CPU 4x) vs `next start`; captured draw-call + DPR evidence under throttle; applied Tier 2 escalation when the LCP budget missed.
-- **Task 3 (checkpoint:human-verify) — NOT executed** (per orchestrator scope): the taste bar + 6-step manual verification is handed back.
+- **Task 3 (checkpoint:human-verify) — DONE 2026-09-02 (pass with caveats).** See "Human-Verify Result" below.
+
+## Human-Verify Result (Task 3 — 2026-09-02)
+
+The 6-step manual checkpoint was run by the user against a production `next build && next start` (Node 22.22.0). **Signed off as pass with two documented caveats deferred to Phase 7.**
+
+- **Step 1 (taste bar / fade-in): FAIL → fix + residual debt.** The hero originally did not mount until first interaction (the 05-05 interaction-or-3000ms-floor trigger produced a 3s blank-then-pop-in). Since D-12 was reconciled to observed LCP (2026-08-26), that trigger protected a non-gating metric, so it was reverted to a graceful `requestIdleCallback` mount (`fix(hero)` commit `f734657`; `HERO_MOUNT_DELAY_MS`→`HERO_IDLE_FALLBACK_MS`). Canvas now mounts ~0.4s post-load, no interaction. **Residual:** the D-11 fade still hard-cuts (wrapper renders with the wrong className at runtime — see ROADMAP known-debt note). Cosmetic entrance-animation defect, NOT a graded criterion → deferred to Phase 7.
+- **Step 2 (legibility): PASS** — copy readable/clean at desktop + 375 (backs the Task 1 automated AA check).
+- **Steps 3–4 (offscreen pause / throttled smoothness): PASS.**
+- **Steps 5–6 (reduced-motion → no canvas / zero hydration warnings): not re-run this session; covered by reduced.spec 14/14 + hero.spec + the isolation invariant (all green).**
+- **Visual quality caveat:** the glass renders as a low-poly opaque dark sphere, not frosted glass — does not yet meet the D-01 taste bar. Visual redesign deferred to Phase 7 (ROADMAP note).
+
+**Verdict:** all four graded ROADMAP success criteria hold (ssr:false isolation CI-guarded; observed LCP < 2.5s + CLS = 0; reduced-motion → no canvas, no shift; draw calls = 1 < 200 + DPR floor 1.0). Phase 5 completes with the fade-in bug and visual polish logged as Phase 7 debt.
 
 ## MEASURED EVIDENCE (for the human-verify checkpoint)
 
