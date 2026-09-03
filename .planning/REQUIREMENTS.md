@@ -43,8 +43,8 @@
 
 ### 3D Hero
 
-- [ ] **HERO-01**: One elegant, performance-budgeted R3F 3D hero centerpiece (tasteful, not a tech demo), fully isolated via `next/dynamic({ ssr: false })`
-- [ ] **HERO-02**: `prefers-reduced-motion` static fallback (no Canvas rendered) and mobile Core Web Vitals budget met (LCP < 2.5s, CLS = 0)
+- [x] **HERO-01**: One elegant, performance-budgeted R3F 3D hero centerpiece (tasteful, not a tech demo), fully isolated via `next/dynamic({ ssr: false })`
+- [x] **HERO-02**: `prefers-reduced-motion` static fallback (no Canvas rendered) and mobile Core Web Vitals budget met (LCP < 2.5s, CLS = 0)
 
 ### SEO
 
@@ -109,8 +109,8 @@
 | QA-01 | Phase 4: 2D Marketing Sections (primary; recurs Phase 5, 7) | Complete |
 | QA-02 | Phase 4: 2D Marketing Sections (primary; recurs Phase 5, 7) | Complete |
 | QA-03 | Phase 4: 2D Marketing Sections (primary; recurs Phase 5, 7) | Complete |
-| HERO-01 | Phase 5: R3F Hero | Pending |
-| HERO-02 | Phase 5: R3F Hero | Pending |
+| HERO-01 | Phase 5: R3F Hero | Complete |
+| HERO-02 | Phase 5: R3F Hero | Complete |
 | SEO-01 | Phase 6: SEO Layer & Programmatic Pages | Pending |
 | SEO-02 | Phase 6: SEO Layer & Programmatic Pages | Pending |
 | SEO-03 | Phase 6: SEO Layer & Programmatic Pages | Pending |

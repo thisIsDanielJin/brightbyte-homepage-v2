@@ -1,9 +1,9 @@
 ---
 phase: 05-r3f-hero
 verified: 2026-09-03T00:00:00Z
-status: human_needed
-score: 3/4 must-haves verified (SC #4 is PRESENT_BEHAVIOR_UNVERIFIED)
-behavior_unverified: 1
+status: passed
+score: 4/4 must-haves verified (SC #4 resolved via UAT 2026-09-03; adaptive-DPR arm accepted with documented environmental caveat)
+behavior_unverified: 0
 overrides_applied: 1
 overrides:
   - must_have: "Observed/field LCP < 2.5s and CLS = 0 with the hero mounted, mobile (SC #2)"
@@ -12,11 +12,13 @@ overrides:
     accepted_at: "2026-08-26T00:00:00Z"
 gaps: []
 deferred: []
-behavior_unverified_items:
+behavior_unverified_items: []
+resolved_via_uat:
   - truth: "Draw call count stays under 200 in a production build; PerformanceMonitor adaptive DPR scaling is active and verified on a throttled connection (SC #4)"
-    test: "With a running `next start` production server, open /de in a browser (or headless Playwright) with CPU/network throttling; read window.__r3f_hero.calls() and window.__r3f_hero.dpr() from the DevTools console. Trigger CPU pressure (e.g. toggle background tabs) and confirm DPR drops below 2.0 as PerformanceMonitor fires onDecline."
-    expected: "window.__r3f_hero.calls() < 200; after sustained CPU pressure, window.__r3f_hero.dpr() < 2.0 (AdaptiveDpr fired). Both values must be read from the live scene, not estimated."
-    why_human: "Static grep confirms PerformanceMonitor + AdaptiveDpr + DebugHook are wired (present in HeroScene.tsx). The draw-call value and DPR adaptation path are runtime state — they cannot be read from the source files. The DebugHook exposes window.__r3f_hero specifically for this gate, but the hook requires a live R3F Canvas to produce real numbers."
+    resolved: 2026-09-03
+    result: "PASS (with documented caveat) — see 05-UAT.md"
+    method: "Playwright + CDP against production `next start` (Node 22.22.0)"
+    finding: "Draw-call arm PASS decisively (live scene confirmed animating via frame-diff screenshots; measured 1 main-pass call; structurally single-mesh, cannot approach 200). Adaptive-DPR arm verified by code path (HeroScene.tsx:97-102 → GlassMesh.tsx:99-101); runtime onDecline trigger not reproducible in headless because CDP CPU throttle doesn't slow the GPU below the 40fps decline threshold for a trivial scene. User accepted this arm as verified-by-code-path with the environmental caveat (2026-09-03)."
 human_verification:
   - test: "Open /de in a browser with a throttled CPU profile active (or use Playwright with CPU throttling). Open DevTools console and read: window.__r3f_hero.calls() for draw call count; window.__r3f_hero.dpr() before and after sustained CPU load to observe AdaptiveDpr scaling."
     expected: "calls() < 200; after sustained CPU pressure dpr() should be < 2.0 (PerformanceMonitor.onDecline fired, AdaptiveDpr reduced pixel ratio). Confirm the scene degrades gracefully with fewer transmission samples (degraded=true in GlassMesh) rather than dropping to a non-transmissive fallback."
@@ -27,7 +29,7 @@ human_verification:
 
 **Phase Goal:** One elegant, performance-budgeted 3D hero centerpiece — fully isolated via next/dynamic({ ssr: false }), meeting observed/field LCP < 2.5s on mobile, CLS = 0, with a static fallback for reduced-motion users.
 **Verified:** 2026-09-03
-**Status:** human_needed
+**Status:** verified (4/4 — SC #4 resolved via UAT 2026-09-03)
 **Re-verification:** No — initial verification
 
 ---
@@ -41,9 +43,9 @@ human_verification:
 | 1 | R3F hero isolated via next/dynamic({ ssr:false }); no hydration errors | ✓ VERIFIED | `HeroCanvas.tsx:52-54` — `dynamic(() => import('./HeroScene').then(m => m.HeroScene), { ssr: false })` at module top level; `'use client'` at line 40; `no-canvas-server-bundle.sh` wired in `test:invariants` chain in `package.json:16`; invariant script exits 0 (scans `.next/server` for `@react-three` markers) |
 | 2 | Observed/field LCP < 2.5s and CLS = 0 with hero mounted, mobile | ✓ PASSED (override) | D-12 reconciliation accepted 2026-08-26. Lighthouse JSON confirms: CLS = 0 (score 1.0, numericValue 0); simulated LCP = 3032ms (framework-fixed Next 16 cost, no app-side lever remaining, TBT 189ms). Observed/field LCP measured ~2.8s device, 0.3–1.3s typical. Both app-controllable levers applied (idle-gate, post-LCP mount + experimental.inlineCss). ROADMAP SC #2 explicitly gates on OBSERVED LCP per user decision. |
 | 3 | prefers-reduced-motion: reduce → no Canvas rendered; HeroFallback shown with same container dimensions (CLS = 0) | ✓ VERIFIED | `HeroCanvas.tsx:99` — `if (prefersReduced \|\| !canUseWebGL()) return <HeroFallback />`; early return before any Canvas branch. `HeroFallback.tsx:15` — `<div className="absolute inset-0 hero-backdrop" aria-hidden="true" />` — identical geometry to the always-painted backdrop div in `HeroSection.tsx:54`. `tests/motion/reduced.spec.ts:77-90` — Playwright test asserts `page.locator('canvas').toHaveCount(0)` under `reducedMotion: 'reduce'`. `tests/sections/hero.spec.ts:144-158` — per-locale test asserts `#hero canvas` count 0 + `.hero-backdrop` visible under reduced motion. |
-| 4 | Draw call count < 200; PerformanceMonitor adaptive DPR scaling active and verified on throttled connection | ⚠️ PRESENT_BEHAVIOR_UNVERIFIED | `HeroScene.tsx:34,97-104` — `PerformanceMonitor`, `AdaptiveDpr` imported from `@react-three/drei` and wired: `<PerformanceMonitor onDecline={...} onIncline={...}><AdaptiveDpr /></PerformanceMonitor>`. `DebugHook` (HeroScene.tsx:54-66) exposes `window.__r3f_hero = { calls: () => gl.info.render.calls, dpr: () => gl.getPixelRatio() }` in the production bundle. Symbols are present and wired; actual call count and DPR adaptation require a live Canvas. No Playwright test exercises the onDecline → DPR-drop state transition. |
+| 4 | Draw call count < 200; PerformanceMonitor adaptive DPR scaling active and verified on throttled connection | ✓ VERIFIED (UAT, w/ caveat) | Resolved via 05-UAT.md 2026-09-03. Live Playwright+CDP run against production `next start`: draw-call arm PASS (canvas confirmed animating via 600ms frame-diff screenshots — 456KB vs 614KB PNGs; measured 1 main-pass draw call; single-mesh scene cannot approach 200). Adaptive-DPR arm verified by code path (`HeroScene.tsx:97-102` PerformanceMonitor→setDegraded→AdaptiveDpr; `GlassMesh.tsx:99-101` degraded switches samples 6→2, resolution 256→32, transmissionSampler on — no non-transmissive fallback). Runtime onDecline not reproducible in headless (CDP CPU throttle doesn't slow GPU below the 40fps decline threshold on a trivial scene); user accepted arm as verified-by-code-path with this environmental caveat. |
 
-**Score:** 3/4 truths verified (1 present, behavior-unverified)
+**Score:** 4/4 truths verified (SC #4 resolved via UAT; adaptive-DPR arm accepted with documented environmental caveat)
 
 ---
 
