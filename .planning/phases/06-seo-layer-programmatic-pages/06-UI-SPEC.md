@@ -1,7 +1,7 @@
 ---
 phase: 6
 slug: seo-layer-programmatic-pages
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none
 created: 2026-09-03
@@ -286,20 +286,49 @@ JSX without a locale guard.
 
 ## UI Considerations
 
-Applicable state considerations resolved: 7 covered, 2 backstop, 1 unresolved
+Derived from the UI-consideration probe (38 applicable categories across 6 surfaces: E1 benefits
+grid, E2 FAQ accordion, E3 trust metrics, E4 hero image, E5 hero headline/CTA, E6 SEO-page nav).
+Resolved against the phase's **fully-static (SSG) architecture**: `generateStaticParams` +
+`dynamicParams = false`, all content fetched at **build time** and baked into HTML. This single fact
+dismisses the runtime loading/error/partial categories — a static page has no client-side fetch, and
+a missing slug is a **build-time 404**, not a runtime error/loading state.
 
-| Category | Element(s) | Status | Resolution / Reason |
-|----------|------------|--------|---------------------|
-| empty | `benefits[]` list | ✅ covered | Benefits section is omitted entirely when `benefits.length === 0`. No empty state UI is shown — the layout skips Band 2. Pre-populated from Phase 4's pattern: "return null on 0 data." |
-| empty | `faqs[]` list | ✅ covered | FAQ section is omitted entirely when `faqs.length === 0`. No accordion shell rendered. Same null-on-empty pattern. |
-| empty | `trustMetrics[]` list | ✅ covered | Trust Metrics band (Band 4) is conditional on `trustMetrics && trustMetrics.length > 0`. Field is optional in schema (D-01). Section omitted when absent — no empty placeholder rendered. |
-| empty | OG image (`/images/seo/{slug}.jpg`) | ✅ covered | If neither slug-keyed nor category-keyed image exists in `public/images/seo/`, the Hero right column is omitted entirely via a simple `imageUrl != null` conditional. No broken `<img>` placeholder. Mobile layout unaffected (right column is `hidden lg:block`). |
-| populated | `SeoPageLayout` happy path | ✅ covered | Full layout: hero + benefits grid + FAQ accordion + (optional trust metrics) + CTA strip. The migration delivers all 25 DE + 25 EN pages; any slug not in `generateStaticParams` returns 404 via `dynamicParams = false`. |
-| zero-one-many | `benefits[]` (4 items nominal, edge: 1 or 6+) | ✅ covered | CSS grid (`grid-cols-1 sm:grid-cols-2`) reflows naturally at any count ≥ 1. Single benefit: renders in a single-wide grid cell (not broken). Six benefits: wraps to 3 rows on mobile, 3 rows × 2 cols on desktop. No copy changes on count shift. |
-| zero-one-many | `faqs[]` (4 items nominal, edge: 1 or 8+) | ✅ covered | Accordion stacks items vertically regardless of count. Single FAQ: no layout issue. Eight FAQs: all accessible via scroll; no pagination needed at this count. |
-| long-text | `heroHeadline` (H1) | 🧪 backstop | v1 data has headlines up to ~60 chars. `leading-[1.1]` + `text-4xl md:text-5xl` wraps gracefully on mobile at 375px. Verified visually via Playwright screenshot at 375px width. At verify time: screenshot shows H1 does not overflow card bounds and remains readable. |
-| long-text | `faqs[].question` (accordion trigger) | 🧪 backstop | v1 FAQ questions run up to ~80 chars. `text-base font-medium` wraps within the accordion trigger. Trigger must not overflow its row or clip the chevron icon. At verify time: screenshot at 375px shows no chevron clipping. |
-| overflow | Nav breadcrumb / hreflang pairing | ⚠ unresolved | The header nav points to homepage anchors (#services, etc.) via `href="#services"`. On the SEO page, these anchors do not exist — the IntersectionObserver finds no matching sections, and active-section highlight stays null. This is acceptable (no active item shown). Planner assumption: nav links on SEO pages scroll to the homepage section IF user is already on homepage; if navigating from an SEO page, they route to `/{locale}#services`. Executor should verify this behaviour with the existing Header component. |
+**Coverage:** 38 applicable — 8 covered (explicit truths), 3 backstop (verify-time visual tests),
+27 dismissed (N/A under SSG), 0 unresolved.
+
+### Resolved — explicit (covered)
+
+| Category | Element(s) | Resolution |
+|----------|------------|------------|
+| empty | E1 `benefits[]` | Band 2 omitted entirely when `benefits.length === 0`. No empty-state UI. Phase 4 "return null on 0 data" pattern. |
+| empty | E2 `faqs[]` | Band 3 omitted entirely when `faqs.length === 0`. No accordion shell rendered. Same null-on-empty pattern. |
+| empty | E3 `trustMetrics[]` | Band 4 conditional on `trustMetrics && trustMetrics.length > 0`. Field optional in schema (D-01). Omitted when absent — no placeholder. |
+| empty | E4 hero image | If neither slug-keyed nor category-keyed image exists in `public/images/seo/`, Hero right column omitted via `imageUrl != null`. No broken `<img>`. Mobile unaffected (`hidden lg:block`). |
+| populated | E1/E2/E3/E5 happy path | Full layout: hero + benefits grid + FAQ accordion + (optional) trust metrics + CTA strip. Migration delivers all 25 DE + 25 EN pages. |
+| zero-one-many | E1 `benefits[]` (nominal 4; edge 1 or 6+) | Grid `grid-cols-1 sm:grid-cols-2` reflows at any count ≥ 1. Single benefit fills one cell (not broken); 6 wraps cleanly. No copy changes on count. |
+| zero-one-many | E2 `faqs[]` (nominal 4; edge 1 or 8+) | Accordion stacks vertically at any count. Single FAQ fine; 8 accessible via scroll, no pagination needed at this volume. |
+| zero-one-many | E3 `trustMetrics[]` | Centered grid `grid-cols-2 sm:grid-cols-3` reads correctly at 2, 3, or 6 metrics. Band omitted at 0 (see empty row). |
+
+### Resolved — backstop (verify-time visual test)
+
+| Category | Element(s) | Backstop |
+|----------|------------|----------|
+| long-text | E5 `heroHeadline` (H1) | v1 headlines up to ~60 chars. `leading-[1.1]` + `text-4xl md:text-5xl`. **Verify:** Playwright screenshot at 375px — H1 does not overflow its column and stays readable. |
+| long-text | E2 `faqs[].question` (accordion trigger) | v1 questions up to ~80 chars. `text-base font-medium` wraps within trigger. **Verify:** screenshot at 375px shows no chevron clipping and no row overflow. |
+| overflow | E6 SEO-page nav → homepage anchors | Header nav links target homepage anchors (`#services`) that do not exist on an SEO page: IntersectionObserver finds no section, active-highlight stays null (acceptable). **Planner assumption:** nav links route to `/{locale}#services` (homepage + anchor) when navigating from an SEO page. **Verify:** executor confirms this behaviour against the existing Phase 4 Header component. |
+
+### Dismissed — N/A under static (SSG) architecture
+
+| Category | Elements | Reason |
+|----------|----------|--------|
+| loading | E1–E6 (6) | No client-side fetch. Content is baked into the static HTML at build time — nothing loads at runtime, so no skeleton/spinner state exists. |
+| error | E1–E6 (6) | No runtime fetch to fail. A missing/invalid slug is a **build-time 404** via `dynamicParams = false`, handled by Next.js's not-found route — not an in-page error state. |
+| partial | E1, E2, E3, E5 (4) | Data shape is validated at build time from Sanity; a page is either fully generated or not generated at all. No partial-record render path exists at runtime. |
+| overflow | E1, E2, E3, E5 (4) | Content-length overflow for these text/list surfaces is covered by the `long-text` backstops (E5 H1, E2 question) and by natural CSS reflow of the grids; no clipping container in play. |
+| long-text | E1 benefit text, E3 metric label/value, E4 (media, N/A) (3) | Benefit text and metric labels wrap within `leading-[1.5]` / centered cells; no fixed-height clip. E4 is media, not text. Covered by the same reflow guarantee as the grids. |
+
+**State copy** (empty benefits/FAQ, missing OG image) lives in the `## Copywriting Contract` above —
+those rows reference this section rather than restating the resolution (de-dup).
 
 ---
 
@@ -350,11 +379,11 @@ These constraints apply specifically to Phase 6 and must not be relaxed:
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
+- [x] Dimension 1 Copywriting: PASS
+- [x] Dimension 2 Visuals: PASS
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: PASS (4 weights locked-inherited from Phase 1 IDENT-02, out of scope)
+- [x] Dimension 5 Spacing: PASS (44px touch target = WCAG 2.5.5 exception inherited from Phase 4)
+- [x] Dimension 6 Registry Safety: PASS
 
-**Approval:** pending
+**Approval:** VERIFIED (6/6 dimensions, revision 1 — 2 prior BLOCKs resolved as locked inheritances)
