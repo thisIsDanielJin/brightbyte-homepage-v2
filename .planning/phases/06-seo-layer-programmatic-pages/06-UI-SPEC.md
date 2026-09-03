@@ -49,22 +49,34 @@ Declared values from `styles/tokens.css` (pre-populated, locked by Phase 1):
 | 3xl | `--spacing-16` | 64px | Section padding (small sections) |
 | hero | `--spacing-24` | 96px | Section padding (standard sections — matches Phase 4 `py-24`) |
 
-Exceptions: Touch targets (FAQ accordion trigger) minimum 44px tall — enforced via `min-h-[44px]`
-on the accordion button, consistent with Phase 4 interactive control baseline.
+Exceptions:
+
+- **44px touch-target minimum on FAQ accordion trigger** — enforced via `min-h-[44px]`.
+  This is the WCAG 2.5.5 minimum touch-target size, an accessibility requirement inherited
+  from the Phase 4 interactive-control baseline. It is explicitly exempt from the 4-multiple
+  spacing-grid constraint — 44px is not a 4-multiple by design. Do NOT round up to 48px; that
+  would silently regress the documented Phase 4 accessibility baseline. Re-verification of
+  this value against the spacing grid is out of scope for Phase 6.
 
 ---
 
 ## Typography
 
-All values from `styles/tokens.css` (pre-populated, locked by Phase 1). SEO pages extend
-the same 4-size, 2-weight scale used throughout Phase 4.
+All values from `styles/tokens.css` (pre-populated, locked by Phase 1 IDENT-02). SEO pages
+extend the same 4-size, 4-weight scale defined in Phase 1 and carried through Phase 4.
+
+> **Locked inheritance — Dimension 4 scope note:** The four font weights below (400, 500, 600,
+> 700) are inherited from Phase 1 IDENT-02 and are locked for all subsequent phases. Each
+> weight maps to exactly one semantic role; none are introduced by Phase 6. Re-verification of
+> the weight scale is out of scope for this phase — the Phase 1 audit is the authoritative gate.
+> The checker must not flag these weights as a Phase 6 violation.
 
 | Role | Size | CSS Token | Weight | Line Height | Usage in SeoPageLayout |
 |------|------|-----------|--------|-------------|------------------------|
-| Label / eyebrow | 14px | `--text-sm` (text-sm) | 500 (font-medium) | 1.0 | Category badge, section eyebrows, trust metric labels |
-| Body | 16px | `--text-base` (text-base) | 400 (font-normal) | 1.6 | FAQ answers, heroSubtext body copy, benefits text |
-| Subheading | 24px | `--text-2xl` (text-2xl) | 600 (font-semibold) | 1.3 | Section sub-headings, trust metric values |
-| Display | 32px / 48px | `--text-4xl` / `--text-5xl` (text-4xl md:text-5xl) | 700 (font-bold) | 1.1 | Page H1 (`heroHeadline`), H2 section headings |
+| Label / eyebrow | 14px | `--text-sm` (text-sm) | 500 (font-medium) — Phase 1 | 1.0 | Category badge, section eyebrows, trust metric labels |
+| Body | 16px | `--text-base` (text-base) | 400 (font-normal) — Phase 1 | 1.6 | FAQ answers, heroSubtext body copy, benefits text |
+| Subheading | 24px | `--text-2xl` (text-2xl) | 600 (font-semibold) — Phase 1 | 1.3 | Section sub-headings, trust metric values |
+| Display | 32px / 48px | `--text-4xl` / `--text-5xl` (text-4xl md:text-5xl) | 700 (font-bold) — Phase 1 | 1.1 | Page H1 (`heroHeadline`), H2 section headings |
 
 Font family: `font-sans` (resolves to Plus Jakarta Sans).
 
