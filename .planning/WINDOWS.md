@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 2
+open_count: 4
 waived_count: 0
 fixed_count: 0
-total_count: 2
-last_updated: 2026-08-14T13:08:27.584Z
+total_count: 4
+last_updated: 2026-09-04T13:34:01.950Z
 ---
 
 # Broken Windows Ledger
@@ -17,6 +17,8 @@ last_updated: 2026-08-14T13:08:27.584Z
 |----|-------|------|------|------|-------------|--------|--------|-------------|-------------|
 | 1 | 03 | deviation | sanity/schemaTypes/service.ts |  | Wave 1 tracer omitted the plugin-required 'language' field on doc-i18n types; corrected in 03-02 for all five types | open |  | 2026-08-12T13:44:28.924Z |  |
 | 2 | 04 | skipped-test | tests/i18n/smoke.spec.ts | 63 | i18n smoke test (6) language switcher fails at mobile-375 (LocaleSwitcher hidden in collapsed hamburger); pre-existing, out of scope for 04-04 | open |  | 2026-08-14T13:08:27.584Z |  |
+| 3 | 6 | unrun-verify | tests/seo/seo-pages.spec.ts |  | 5 SEO render/JSON-LD/hreflang specs RED pending blocked tracer dataset import (production write needs direct user consent) | open |  | 2026-09-04T13:34:01.812Z |  |
+| 4 | 6 | unrun-verify | tests/seo/sitemap.spec.ts |  | sitemap SEO-entry spec RED pending blocked tracer dataset import | open |  | 2026-09-04T13:34:01.950Z |  |
 
 ````json
 [
@@ -42,6 +44,30 @@ last_updated: 2026-08-14T13:08:27.584Z
     "status": "open",
     "reason": "",
     "recorded_at": "2026-08-14T13:08:27.584Z",
+    "resolved_at": null
+  },
+  {
+    "id": 3,
+    "kind": "unrun-verify",
+    "phase": "6",
+    "file": "tests/seo/seo-pages.spec.ts",
+    "line": null,
+    "description": "5 SEO render/JSON-LD/hreflang specs RED pending blocked tracer dataset import (production write needs direct user consent)",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-09-04T13:34:01.812Z",
+    "resolved_at": null
+  },
+  {
+    "id": 4,
+    "kind": "unrun-verify",
+    "phase": "6",
+    "file": "tests/seo/sitemap.spec.ts",
+    "line": null,
+    "description": "sitemap SEO-entry spec RED pending blocked tracer dataset import",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-09-04T13:34:01.950Z",
     "resolved_at": null
   }
 ]
