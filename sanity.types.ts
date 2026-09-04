@@ -147,7 +147,24 @@ export type SeoPage = {
   _rev: string;
   title?: string;
   slug?: Slug;
-  heading?: string;
+  category?: "service" | "industry" | "need" | "location";
+  heroHeadline?: string;
+  heroSubtext?: string;
+  ctaText?: string;
+  faqs?: Array<{
+    question?: string;
+    answer?: string;
+    _key: string;
+  }>;
+  benefits?: Array<{
+    text?: string;
+    _key: string;
+  }>;
+  trustMetrics?: Array<{
+    value?: string;
+    label?: string;
+    _key: string;
+  }>;
   body?: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -428,7 +445,7 @@ export type SEO_PAGES_QUERY_RESULT = Array<{
   _id: string;
   title: string | null;
   slug: Slug | null;
-  heading: string | null;
+  heading: null;
   body: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -457,7 +474,7 @@ export type SEO_PAGE_BY_SLUG_QUERY_RESULT = {
   _id: string;
   title: string | null;
   slug: Slug | null;
-  heading: string | null;
+  heading: null;
   body: Array<{
     children?: Array<{
       marks?: Array<string>;
