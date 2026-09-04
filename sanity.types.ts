@@ -440,12 +440,27 @@ export type TESTIMONIALS_QUERY_RESULT = Array<{
 
 // Source: lib/sanity/queries.ts
 // Variable: SEO_PAGES_QUERY
-// Query: *[_type == "seoPage" && language == $locale]{     _id, title, slug, heading, body, metaDescription   }
+// Query: *[_type == "seoPage" && language == $locale]{     _id, title, slug, category, heroHeadline, heroSubtext, metaDescription,     ctaText, faqs[]{question, answer}, benefits[]{text},     trustMetrics[]{value, label}, body   }
 export type SEO_PAGES_QUERY_RESULT = Array<{
   _id: string;
   title: string | null;
   slug: Slug | null;
-  heading: null;
+  category: "industry" | "location" | "need" | "service" | null;
+  heroHeadline: string | null;
+  heroSubtext: string | null;
+  metaDescription: string | null;
+  ctaText: string | null;
+  faqs: Array<{
+    question: string | null;
+    answer: string | null;
+  }> | null;
+  benefits: Array<{
+    text: string | null;
+  }> | null;
+  trustMetrics: Array<{
+    value: string | null;
+    label: string | null;
+  }> | null;
   body: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -464,17 +479,31 @@ export type SEO_PAGES_QUERY_RESULT = Array<{
     _type: "block";
     _key: string;
   }> | null;
-  metaDescription: string | null;
 }>;
 
 // Source: lib/sanity/queries.ts
 // Variable: SEO_PAGE_BY_SLUG_QUERY
-// Query: *[_type == "seoPage" && language == $locale && slug.current == $slug][0]{     _id, title, slug, heading, body, metaDescription   }
+// Query: *[_type == "seoPage" && language == $locale && slug.current == $slug][0]{     _id, title, slug, category, heroHeadline, heroSubtext, metaDescription,     ctaText, faqs[]{question, answer}, benefits[]{text},     trustMetrics[]{value, label}, body   }
 export type SEO_PAGE_BY_SLUG_QUERY_RESULT = {
   _id: string;
   title: string | null;
   slug: Slug | null;
-  heading: null;
+  category: "industry" | "location" | "need" | "service" | null;
+  heroHeadline: string | null;
+  heroSubtext: string | null;
+  metaDescription: string | null;
+  ctaText: string | null;
+  faqs: Array<{
+    question: string | null;
+    answer: string | null;
+  }> | null;
+  benefits: Array<{
+    text: string | null;
+  }> | null;
+  trustMetrics: Array<{
+    value: string | null;
+    label: string | null;
+  }> | null;
   body: Array<{
     children?: Array<{
       marks?: Array<string>;
@@ -493,8 +522,59 @@ export type SEO_PAGE_BY_SLUG_QUERY_RESULT = {
     _type: "block";
     _key: string;
   }> | null;
-  metaDescription: string | null;
 } | null;
+
+// Source: lib/sanity/queries.ts
+// Variable: SEO_PAGE_BY_SLUG_WITH_COUNTERPART_QUERY
+// Query: *[_type == "seoPage" && language == $locale && slug.current == $slug][0]{     _id, title, slug, category, heroHeadline, heroSubtext, metaDescription,     ctaText, faqs[]{question, answer}, benefits[]{text},     trustMetrics[]{value, label}, body,     "counterpartSlug": *[       _type == "translation.metadata" &&       count(schemaTypes[@ match "seoPage"]) > 0 &&       references(^._id)     ][0].translations[_key == $counterpartLocale][0].value->slug.current   }
+export type SEO_PAGE_BY_SLUG_WITH_COUNTERPART_QUERY_RESULT = {
+  _id: string;
+  title: string | null;
+  slug: Slug | null;
+  category: "industry" | "location" | "need" | "service" | null;
+  heroHeadline: string | null;
+  heroSubtext: string | null;
+  metaDescription: string | null;
+  ctaText: string | null;
+  faqs: Array<{
+    question: string | null;
+    answer: string | null;
+  }> | null;
+  benefits: Array<{
+    text: string | null;
+  }> | null;
+  trustMetrics: Array<{
+    value: string | null;
+    label: string | null;
+  }> | null;
+  body: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  counterpartSlug: string | null;
+} | null;
+
+// Source: lib/sanity/queries.ts
+// Variable: SEO_SLUG_PAIRS_QUERY
+// Query: *[_type == "seoPage" && language == "de"]{     "deSlug": slug.current,     "enSlug": *[       _type == "translation.metadata" &&       count(schemaTypes[@ match "seoPage"]) > 0 &&       references(^._id)     ][0].translations[_key == "en"][0].value->slug.current   }
+export type SEO_SLUG_PAIRS_QUERY_RESULT = Array<{
+  deSlug: string | null;
+  enSlug: string | null;
+}>;
 
 // Source: lib/sanity/queries.ts
 // Variable: SITE_SETTINGS_QUERY
@@ -533,8 +613,10 @@ declare module "@sanity/client" {
     '*[_type == "project" && language == $locale] | order(order asc){\n     _id, title, slug, summary, outcomeNote, image, order\n   }': PROJECTS_QUERY_RESULT;
     '*[_type == "project" && language == $locale && slug.current == $slug][0]{\n     _id, title, slug, summary, outcomeNote, image, order\n   }': PROJECT_BY_SLUG_QUERY_RESULT;
     '*[_type == "testimonial" && language == $locale] | order(order asc){\n     _id, quote, author, company, outcomeValue, outcomeLabel\n   }': TESTIMONIALS_QUERY_RESULT;
-    '*[_type == "seoPage" && language == $locale]{\n     _id, title, slug, heading, body, metaDescription\n   }': SEO_PAGES_QUERY_RESULT;
-    '*[_type == "seoPage" && language == $locale && slug.current == $slug][0]{\n     _id, title, slug, heading, body, metaDescription\n   }': SEO_PAGE_BY_SLUG_QUERY_RESULT;
+    '*[_type == "seoPage" && language == $locale]{\n     _id, title, slug, category, heroHeadline, heroSubtext, metaDescription,\n     ctaText, faqs[]{question, answer}, benefits[]{text},\n     trustMetrics[]{value, label}, body\n   }': SEO_PAGES_QUERY_RESULT;
+    '*[_type == "seoPage" && language == $locale && slug.current == $slug][0]{\n     _id, title, slug, category, heroHeadline, heroSubtext, metaDescription,\n     ctaText, faqs[]{question, answer}, benefits[]{text},\n     trustMetrics[]{value, label}, body\n   }': SEO_PAGE_BY_SLUG_QUERY_RESULT;
+    '*[_type == "seoPage" && language == $locale && slug.current == $slug][0]{\n     _id, title, slug, category, heroHeadline, heroSubtext, metaDescription,\n     ctaText, faqs[]{question, answer}, benefits[]{text},\n     trustMetrics[]{value, label}, body,\n     "counterpartSlug": *[\n       _type == "translation.metadata" &&\n       count(schemaTypes[@ match "seoPage"]) > 0 &&\n       references(^._id)\n     ][0].translations[_key == $counterpartLocale][0].value->slug.current\n   }': SEO_PAGE_BY_SLUG_WITH_COUNTERPART_QUERY_RESULT;
+    '*[_type == "seoPage" && language == "de"]{\n     "deSlug": slug.current,\n     "enSlug": *[\n       _type == "translation.metadata" &&\n       count(schemaTypes[@ match "seoPage"]) > 0 &&\n       references(^._id)\n     ][0].translations[_key == "en"][0].value->slug.current\n   }': SEO_SLUG_PAIRS_QUERY_RESULT;
     '*[_type == "siteSettings" && language == $locale][0]{\n     _id, siteTitle, navLabels, footerText, heroHeadline, heroSubline,\n     contactEmail, address, steuernummer, vatNote, defaultSeo,\n     aboutPhoto, impressumBody, datenschutzBody\n   }': SITE_SETTINGS_QUERY_RESULT;
   }
 }
