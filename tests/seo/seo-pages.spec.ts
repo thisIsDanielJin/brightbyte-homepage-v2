@@ -87,6 +87,72 @@ test('FAQPage JSON-LD present on the DE tracer with ≥1 Question item (SEO-02)'
   expect(mainEntity[0].acceptedAnswer.text.length).toBeGreaterThan(0)
 })
 
+/**
+ * Task 2 (06-02) — home JSON-LD + section/legal WebPage JSON-LD (SEO-02, D-05).
+ *
+ * Grep tags: "home JSON-LD", "impressum WebPage JSON-LD", "datenschutz WebPage JSON-LD".
+ * RED until lib/jsonld/organization.ts + homepage/section JSON-LD scripts ship.
+ */
+
+test('home JSON-LD: /de has ProfessionalService or LocalBusiness ld+json with areaServed Berlin (SEO-02, D-05)', async ({
+  page,
+}) => {
+  await page.goto('/de')
+  const scripts = await page.locator('script[type="application/ld+json"]').allTextContents()
+  expect(scripts.length, 'homepage must have at least one ld+json script').toBeGreaterThan(0)
+
+  const parsed = scripts.map((s) => JSON.parse(s))
+  const orgLd = parsed.find(
+    (o) => o?.['@type'] === 'ProfessionalService' || o?.['@type'] === 'LocalBusiness',
+  )
+  expect(orgLd, 'a ProfessionalService or LocalBusiness JSON-LD block should be on the homepage').toBeTruthy()
+
+  // areaServed → Berlin
+  const areaServed = orgLd?.areaServed
+  const areaName = typeof areaServed === 'string' ? areaServed : areaServed?.name
+  expect(areaName).toBe('Berlin')
+})
+
+test('home JSON-LD: /en also has ProfessionalService or LocalBusiness with areaServed Berlin (SEO-02, D-05)', async ({
+  page,
+}) => {
+  await page.goto('/en')
+  const scripts = await page.locator('script[type="application/ld+json"]').allTextContents()
+  const parsed = scripts.map((s) => JSON.parse(s))
+  const orgLd = parsed.find(
+    (o) => o?.['@type'] === 'ProfessionalService' || o?.['@type'] === 'LocalBusiness',
+  )
+  expect(orgLd, 'EN homepage must have a ProfessionalService or LocalBusiness ld+json').toBeTruthy()
+
+  const areaServed = orgLd?.areaServed
+  const areaName = typeof areaServed === 'string' ? areaServed : areaServed?.name
+  expect(areaName).toBe('Berlin')
+})
+
+test('impressum WebPage JSON-LD: /de/impressum has a WebPage ld+json script (SEO-02, D-05)', async ({
+  page,
+}) => {
+  await page.goto('/de/impressum')
+  const scripts = await page.locator('script[type="application/ld+json"]').allTextContents()
+  expect(scripts.length, '/de/impressum must have at least one ld+json script').toBeGreaterThan(0)
+
+  const parsed = scripts.map((s) => JSON.parse(s))
+  const webPage = parsed.find((o) => o?.['@type'] === 'WebPage')
+  expect(webPage, 'impressum must have a WebPage ld+json').toBeTruthy()
+})
+
+test('datenschutz WebPage JSON-LD: /de/datenschutz has a WebPage ld+json script (SEO-02, D-05)', async ({
+  page,
+}) => {
+  await page.goto('/de/datenschutz')
+  const scripts = await page.locator('script[type="application/ld+json"]').allTextContents()
+  expect(scripts.length, '/de/datenschutz must have at least one ld+json script').toBeGreaterThan(0)
+
+  const parsed = scripts.map((s) => JSON.parse(s))
+  const webPage = parsed.find((o) => o?.['@type'] === 'WebPage')
+  expect(webPage, 'datenschutz must have a WebPage ld+json').toBeTruthy()
+})
+
 test('hreflang x-default and de → /de/s/webentwickler-berlin; en → differing EN slug (I18N-02)', async ({
   page,
 }) => {
