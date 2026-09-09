@@ -42,13 +42,13 @@ test('renders EN tracer page at /en/s/web-developer-berlin (200, not 404)', asyn
   await expect(h1).toBeVisible()
 })
 
-test('static params: both locale variants of the tracer are prerendered (≥2 pages resolve 200)', async ({
+test('static params: all 50 locale×slug entries are prerendered (tracer 200; full set: 25 DE + 25 EN slugs)', async ({
   page,
 }) => {
-  // generateStaticParams loops ['de','en'] × getSeoPages(locale). For the tracer
-  // this yields at least the 2 imported pairs; a non-seeded slug must 404
-  // (dynamicParams = false). Asserting the two known slugs resolve is the
-  // portable proxy for "static params produced entries" without scraping build logs.
+  // generateStaticParams loops ['de','en'] × getSeoPages(locale). With all 50
+  // docs imported this yields exactly 50 entries (25 DE + 25 EN). Asserting the
+  // two tracer slugs resolve is the portable proxy for "static params produced
+  // entries" without scraping build logs (dynamicParams = false).
   const de = await page.goto(`/de/s/${DE_SLUG}`)
   expect(de?.status()).toBe(200)
   const en = await page.goto(`/en/s/${EN_SLUG}`)
@@ -56,6 +56,18 @@ test('static params: both locale variants of the tracer are prerendered (≥2 pa
   // dynamicParams=false: an unseeded slug 404s.
   const missing = await page.goto('/de/s/this-slug-was-never-seeded')
   expect(missing?.status()).toBe(404)
+
+  // Spot-check the 50-entry coverage: verify two additional DE + EN pairs.
+  // These slugs are seeded and must resolve 200 in both locales.
+  const deNeukoelln = await page.goto('/de/s/webdesign-neukoelln')
+  expect(deNeukoelln?.status()).toBe(200)
+  const enNeukoelln = await page.goto('/en/s/web-design-neukoelln')
+  expect(enNeukoelln?.status()).toBe(200)
+
+  const deAerzte = await page.goto('/de/s/website-fuer-aerzte')
+  expect(deAerzte?.status()).toBe(200)
+  const enAerzte = await page.goto('/en/s/websites-for-doctors')
+  expect(enAerzte?.status()).toBe(200)
 })
 
 test('FAQPage JSON-LD present on the DE tracer with ≥1 Question item (SEO-02)', async ({ page }) => {
