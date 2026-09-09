@@ -29,5 +29,8 @@ schema.json
 # GSD tooling scratch
 .gsd/
 
+# Sanity dataset backups (production content snapshots — do not commit)
+.planning/backups/
+
 # Editor
 .vscode/

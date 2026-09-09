@@ -3,7 +3,7 @@ phase: 06-seo-layer-programmatic-pages
 plan: 01
 subsystem: seo
 tags: [seo, i18n, sanity, json-ld, hreflang, sitemap, robots, ssg]
-status: blocked
+status: complete
 requires:
   - Sanity seoPage schema (thin) from Phase 4
   - buildHreflangAlternates + BASE_URL (Phase 2)
@@ -124,6 +124,10 @@ None. No stubbed data or placeholder rendering was introduced. The SEO pages ren
 1. **User authorizes the tracer import** (direct message naming the production import). Run the import command above.
 2. Re-run `tests/seo/` against `next start` — confirm 6/6 green (render DE/EN 200, FAQPage JSON-LD, hreflang x-default→/de, sitemap differing-slug alternate, robots).
 3. Then this plan can be marked `complete`. Plan 06-02 expands the import to all 25 pairs.
+
+## Blocker RESOLVED (2026-09-09)
+
+The tracer-import blocker was cleared during Plan **06-02** (Wave 2): the user gave direct, explicit authorization for the production `sanity dataset import ... production --replace`, and the orchestrator took a reversible backup (`.planning/backups/production-preimport-20260909-124448.tar.gz`) before running it. The 06-02 import loaded all 50 seoPage docs + 25 translation.metadata links (which includes this plan's tracer pair `webentwickler-berlin` ↔ `web-developer-berlin`). The full `tests/seo/` suite is green against `next start` (12/12, desktop-1440), which subsumes and confirms this plan's originally-RED tracer specs. Status reconciled `blocked` → `complete`.
 
 ## Self-Check: PASSED
 
