@@ -11,7 +11,7 @@ Seven phases that build the site the way it must be built — identity locked fi
 - [x] **Phase 3: Sanity Content Architecture** - Lock the CMS schema and i18n strategy before any frontend is wired to content (completed 2026-08-12)
 - [x] **Phase 4: 2D Marketing Sections** - Build all P1 sections to a high-end UX bar with Playwright critique and ui-skills (completed 2026-08-18)
 - [x] **Phase 5: R3F Hero** - Add the isolated 3D hero with performance budgets met and reduced-motion fallback (COMPLETE 2026-09-02 — fade-in + visual polish deferred to Phase 7)
-- [ ] **Phase 6: SEO Layer & Programmatic Pages** - Preserve and extend v1's German SEO asset with full bilingual hreflang
+- [x] **Phase 6: SEO Layer & Programmatic Pages** - Preserve and extend v1's German SEO asset with full bilingual hreflang (completed 2026-09-09)
 - [ ] **Phase 7: P2 Differentiators & Polish** - Case studies, FAQ, process section, motion tuning, final a11y audit
 
 ## Phase Details
@@ -159,7 +159,7 @@ Seven phases that build the site the way it must be built — identity locked fi
 
 **Wave 3** *(blocked on Wave 2)*
 
-- [ ] 06-03-PLAN.md — Phase gate: Vercel preview deploy + curl hreflang cross-check + human-verify SC #2/#3/#4 (Rich Results Test, sitemap validator, bidirectional hreflang) (SEO-01, SEO-02, SEO-03)
+- [x] 06-03-PLAN.md — Phase gate: Vercel preview deploy + curl hreflang cross-check + human-verify SC #2/#3/#4 (Rich Results Test, sitemap validator, bidirectional hreflang) (SEO-01, SEO-02, SEO-03)
 
 **Goal**: Conversion-improving additions (case studies, FAQ, process section, guarantee framing) layered onto a complete, live site — plus final motion tuning and a full accessibility audit pass.
 **Mode:** mvp
@@ -184,5 +184,5 @@ Seven phases that build the site the way it must be built — identity locked fi
 | 3. Sanity Content Architecture | 3/3 | Complete    | 2026-08-12 |
 | 4. 2D Marketing Sections | 4/4 | Complete    | 2026-08-18 |
 | 5. R3F Hero | 5/5 | Complete    | 2026-09-02 |
-| 6. SEO Layer & Programmatic Pages | 2/3 | In Progress|  |
+| 6. SEO Layer & Programmatic Pages | 3/3 | Complete    | 2026-09-09 |
 | 7. P2 Differentiators & Polish | 0/TBD | Not started | - |
