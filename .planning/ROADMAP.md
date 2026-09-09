@@ -148,14 +148,14 @@ Seven phases that build the site the way it must be built — identity locked fi
   3. `sitemap.xml` includes all locale variants with `alternates.languages` entries for every URL; `robots.txt` allows crawling of all public routes; verified with a sitemap validator
   4. Bidirectional hreflang on all pages verified with `curl` post-deploy: each locale variant lists all others and itself, with `x-default` pointing to `/de`
 
-**Plans**: 3 plans
+**Plans**: 2/3 plans executed
 **Wave 1**
 
-- [ ] 06-01-PLAN.md — Tracer: Wave 0 SEO specs + enriched seoPage schema + counterpart-slug query + paired hreflang helper + JSON-LD emitters + migration script (EN-slug approval gate) + ONE imported pair → /[locale]/s/[slug] route + SeoPageLayout + sitemap + robots, verified DE+EN end-to-end (SEO-01, SEO-02, SEO-03)
+- [x] 06-01-PLAN.md — Tracer: Wave 0 SEO specs + enriched seoPage schema + counterpart-slug query + paired hreflang helper + JSON-LD emitters + migration script (EN-slug approval gate) + ONE imported pair → /[locale]/s/[slug] route + SeoPageLayout + sitemap + robots, verified DE+EN end-to-end (SEO-01, SEO-02, SEO-03)
 
 **Wave 2** *(blocked on Wave 1)*
 
-- [ ] 06-02-PLAN.md — Expansion: import all 50 docs + 25 links (all 25 slugs render both locales) + homepage ProfessionalService/LocalBusiness JSON-LD + section/legal WebPage JSON-LD + full sitemap coverage (SEO-01, SEO-02, SEO-03)
+- [x] 06-02-PLAN.md — Expansion: import all 50 docs + 25 links (all 25 slugs render both locales) + homepage ProfessionalService/LocalBusiness JSON-LD + section/legal WebPage JSON-LD + full sitemap coverage (SEO-01, SEO-02, SEO-03)
 
 **Wave 3** *(blocked on Wave 2)*
 
@@ -184,5 +184,5 @@ Seven phases that build the site the way it must be built — identity locked fi
 | 3. Sanity Content Architecture | 3/3 | Complete    | 2026-08-12 |
 | 4. 2D Marketing Sections | 4/4 | Complete    | 2026-08-18 |
 | 5. R3F Hero | 5/5 | Complete    | 2026-09-02 |
-| 6. SEO Layer & Programmatic Pages | 0/3 | Not started | - |
+| 6. SEO Layer & Programmatic Pages | 2/3 | In Progress|  |
 | 7. P2 Differentiators & Polish | 0/TBD | Not started | - |

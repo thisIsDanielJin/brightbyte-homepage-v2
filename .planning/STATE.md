@@ -5,15 +5,15 @@ milestone_name: milestone
 current_phase: 6
 current_phase_name: SEO Layer & Programmatic Pages
 status: executing
-stopped_at: 06-01 code complete (4 tasks committed); BLOCKED on tracer Sanity import — awaiting direct user authorization
-last_updated: "2026-09-04T13:34:09.292Z"
+stopped_at: Completed 06-02-PLAN.md
+last_updated: "2026-09-09T11:07:50.670Z"
 last_activity: 2026-09-03
 last_activity_desc: Phase 5 complete, transitioned to Phase 6
 progress:
   total_phases: 6
   completed_phases: 5
   total_plans: 20
-  completed_plans: 18
+  completed_plans: 19
 ---
 
 # Project State
@@ -32,7 +32,7 @@ Plan: Not started
 Status: Ready to execute
 Last activity: 2026-09-03 — Phase 5 complete, transitioned to Phase 6
 
-Progress: [█████▌────] 57% (4/7 phases)
+Progress: [██████████] 95% (4/7 phases)
 
 ## Performance Metrics
 
@@ -69,6 +69,7 @@ Progress: [█████▌────] 57% (4/7 phases)
 | Phase 04-2d-marketing-sections P01 | 30 | 5 tasks | 22 files |
 | Phase 04-2d-marketing-sections P02 | 32 | 3 tasks | 16 files |
 | Phase 04 P03 | 12 min | 2 tasks | 8 files |
+| Phase 06-seo-layer-programmatic-pages P02 | 19min | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -95,6 +96,8 @@ Recent decisions affecting current work:
 - [Phase ?]: Pricing sourced exclusively from Sanity price object — no hardcoded figures (T-04-04 mitigated)
 - [Phase ?]: aboutPhoto optional field added to siteSettings — initials DJ fallback ships now, real photo uploads with no code change
 - [Phase ?]: WorkSection always renders empty state; Services/Pricing/Testimonials return null on 0 data
+- [Phase ?]: ProfessionalService/LocalBusiness JSON-LD on homepage sourced from siteSettings with D-05 fallback constants
+- [Phase ?]: Next.js fetch cache must be cleared before rebuild when Sanity data changes (sitemap is static prerendered)
 
 ### Pending Todos
 
@@ -121,6 +124,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-09-04T13:34:09.265Z
-Stopped at: 06-01 code complete (4 tasks committed); BLOCKED on tracer Sanity import — awaiting direct user authorization
-Resume file: .planning/phases/06-seo-layer-programmatic-pages/06-01-SUMMARY.md
+Last session: 2026-09-09T11:07:50.646Z
+Stopped at: Completed 06-02-PLAN.md
+Resume file: None

@@ -48,9 +48,9 @@
 
 ### SEO
 
-- [ ] **SEO-01**: Preserve v1's German programmatic SEO pages (`/s/[slug]`, ~30 keyword pages) with `generateStaticParams` for all locale+slug combinations
-- [ ] **SEO-02**: JSON-LD structured data per page
-- [ ] **SEO-03**: Complete bilingual sitemap + robots
+- [x] **SEO-01**: Preserve v1's German programmatic SEO pages (`/s/[slug]`, ~30 keyword pages) with `generateStaticParams` for all locale+slug combinations
+- [x] **SEO-02**: JSON-LD structured data per page
+- [x] **SEO-03**: Complete bilingual sitemap + robots
 
 ### Quality Bar
 
@@ -111,6 +111,6 @@
 | QA-03 | Phase 4: 2D Marketing Sections (primary; recurs Phase 5, 7) | Complete |
 | HERO-01 | Phase 5: R3F Hero | Complete |
 | HERO-02 | Phase 5: R3F Hero | Complete |
-| SEO-01 | Phase 6: SEO Layer & Programmatic Pages | Pending |
-| SEO-02 | Phase 6: SEO Layer & Programmatic Pages | Pending |
-| SEO-03 | Phase 6: SEO Layer & Programmatic Pages | Pending |
+| SEO-01 | Phase 6: SEO Layer & Programmatic Pages | Complete |
+| SEO-02 | Phase 6: SEO Layer & Programmatic Pages | Complete |
+| SEO-03 | Phase 6: SEO Layer & Programmatic Pages | Complete |
