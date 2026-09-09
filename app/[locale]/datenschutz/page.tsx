@@ -4,6 +4,9 @@
  * Renders the datenschutzBody DSGVO prose from Sanity siteSettings (whitespace-pre-wrap),
  * in a max-w-720px editorial column inside the existing [locale] layout shell.
  *
+ * Phase 6 Plan 02: adds WebPage JSON-LD (D-05 / SEO-02). Sourced from page URL and title;
+ * JSON.stringify only (T-06-05). Uses buildWebPageLd from lib/jsonld/seoPage.ts.
+ *
  * D-09 locale invariant: locale from awaited params (URL only, never client state).
  * T-04-13 mitigation: page <title> from next-intl messages (Datenschutz.title), not a
  *   raw Sanity string — no stega token reaches metadata. Body rendered as escaped text.
@@ -17,8 +20,9 @@
  */
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
-import { buildHreflangAlternates } from '@/lib/i18n/metadata'
+import { buildHreflangAlternates, BASE_URL } from '@/lib/i18n/metadata'
 import { getSiteSettings } from '@/lib/sanity/queries'
+import { buildWebPageLd } from '@/lib/jsonld/seoPage'
 
 type PageProps = {
   params: Promise<{ locale: string }>
@@ -40,15 +44,28 @@ export default async function DatenschutzPage({ params }: PageProps) {
 
   const body = settings?.datenschutzBody ?? ''
 
+  // D-05 / SEO-02: WebPage JSON-LD for the legal page.
+  const safeLocale: 'de' | 'en' = locale === 'en' ? 'en' : 'de'
+  const pageTitle = t('title')
+  const pageUrl = `${BASE_URL}/${safeLocale}/datenschutz`
+  const webPageLd = buildWebPageLd(pageTitle, '', pageUrl, safeLocale, BASE_URL)
+
   return (
-    <main className="mx-auto max-w-[720px] px-4 py-16 md:px-8 md:py-24">
-      <h1 className="text-4xl font-bold text-primary">{t('title')}</h1>
-      <div
-        data-testid="legal-body"
-        className="mt-8 whitespace-pre-wrap text-base leading-relaxed text-secondary"
-      >
-        {body}
-      </div>
-    </main>
+    <>
+      {/* SEO-02 / D-05: WebPage JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }}
+      />
+      <main className="mx-auto max-w-[720px] px-4 py-16 md:px-8 md:py-24">
+        <h1 className="text-4xl font-bold text-primary">{t('title')}</h1>
+        <div
+          data-testid="legal-body"
+          className="mt-8 whitespace-pre-wrap text-base leading-relaxed text-secondary"
+        >
+          {body}
+        </div>
+      </main>
+    </>
   )
 }

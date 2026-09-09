@@ -5,6 +5,9 @@
  * optional impressumBody prose. Editorial single-column layout (max-w-720px), rendered
  * inside the existing [locale] layout shell (Header + Footer from Wave 1).
  *
+ * Phase 6 Plan 02: adds WebPage JSON-LD (D-05 / SEO-02). Sourced from page URL and title;
+ * JSON.stringify only (T-06-05). Uses buildWebPageLd from lib/jsonld/seoPage.ts.
+ *
  * D-09 locale invariant: locale from awaited params (URL only, never client state).
  * T-04-13 mitigation: the page <title> comes from next-intl messages (Impressum.title),
  *   NOT from a raw Sanity string — so no stega token can reach metadata. Body values are
@@ -17,8 +20,9 @@
  */
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
-import { buildHreflangAlternates } from '@/lib/i18n/metadata'
+import { buildHreflangAlternates, BASE_URL } from '@/lib/i18n/metadata'
 import { getSiteSettings } from '@/lib/sanity/queries'
+import { buildWebPageLd } from '@/lib/jsonld/seoPage'
 
 type PageProps = {
   params: Promise<{ locale: string }>
@@ -43,37 +47,50 @@ export default async function ImpressumPage({ params }: PageProps) {
   const vatNote = settings?.vatNote ?? ''
   const impressumBody = settings?.impressumBody ?? ''
 
+  // D-05 / SEO-02: WebPage JSON-LD for the legal page.
+  const safeLocale: 'de' | 'en' = locale === 'en' ? 'en' : 'de'
+  const pageTitle = t('title')
+  const pageUrl = `${BASE_URL}/${safeLocale}/impressum`
+  const webPageLd = buildWebPageLd(pageTitle, '', pageUrl, safeLocale, BASE_URL)
+
   return (
-    <main className="mx-auto max-w-[720px] px-4 py-16 md:px-8 md:py-24">
-      <h1 className="text-4xl font-bold text-primary">{t('title')}</h1>
+    <>
+      {/* SEO-02 / D-05: WebPage JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageLd) }}
+      />
+      <main className="mx-auto max-w-[720px] px-4 py-16 md:px-8 md:py-24">
+        <h1 className="text-4xl font-bold text-primary">{t('title')}</h1>
 
-      <section className="mt-10">
-        <h2 className="text-2xl font-semibold text-primary">{t('addressHeading')}</h2>
-        <address className="mt-3 whitespace-pre-wrap font-mono text-sm not-italic text-secondary">
-          {address}
-        </address>
-      </section>
-
-      <section className="mt-10">
-        <h2 className="text-2xl font-semibold text-primary">{t('taxHeading')}</h2>
-        <p className="mt-3 font-mono text-sm text-secondary">
-          {t('steuernummerLabel')}: {steuernummer}
-        </p>
-        {vatNote ? (
-          <p className="mt-2 text-base leading-relaxed text-secondary">{vatNote}</p>
-        ) : null}
-      </section>
-
-      {impressumBody ? (
         <section className="mt-10">
-          <p
-            data-testid="legal-body"
-            className="whitespace-pre-wrap text-base leading-relaxed text-secondary"
-          >
-            {impressumBody}
-          </p>
+          <h2 className="text-2xl font-semibold text-primary">{t('addressHeading')}</h2>
+          <address className="mt-3 whitespace-pre-wrap font-mono text-sm not-italic text-secondary">
+            {address}
+          </address>
         </section>
-      ) : null}
-    </main>
+
+        <section className="mt-10">
+          <h2 className="text-2xl font-semibold text-primary">{t('taxHeading')}</h2>
+          <p className="mt-3 font-mono text-sm text-secondary">
+            {t('steuernummerLabel')}: {steuernummer}
+          </p>
+          {vatNote ? (
+            <p className="mt-2 text-base leading-relaxed text-secondary">{vatNote}</p>
+          ) : null}
+        </section>
+
+        {impressumBody ? (
+          <section className="mt-10">
+            <p
+              data-testid="legal-body"
+              className="whitespace-pre-wrap text-base leading-relaxed text-secondary"
+            >
+              {impressumBody}
+            </p>
+          </section>
+        ) : null}
+      </main>
+    </>
   )
 }

@@ -4,6 +4,10 @@
  * Phase 4 Plan 02: extends the tracer (HeroSection) with the five content sections
  * in D-05 DOM order: Hero → Services → Pricing → Work → Testimonials → About → (Contact: 04-03).
  *
+ * Phase 6 Plan 02: adds ProfessionalService/LocalBusiness JSON-LD (D-05 SEO-02).
+ * The LD is sourced from getSiteSettings(locale) with D-05 constant fallbacks.
+ * JSON.stringify is the ONLY serialization sink (T-06-05 — no raw CMS string in HTML).
+ *
  * Single page-level Promise.all fetches all Sanity data (Pattern 2 — no per-section fetch).
  * Sections receive data as props; RSC sections have no client-side fetch.
  *
@@ -14,10 +18,12 @@
  * Sources:
  *   04-RESEARCH.md Pattern 2 (page-level Sanity fetch); 04-UI-SPEC.md layout contract
  *   04-01-SUMMARY.md (tracer pattern established here)
+ *   06-CONTEXT.md D-05 (ProfessionalService JSON-LD)
  */
 import type { Metadata } from 'next'
 import { buildHreflangAlternates, BASE_URL } from '@/lib/i18n/metadata'
 import { getSiteSettings, getServices, getProjects, getTestimonials } from '@/lib/sanity/queries'
+import { buildLocalBusinessLd } from '@/lib/jsonld/organization'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { ServicesSection } from '@/components/sections/ServicesSection'
 import { PricingSection } from '@/components/sections/PricingSection'
@@ -66,36 +72,48 @@ export default async function HomePage({ params }: PageProps) {
     getTestimonials(locale),
   ])
 
+  // D-05 / SEO-02: ProfessionalService/LocalBusiness JSON-LD for the homepage.
+  // JSON.stringify is the ONLY serialization sink (T-06-05 — no raw CMS string in HTML).
+  const safeLocale: 'de' | 'en' = locale === 'en' ? 'en' : 'de'
+  const localBusinessLd = buildLocalBusinessLd(safeLocale, settings, BASE_URL)
+
   return (
-    <main>
-      {/* D-05 section order: Hero → Services → Pricing → Work → Testimonials → About → Contact */}
-
-      {/* SEC-01 — Hero: static backdrop, Sanity copy (Phase 5 swaps backdrop for R3F canvas) */}
-      <HeroSection
-        headline={settings?.heroHeadline}
-        subline={settings?.heroSubline}
+    <>
+      {/* SEO-02 / D-05: ProfessionalService/LocalBusiness JSON-LD — build-time, stega:false */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessLd) }}
       />
+      <main>
+        {/* D-05 section order: Hero → Services → Pricing → Work → Testimonials → About → Contact */}
 
-      {/* SEC-02 — Services: 1-col mobile / 2-col desktop, hidden when 0 */}
-      <ServicesSection services={services} locale={locale} />
+        {/* SEC-01 — Hero: static backdrop, Sanity copy (Phase 5 swaps backdrop for R3F canvas) */}
+        <HeroSection
+          headline={settings?.heroHeadline}
+          subline={settings?.heroSubline}
+        />
 
-      {/* SEC-03 — Pricing: from Sanity price object only, never hardcoded (T-04-04) */}
-      <PricingSection services={services} locale={locale} />
+        {/* SEC-02 — Services: 1-col mobile / 2-col desktop, hidden when 0 */}
+        <ServicesSection services={services} locale={locale} />
 
-      {/* SEC-04 — Work grid: images + outcome notes, hover lift, empty state */}
-      <WorkSection projects={projects} locale={locale} />
+        {/* SEC-03 — Pricing: from Sanity price object only, never hardcoded (T-04-04) */}
+        <PricingSection services={services} locale={locale} />
 
-      {/* SEC-05 — Testimonials: metric as own field above quote */}
-      <TestimonialsSection testimonials={testimonials} locale={locale} />
+        {/* SEC-04 — Work grid: images + outcome notes, hover lift, empty state */}
+        <WorkSection projects={projects} locale={locale} />
 
-      {/* SEC-06 — About: photo or DJ initials fallback */}
-      <AboutSection settings={settings} locale={locale} />
+        {/* SEC-05 — Testimonials: metric as own field above quote */}
+        <TestimonialsSection testimonials={testimonials} locale={locale} />
 
-      {/*
-        SEC-07 — Contact form (Plan 04-03): the ONLY client island of Phase 4.
-        Route Handler + Resend + Zod, mounted as the FINAL section (D-05 order, after About).
-      */}
-      <ContactSection />
-    </main>
+        {/* SEC-06 — About: photo or DJ initials fallback */}
+        <AboutSection settings={settings} locale={locale} />
+
+        {/*
+          SEC-07 — Contact form (Plan 04-03): the ONLY client island of Phase 4.
+          Route Handler + Resend + Zod, mounted as the FINAL section (D-05 order, after About).
+        */}
+        <ContactSection />
+      </main>
+    </>
   )
 }
