@@ -15,27 +15,18 @@ export function StaggeredGrid({ children, className }: StaggeredGridProps) {
   }
 
   return (
-    <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.1 }}
-      variants={{
-        visible: { transition: { staggerChildren: 0.08 } },
-        hidden: {},
-      }}
-    >
+    <div className={className}>
       {children.map((child, i) => (
         <motion.div
           key={i}
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.0, 0.0, 0.2, 1] } },
-          }}
+          initial={{ y: 18 }}
+          whileInView={{ y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.5, delay: i * 0.07, ease: [0.0, 0.0, 0.2, 1] }}
         >
           {child}
         </motion.div>
       ))}
-    </motion.div>
+    </div>
   )
 }
