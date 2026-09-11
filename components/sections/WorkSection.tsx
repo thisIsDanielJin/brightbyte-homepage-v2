@@ -56,8 +56,28 @@ function WorkSectionInner({ projects, locale }: WorkSectionProps) {
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
           ) : (
-            /* Missing image fallback: surface-muted block same aspect (row 29) */
-            <div className="w-full h-full bg-surface-muted" aria-hidden="true" />
+            /* Missing-image fallback: branded metric panel (not dead grey).
+               Accent-tinted field + the outcome figure pulled to the front as an
+               oversized editorial statement — unique per card, reinforces the
+               results story, and degrades to a real image when one is added in
+               Sanity. IDENT-01: token colors only. */
+            <div
+              className="w-full h-full flex flex-col items-center justify-center gap-1 bg-[color-mix(in_srgb,var(--color-accent)_5%,var(--color-surface-muted))] border-b border-border px-6 text-center"
+              aria-hidden="true"
+            >
+              {(() => {
+                const m = project.outcomeNote?.match(/[+\-]?\d[\d.,]*\s?%?/)
+                return m ? (
+                  <span className="text-6xl font-bold leading-none tracking-[-0.04em] tabular-nums text-[color-mix(in_srgb,var(--color-accent)_38%,transparent)] select-none">
+                    {m[0].trim()}
+                  </span>
+                ) : (
+                  <span className="text-7xl font-bold leading-none tracking-[-0.04em] text-[color-mix(in_srgb,var(--color-accent)_22%,transparent)] select-none">
+                    {(project.title ?? '·').trim().charAt(0).toUpperCase()}
+                  </span>
+                )
+              })()}
+            </div>
           )}
         </div>
 
