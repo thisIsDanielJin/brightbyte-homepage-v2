@@ -90,17 +90,19 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
             {headlineText}
           </h1>
 
-          {/* Subline + CTA row */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-6">
-            <p className="text-base md:text-lg text-secondary leading-[1.6] max-w-[380px]">
+          {/* Subline + CTA — stacked */}
+          <div className="flex flex-col gap-6 max-w-[480px]">
+            <p className="text-base md:text-lg text-secondary leading-[1.6]">
               {sublineText}
             </p>
-            <a
-              href="#contact"
-              className="flex-shrink-0 inline-block bg-accent text-surface text-sm font-semibold px-7 py-3.5 rounded-sm hover:bg-accent-hover [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 active:scale-[0.98]"
-            >
-              {t('cta')}
-            </a>
+            <div>
+              <a
+                href="#contact"
+                className="inline-block bg-accent text-surface text-sm font-semibold px-7 py-3.5 rounded-sm hover:bg-accent-hover [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 active:scale-[0.98]"
+              >
+                {t('cta')}
+              </a>
+            </div>
           </div>
 
           {/* Scroll hint */}
