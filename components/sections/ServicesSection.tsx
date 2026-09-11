@@ -19,7 +19,7 @@ function ServicesSectionInner({ services }: ServicesSectionProps) {
     >
       <div className="max-w-6xl mx-auto">
         {/* Section header — left-aligned, editorial */}
-        <div className="mb-16 md:mb-20">
+        <div className="mb-12 md:mb-16">
           <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-4">
             {t('eyebrow')}
           </p>

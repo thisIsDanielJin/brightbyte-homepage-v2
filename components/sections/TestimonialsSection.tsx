@@ -21,6 +21,7 @@
  */
 import { useTranslations } from 'next-intl'
 import { MotionSection } from '@/components/ui/MotionSection'
+import { StaggeredGrid } from '@/components/ui/StaggeredGrid'
 import type { TESTIMONIALS_QUERY_RESULT } from '@/sanity.types'
 
 interface TestimonialsSectionProps {
@@ -43,7 +44,7 @@ function TestimonialsSectionInner({ testimonials }: TestimonialsSectionProps) {
     >
       <div className="max-w-6xl mx-auto">
         {/* Section header — left-aligned */}
-        <div className="mb-16 md:mb-20">
+        <div className="mb-12 md:mb-16">
           <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-4">
             {t('eyebrow')}
           </p>
@@ -52,8 +53,8 @@ function TestimonialsSectionInner({ testimonials }: TestimonialsSectionProps) {
           </h2>
         </div>
 
-        {/* Testimonial cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Testimonial cards — staggered entrance */}
+        <StaggeredGrid className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {testimonials.map((testimonial) => (
             <div
               key={testimonial._id}
@@ -107,7 +108,7 @@ function TestimonialsSectionInner({ testimonials }: TestimonialsSectionProps) {
               </footer>
             </div>
           ))}
-        </div>
+        </StaggeredGrid>
       </div>
     </MotionSection>
   )

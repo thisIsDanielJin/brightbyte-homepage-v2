@@ -39,21 +39,23 @@ export default function LocaleSwitcher() {
   const t = useTranslations('LocaleSwitcher')
 
   return (
-    <nav aria-label={t('label')}>
-      {routing.locales.map((locale) => (
-        <Link
-          key={locale}
-          href={pathname}
-          locale={locale}
-          aria-current={locale === currentLocale ? 'page' : undefined}
-          className={
-            locale === currentLocale
-              ? 'text-primary font-medium'
-              : 'text-secondary hover:text-primary'
-          }
-        >
-          {t(locale)}
-        </Link>
+    <nav aria-label={t('label')} className="flex items-center gap-1">
+      {routing.locales.map((locale, i) => (
+        <span key={locale} className="flex items-center gap-1">
+          {i > 0 && <span className="text-border text-xs" aria-hidden="true">/</span>}
+          <Link
+            href={pathname}
+            locale={locale}
+            aria-current={locale === currentLocale ? 'page' : undefined}
+            className={`text-sm ${
+              locale === currentLocale
+                ? 'text-primary font-semibold'
+                : 'text-secondary hover:text-primary transition-colors [transition-duration:150ms]'
+            }`}
+          >
+            {t(locale)}
+          </Link>
+        </span>
       ))}
     </nav>
   )

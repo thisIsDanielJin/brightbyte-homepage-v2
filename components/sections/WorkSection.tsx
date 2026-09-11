@@ -85,11 +85,11 @@ function WorkSectionInner({ projects, locale }: WorkSectionProps) {
   return (
     <MotionSection
       id="work"
-      className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-surface"
+      className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-surface-subtle"
     >
       <div className="max-w-6xl mx-auto">
         {/* Section header — left-aligned */}
-        <div className="mb-16 md:mb-20 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+        <div className="mb-12 md:mb-16 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
           <div>
             <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-4">
               {t('eyebrow')}
