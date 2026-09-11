@@ -116,6 +116,11 @@ export type SiteSettings = {
     crop?: SanityImageCrop;
     _type: "image";
   };
+  faqs?: Array<{
+    _key: string;
+    question?: string;
+    answer?: string;
+  }>;
   defaultSeo?: {
     metaTitle?: string;
     metaDescription?: string;
@@ -227,6 +232,20 @@ export type Project = {
   };
   order?: number;
   language?: string;
+  problem?: string;
+  solution?: string;
+  outcomeText?: string;
+  outcomeValue?: string;
+  outcomeLabel?: string;
+  heroImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  clientCategory?: string;
+  hasCaseStudy?: boolean;
 };
 
 export type Service = {
@@ -390,7 +409,7 @@ export type SERVICES_QUERY_RESULT = Array<{
 
 // Source: lib/sanity/queries.ts
 // Variable: PROJECTS_QUERY
-// Query: *[_type == "project" && language == $locale] | order(order asc){     _id, title, slug, summary, outcomeNote, image, order   }
+// Query: *[_type == "project" && language == $locale] | order(order asc){     _id, title, slug, summary, outcomeNote, image, order, hasCaseStudy   }
 export type PROJECTS_QUERY_RESULT = Array<{
   _id: string;
   title: string | null;
@@ -405,6 +424,7 @@ export type PROJECTS_QUERY_RESULT = Array<{
     _type: "image";
   } | null;
   order: number | null;
+  hasCaseStudy: boolean | null;
 }>;
 
 // Source: lib/sanity/queries.ts
@@ -424,6 +444,39 @@ export type PROJECT_BY_SLUG_QUERY_RESULT = {
     _type: "image";
   } | null;
   order: number | null;
+} | null;
+
+// Source: lib/sanity/queries.ts
+// Variable: CASE_STUDY_BY_SLUG_QUERY
+// Query: *[_type == "project" && language == $locale && slug.current == $slug][0]{     _id, title, slug, summary, outcomeNote, image, order,     problem, solution, outcomeText, outcomeValue, outcomeLabel,     heroImage, clientCategory, hasCaseStudy   }
+export type CASE_STUDY_BY_SLUG_QUERY_RESULT = {
+  _id: string;
+  title: string | null;
+  slug: Slug | null;
+  summary: string | null;
+  outcomeNote: string | null;
+  image: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  order: number | null;
+  problem: string | null;
+  solution: string | null;
+  outcomeText: string | null;
+  outcomeValue: string | null;
+  outcomeLabel: string | null;
+  heroImage: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  clientCategory: string | null;
+  hasCaseStudy: boolean | null;
 } | null;
 
 // Source: lib/sanity/queries.ts
@@ -578,7 +631,7 @@ export type SEO_SLUG_PAIRS_QUERY_RESULT = Array<{
 
 // Source: lib/sanity/queries.ts
 // Variable: SITE_SETTINGS_QUERY
-// Query: *[_type == "siteSettings" && language == $locale][0]{     _id, siteTitle, navLabels, footerText, heroHeadline, heroSubline,     contactEmail, address, steuernummer, vatNote, defaultSeo,     aboutPhoto, impressumBody, datenschutzBody   }
+// Query: *[_type == "siteSettings" && language == $locale][0]{     _id, siteTitle, navLabels, footerText, heroHeadline, heroSubline,     contactEmail, address, steuernummer, vatNote, defaultSeo,     aboutPhoto, impressumBody, datenschutzBody, faqs[]{question, answer}   }
 export type SITE_SETTINGS_QUERY_RESULT = {
   _id: string;
   siteTitle: string | null;
@@ -603,6 +656,10 @@ export type SITE_SETTINGS_QUERY_RESULT = {
   } | null;
   impressumBody: string | null;
   datenschutzBody: string | null;
+  faqs: Array<{
+    question: string;
+    answer: string;
+  }> | null;
 } | null;
 
 // Query TypeMap
@@ -610,13 +667,14 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '*[_type == "service" && language == $locale] | order(order asc){\n     _id, title, slug, blurb,\n     price{ amount, currency, label, priceFrom },\n     priceOnRequest, includes\n   }': SERVICES_QUERY_RESULT;
-    '*[_type == "project" && language == $locale] | order(order asc){\n     _id, title, slug, summary, outcomeNote, image, order\n   }': PROJECTS_QUERY_RESULT;
+    '*[_type == "project" && language == $locale] | order(order asc){\n     _id, title, slug, summary, outcomeNote, image, order, hasCaseStudy\n   }': PROJECTS_QUERY_RESULT;
     '*[_type == "project" && language == $locale && slug.current == $slug][0]{\n     _id, title, slug, summary, outcomeNote, image, order\n   }': PROJECT_BY_SLUG_QUERY_RESULT;
+    '*[_type == "project" && language == $locale && slug.current == $slug][0]{\n     _id, title, slug, summary, outcomeNote, image, order,\n     problem, solution, outcomeText, outcomeValue, outcomeLabel,\n     heroImage, clientCategory, hasCaseStudy\n   }': CASE_STUDY_BY_SLUG_QUERY_RESULT;
     '*[_type == "testimonial" && language == $locale] | order(order asc){\n     _id, quote, author, company, outcomeValue, outcomeLabel\n   }': TESTIMONIALS_QUERY_RESULT;
     '*[_type == "seoPage" && language == $locale]{\n     _id, title, slug, category, heroHeadline, heroSubtext, metaDescription,\n     ctaText, faqs[]{question, answer}, benefits[]{text},\n     trustMetrics[]{value, label}, body\n   }': SEO_PAGES_QUERY_RESULT;
     '*[_type == "seoPage" && language == $locale && slug.current == $slug][0]{\n     _id, title, slug, category, heroHeadline, heroSubtext, metaDescription,\n     ctaText, faqs[]{question, answer}, benefits[]{text},\n     trustMetrics[]{value, label}, body\n   }': SEO_PAGE_BY_SLUG_QUERY_RESULT;
     '*[_type == "seoPage" && language == $locale && slug.current == $slug][0]{\n     _id, title, slug, category, heroHeadline, heroSubtext, metaDescription,\n     ctaText, faqs[]{question, answer}, benefits[]{text},\n     trustMetrics[]{value, label}, body,\n     "counterpartSlug": *[\n       _type == "translation.metadata" &&\n       count(schemaTypes[@ match "seoPage"]) > 0 &&\n       references(^._id)\n     ][0].translations[_key == $counterpartLocale][0].value->slug.current\n   }': SEO_PAGE_BY_SLUG_WITH_COUNTERPART_QUERY_RESULT;
     '*[_type == "seoPage" && language == "de"]{\n     "deSlug": slug.current,\n     "enSlug": *[\n       _type == "translation.metadata" &&\n       count(schemaTypes[@ match "seoPage"]) > 0 &&\n       references(^._id)\n     ][0].translations[_key == "en"][0].value->slug.current\n   }': SEO_SLUG_PAIRS_QUERY_RESULT;
-    '*[_type == "siteSettings" && language == $locale][0]{\n     _id, siteTitle, navLabels, footerText, heroHeadline, heroSubline,\n     contactEmail, address, steuernummer, vatNote, defaultSeo,\n     aboutPhoto, impressumBody, datenschutzBody\n   }': SITE_SETTINGS_QUERY_RESULT;
+    '*[_type == "siteSettings" && language == $locale][0]{\n     _id, siteTitle, navLabels, footerText, heroHeadline, heroSubline,\n     contactEmail, address, steuernummer, vatNote, defaultSeo,\n     aboutPhoto, impressumBody, datenschutzBody, faqs[]{question, answer}\n   }': SITE_SETTINGS_QUERY_RESULT;
   }
 }

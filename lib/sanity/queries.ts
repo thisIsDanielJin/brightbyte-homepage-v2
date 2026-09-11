@@ -33,7 +33,7 @@ export function getServices(locale: string) {
 
 export const PROJECTS_QUERY = defineQuery(
   `*[_type == "project" && language == $locale] | order(order asc){
-     _id, title, slug, summary, outcomeNote, image, order
+     _id, title, slug, summary, outcomeNote, image, order, hasCaseStudy
    }`,
 )
 
@@ -49,6 +49,19 @@ export const PROJECT_BY_SLUG_QUERY = defineQuery(
 
 export function getProjectBySlug(locale: string, slug: string) {
   return client.fetch(PROJECT_BY_SLUG_QUERY, { locale, slug })
+}
+
+// Phase 7: full case study projection — includes all enrichment fields.
+export const CASE_STUDY_BY_SLUG_QUERY = defineQuery(
+  `*[_type == "project" && language == $locale && slug.current == $slug][0]{
+     _id, title, slug, summary, outcomeNote, image, order,
+     problem, solution, outcomeText, outcomeValue, outcomeLabel,
+     heroImage, clientCategory, hasCaseStudy
+   }`,
+)
+
+export function getCaseStudyBySlug(locale: string, slug: string) {
+  return client.fetch(CASE_STUDY_BY_SLUG_QUERY, { locale, slug })
 }
 
 export const TESTIMONIALS_QUERY = defineQuery(
@@ -150,7 +163,7 @@ export const SITE_SETTINGS_QUERY = defineQuery(
   `*[_type == "siteSettings" && language == $locale][0]{
      _id, siteTitle, navLabels, footerText, heroHeadline, heroSubline,
      contactEmail, address, steuernummer, vatNote, defaultSeo,
-     aboutPhoto, impressumBody, datenschutzBody
+     aboutPhoto, impressumBody, datenschutzBody, faqs[]{question, answer}
    }`,
 )
 

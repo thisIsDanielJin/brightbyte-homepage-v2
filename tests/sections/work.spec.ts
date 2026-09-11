@@ -1,15 +1,15 @@
 /**
  * tests/sections/work.spec.ts — WorkSection render + screenshot QA
  *
- * Covers SEC-04, SEC-10, D-11: work grid at 375px + 1440px in DE + EN.
+ * Covers SEC-04, SEC-10, D-11 (Phase 7 update): work grid at 375px + 1440px in DE + EN.
  *
  * Data-aware: if Sanity returns 0 projects (D-03 dataset ACL blocker),
  * the empty-state copy renders (correct behavior per UI Considerations row 25).
  *
- * When projects exist:
- *   - Cards render with outcome notes
- *   - No links on cards (D-11)
- *   - Hover lift via CSS transition (not a link)
+ * Phase 7: Cards may be links (hasCaseStudy=true) or display-only — both are valid.
+ *   - Linked cards must have href containing '/work/'
+ *   - Display-only cards must be <div> elements
+ *
  * When 0 projects:
  *   - Empty-state heading renders ("Projekte folgen in Kürze" / "Projects coming soon")
  *   - No broken layout
@@ -45,10 +45,15 @@ for (const locale of locales) {
         // Projects exist: verify card structure
         expect(cardCount).toBeGreaterThanOrEqual(1)
 
-        // Cards must not be links (D-11 — display only)
+        // Cards may be links (hasCaseStudy) or display-only — both are valid
         const firstCard = cards.first()
         const tagName = await firstCard.evaluate((el) => el.tagName.toLowerCase())
-        expect(tagName).not.toBe('a')
+        if (tagName === 'a') {
+          // Linked card: must have an href pointing to /work/
+          const href = await firstCard.getAttribute('href')
+          expect(href).toMatch(/\/work\//)
+        }
+        // (removed: expect(tagName).not.toBe('a') — D-11 superseded by Phase 7)
 
         // Outcome note must be present
         const outcomeNote = firstCard.locator('[data-testid="work-outcome"]')
@@ -77,7 +82,7 @@ for (const locale of locales) {
       })
     })
 
-    test('work cards have no links — display only (D-11)', async ({ page }) => {
+    test('work cards: linked cards have /work/ href, display-only cards have no href', async ({ page }) => {
       await page.goto(`/${locale}`)
       await page.waitForLoadState('domcontentloaded')
 
@@ -87,15 +92,17 @@ for (const locale of locales) {
       const cards = section.locator('[data-testid="work-card"]')
       const cardCount = await cards.count()
 
-      // When cards exist, ensure none are wrapped in <a> tags
+      // For each card: if tagName is 'a', it must have href containing '/work/'
+      // If tagName is 'div', it must NOT have an href
       for (let i = 0; i < cardCount; i++) {
         const card = cards.nth(i)
         const tagName = await card.evaluate((el) => el.tagName.toLowerCase())
-        expect(tagName).not.toBe('a')
-        // Also check no anchor descendants that wrap the whole card
-        const links = card.locator('a')
-        const linkCount = await links.count()
-        expect(linkCount).toBe(0)
+        if (tagName === 'a') {
+          const href = await card.getAttribute('href')
+          expect(href).toMatch(/\/work\//)
+        } else {
+          expect(tagName).toBe('div')
+        }
       }
     })
 

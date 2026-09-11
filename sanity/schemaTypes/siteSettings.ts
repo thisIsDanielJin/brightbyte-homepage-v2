@@ -112,6 +112,34 @@ export const siteSettings = defineType({
       options: { hotspot: true },
       description: 'Photo of Daniel for the About section. Optional — initials "DJ" mark shown if absent.',
     }),
+    // Phase 7: FAQs for the homepage FAQ section. Shape mirrors seoPage.ts (plain text answers,
+    // not Portable Text — JSON-LD and accordion both require plain strings, D-04).
+    defineField({
+      name: 'faqs',
+      title: 'FAQs',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'question',
+              title: 'Question',
+              type: 'string',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'answer',
+              title: 'Answer',
+              type: 'text',
+              rows: 3,
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+        },
+      ],
+      description: '5–7 questions for the homepage FAQ section.',
+    }),
     defineField({
       name: 'defaultSeo',
       title: 'Default SEO',
