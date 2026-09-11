@@ -3,9 +3,9 @@ quick_id: 260912-194
 slug: hero-lattice
 description: Replace the frosted-glass 3D hero with a "Bright Lattice" wireframe signature
 date: 2026-09-12
-status: planned
+status: complete
 planner_model: opus
-executor_model: sonnet
+executor_model: opus
 ---
 
 # Quick Task: Hero "Bright Lattice" redesign
