@@ -101,7 +101,7 @@ export function ContactSection() {
   const disabled = state === 'loading'
 
   return (
-    <MotionSection id="contact" className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-surface-muted">
+    <MotionSection id="contact" className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-surface-dark">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
           {/* Left: heading + context */}
@@ -109,10 +109,10 @@ export function ContactSection() {
             <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-6">
               Kontakt
             </p>
-            <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em] mb-6 text-balance">
+            <h2 className="text-4xl md:text-5xl font-bold text-on-dark leading-[1.05] tracking-[-0.02em] mb-6 text-balance">
               {t('heading')}
             </h2>
-            <p className="text-base md:text-lg text-secondary leading-[1.7] text-pretty">{t('subline')}</p>
+            <p className="text-base md:text-lg text-muted-on-dark leading-[1.7] text-pretty">{t('subline')}</p>
           </div>
 
           {/* Right: form */}
@@ -136,16 +136,16 @@ export function ContactSection() {
                 >
                   <path d="M20 6 9 17l-5-5" />
                 </svg>
-                <h3 className="text-2xl font-semibold text-primary text-balance">
+                <h3 className="text-2xl font-semibold text-on-dark text-balance">
                   {t('successHeading')}
                 </h3>
-                <p className="text-base text-secondary mt-2 text-pretty">{t('successBody')}</p>
+                <p className="text-base text-muted-on-dark mt-2 text-pretty">{t('successBody')}</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 {/* Name */}
                 <div>
-                  <label htmlFor="contact-name" className="text-xs font-medium text-secondary uppercase tracking-[0.1em] block mb-2">
+                  <label htmlFor="contact-name" className="text-xs font-medium text-muted-on-dark uppercase tracking-[0.1em] block mb-2">
                     {t('labelName')}
                   </label>
                   <input
@@ -174,7 +174,7 @@ export function ContactSection() {
 
                 {/* Email */}
                 <div>
-                  <label htmlFor="contact-email" className="text-xs font-medium text-secondary uppercase tracking-[0.1em] block mb-2">
+                  <label htmlFor="contact-email" className="text-xs font-medium text-muted-on-dark uppercase tracking-[0.1em] block mb-2">
                     {t('labelEmail')}
                   </label>
                   <input
@@ -203,7 +203,7 @@ export function ContactSection() {
 
                 {/* Message */}
                 <div>
-                  <label htmlFor="contact-message" className="text-xs font-medium text-secondary uppercase tracking-[0.1em] block mb-2">
+                  <label htmlFor="contact-message" className="text-xs font-medium text-muted-on-dark uppercase tracking-[0.1em] block mb-2">
                     {t('labelMessage')}
                   </label>
                   <textarea
@@ -262,7 +262,7 @@ export function ContactSection() {
                 </button>
 
                 {/* Risk reversal */}
-                <p className="text-xs text-muted text-center">
+                <p className="text-xs text-muted-on-dark text-center">
                   Kein Risiko — unverbindliche Erstberatung, kostenlos.
                 </p>
 

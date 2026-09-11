@@ -59,9 +59,16 @@
  * This is the Phase 5 swap target; Phase 5 replaces with R3F canvas (D-06).
  * Defined here (not inline) to keep component files free of inline styles. */
 @utility hero-backdrop {
-  background: radial-gradient(
-    ellipse 80% 60% at 60% 40%,
-    var(--color-surface-subtle) 0%,
-    var(--color-surface) 70%
-  );
+  background:
+    radial-gradient(
+      ellipse 70% 80% at 65% 45%,
+      color-mix(in srgb, var(--color-accent) 6%, transparent) 0%,
+      color-mix(in srgb, var(--color-accent) 2%, transparent) 40%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 50% at 70% 30%,
+      var(--color-surface-muted) 0%,
+      var(--color-surface) 60%
+    );
 }

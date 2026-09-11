@@ -113,7 +113,7 @@ function WorkSectionInner({ projects, locale }: WorkSectionProps) {
                       ? 'Fallstudie ' + project.title + ' anzeigen'
                       : 'View case study for ' + project.title
                   }
-                  className="group bg-surface-muted overflow-hidden cursor-pointer transition-all [transition-duration:var(--duration-standard)] [transition-timing-function:var(--ease-standard)] hover:-translate-y-1 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
+                  className="group bg-surface overflow-hidden cursor-pointer shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)] transition-all [transition-duration:var(--duration-standard)] [transition-timing-function:var(--ease-standard)] hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
                   data-testid="work-card"
                 >
                   <CardContent project={project} />
@@ -121,7 +121,7 @@ function WorkSectionInner({ projects, locale }: WorkSectionProps) {
               ) : (
                 <div
                   key={project._id}
-                  className="group bg-surface-muted overflow-hidden"
+                  className="group bg-surface overflow-hidden shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]"
                   data-testid="work-card"
                 >
                   <CardContent project={project} />
