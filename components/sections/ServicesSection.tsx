@@ -23,7 +23,7 @@ function ServicesSectionInner({ services }: ServicesSectionProps) {
           <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-4">
             {t('eyebrow')}
           </p>
-          <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em] max-w-[480px]">
+          <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em] max-w-[480px] text-balance">
             {t('heading')}
           </h2>
         </div>
@@ -42,7 +42,7 @@ function ServicesSectionInner({ services }: ServicesSectionProps) {
                   {String(idx + 1).padStart(2, '0')}
                 </p>
                 <h3
-                  className="text-xl md:text-2xl font-semibold text-primary leading-snug"
+                  className="text-xl md:text-2xl font-semibold text-primary leading-snug text-balance"
                   data-testid="service-title"
                 >
                   {service.title}
@@ -66,7 +66,7 @@ function ServicesSectionInner({ services }: ServicesSectionProps) {
               {/* Right: blurb + includes */}
               <div className="flex flex-col justify-center">
                 {service.blurb && (
-                  <p className="text-base md:text-lg text-secondary leading-relaxed mb-6">
+                  <p className="text-base md:text-lg text-secondary leading-relaxed mb-6 text-pretty">
                     {service.blurb}
                   </p>
                 )}
@@ -87,7 +87,7 @@ function ServicesSectionInner({ services }: ServicesSectionProps) {
 
         {/* CTA row */}
         <div className="mt-12 pt-10 border-t border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-          <p className="text-base text-secondary max-w-sm">
+          <p className="text-base text-secondary max-w-sm text-pretty">
             {t('ctaBlurb')}
           </p>
           <a

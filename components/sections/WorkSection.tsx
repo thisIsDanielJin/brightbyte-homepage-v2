@@ -94,7 +94,7 @@ function WorkSectionInner({ projects, locale }: WorkSectionProps) {
             <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-4">
               {t('eyebrow')}
             </p>
-            <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em]">
+            <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em] text-balance">
               {t('heading')}
             </h2>
           </div>
@@ -134,9 +134,15 @@ function WorkSectionInner({ projects, locale }: WorkSectionProps) {
             <p className="text-xs font-medium text-muted uppercase tracking-[0.15em] mb-3">
               {t('emptyHeading')}
             </p>
-            <p className="text-base text-secondary">
+            <p className="text-base text-secondary text-pretty">
               {t('emptyBody')}
             </p>
+            <a
+              href="#contact"
+              className="mt-6 inline-block border border-accent text-accent text-sm font-semibold px-6 py-3 rounded-sm hover:bg-accent hover:text-surface [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+            >
+              Projekt anfragen
+            </a>
           </div>
         )}
       </div>

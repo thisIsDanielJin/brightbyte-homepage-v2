@@ -47,7 +47,7 @@ function TestimonialsSectionInner({ testimonials }: TestimonialsSectionProps) {
           <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-4">
             {t('eyebrow')}
           </p>
-          <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em]">
+          <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em] text-balance">
             {t('heading')}
           </h2>
         </div>
@@ -62,7 +62,7 @@ function TestimonialsSectionInner({ testimonials }: TestimonialsSectionProps) {
             >
               {/* Outcome metric */}
               <p
-                className="text-5xl font-bold text-primary leading-none tracking-[-0.03em]"
+                className="text-5xl font-bold text-primary leading-none tracking-[-0.03em] tabular-nums"
                 data-testid="testimonial-metric"
                 aria-label={`${testimonial.outcomeValue} ${testimonial.outcomeLabel ?? ''}`}
               >
@@ -81,7 +81,7 @@ function TestimonialsSectionInner({ testimonials }: TestimonialsSectionProps) {
               {/* Quote */}
               <blockquote className="flex-1 mb-6">
                 <p
-                  className="text-base text-secondary leading-relaxed"
+                  className="text-base text-secondary leading-relaxed text-pretty"
                   data-testid="testimonial-quote"
                 >
                   &ldquo;{testimonial.quote}&rdquo;

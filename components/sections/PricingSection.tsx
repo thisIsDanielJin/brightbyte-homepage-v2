@@ -23,7 +23,7 @@ function PricingSectionInner({ services }: PricingSectionProps) {
           <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-4">
             {t('eyebrow')}
           </p>
-          <h2 className="text-4xl md:text-5xl font-bold text-on-dark leading-[1.05] tracking-[-0.02em] max-w-[520px]">
+          <h2 className="text-4xl md:text-5xl font-bold text-on-dark leading-[1.05] tracking-[-0.02em] max-w-[520px] text-balance">
             {t('heading')}
           </h2>
         </div>
@@ -43,7 +43,7 @@ function PricingSectionInner({ services }: PricingSectionProps) {
 
               {/* Price — the centrepiece */}
               <p
-                className="text-5xl md:text-6xl font-bold text-on-dark leading-none tracking-[-0.03em] mb-2"
+                className="text-5xl md:text-6xl font-bold text-on-dark leading-none tracking-[-0.03em] mb-2 tabular-nums"
                 data-testid="pricing-price"
               >
                 {service.priceOnRequest
@@ -90,7 +90,7 @@ function PricingSectionInner({ services }: PricingSectionProps) {
         </div>
 
         {/* Trust note */}
-        <p className="mt-10 text-sm text-muted-on-dark text-center">
+        <p className="mt-10 text-sm text-on-dark/70 text-center text-pretty">
           {t('trustNote')}
         </p>
       </div>

@@ -81,14 +81,14 @@ function AboutSectionInner({ settings }: AboutSectionProps) {
             <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-6">
               {t('eyebrow')}
             </p>
-            <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em] mb-2">
+            <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em] mb-2 text-balance">
               {t('name')}
             </h2>
             <p className="text-sm font-medium text-secondary mb-8">
               {t('subline')}
             </p>
             <p
-              className="text-base md:text-lg text-secondary leading-[1.7] max-w-[520px]"
+              className="text-base md:text-lg text-secondary leading-[1.7] max-w-[520px] text-pretty"
               data-testid="about-body"
             >
               {body}

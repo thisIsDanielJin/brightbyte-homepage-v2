@@ -109,10 +109,10 @@ export function ContactSection() {
             <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-6">
               Kontakt
             </p>
-            <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em] mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em] mb-6 text-balance">
               {t('heading')}
             </h2>
-            <p className="text-base md:text-lg text-secondary leading-[1.7]">{t('subline')}</p>
+            <p className="text-base md:text-lg text-secondary leading-[1.7] text-pretty">{t('subline')}</p>
           </div>
 
           {/* Right: form */}
@@ -136,10 +136,10 @@ export function ContactSection() {
                 >
                   <path d="M20 6 9 17l-5-5" />
                 </svg>
-                <h3 className="text-2xl font-semibold text-primary">
+                <h3 className="text-2xl font-semibold text-primary text-balance">
                   {t('successHeading')}
                 </h3>
-                <p className="text-base text-secondary mt-2">{t('successBody')}</p>
+                <p className="text-base text-secondary mt-2 text-pretty">{t('successBody')}</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} noValidate className="space-y-5">
@@ -260,6 +260,11 @@ export function ContactSection() {
                   )}
                   {state === 'loading' ? t('submitLoading') : t('submitIdle')}
                 </button>
+
+                {/* Risk reversal */}
+                <p className="text-xs text-muted text-center">
+                  Kein Risiko — unverbindliche Erstberatung, kostenlos.
+                </p>
 
                 {state === 'error' && (
                   <p

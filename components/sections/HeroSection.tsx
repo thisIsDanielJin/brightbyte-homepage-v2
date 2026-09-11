@@ -40,7 +40,7 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
   return (
     <MotionSection
       id="hero"
-      className="relative min-h-svh bg-surface"
+      className="relative min-h-dvh bg-surface"
     >
       {/*
         Phase 5 backdrop swap (D-06, D-10, D-11):
@@ -78,7 +78,7 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
       />
 
       {/* Text content — relative child, stays above Phase 5 canvas */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 py-32 md:py-0 flex items-center min-h-svh">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 py-32 md:py-0 flex items-center min-h-dvh">
         <div className="max-w-[720px]">
           {/* Overline */}
           <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-6 md:mb-8">
@@ -86,13 +86,13 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
           </p>
 
           {/* Headline — editorial scale, tight leading */}
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-primary leading-[0.95] tracking-[-0.02em] mb-8 md:mb-10">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-primary leading-[0.95] tracking-[-0.02em] mb-8 md:mb-10 text-balance">
             {headlineText}
           </h1>
 
           {/* Subline + CTA — stacked */}
           <div className="flex flex-col gap-6 max-w-[480px]">
-            <p className="text-base md:text-lg text-secondary leading-[1.6]">
+            <p className="text-base md:text-lg text-secondary leading-[1.6] text-pretty">
               {sublineText}
             </p>
             <div>
@@ -103,6 +103,15 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
                 {t('cta')}
               </a>
             </div>
+
+            {/* Proof strip — 3 trust signals inline */}
+            <p className="text-xs text-muted" aria-label="3 Berliner Unternehmen · Festpreis · 4 Wochen Lieferzeit">
+              <span>3 Berliner Unternehmen</span>
+              <span className="mx-2 opacity-40" aria-hidden="true">·</span>
+              <span>Festpreis</span>
+              <span className="mx-2 opacity-40" aria-hidden="true">·</span>
+              <span>4 Wochen Lieferzeit</span>
+            </p>
           </div>
 
           {/* Scroll hint */}
