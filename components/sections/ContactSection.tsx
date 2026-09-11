@@ -101,190 +101,180 @@ export function ContactSection() {
   const disabled = state === 'loading'
 
   return (
-    <MotionSection id="contact" className="py-16 md:py-24 px-4 md:px-8 lg:px-16">
-      <div className="max-w-[640px] mx-auto">
-        {/* Section header */}
-        <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-4xl font-semibold text-primary">
-            {t('heading')}
-          </h2>
-          <p className="text-base text-secondary mt-3">{t('subline')}</p>
-        </div>
-
-        {state === 'success' ? (
-          // Inline success confirmation — no reload (SEC-07)
-          <div
-            role="status"
-            aria-live="polite"
-            className="text-center py-8"
-            data-testid="contact-success"
-          >
-            <svg
-              className="mx-auto mb-4 h-10 w-10 text-accent"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M20 6 9 17l-5-5" />
-            </svg>
-            <h3 className="text-2xl font-semibold text-primary">
-              {t('successHeading')}
-            </h3>
-            <p className="text-base text-secondary mt-2">{t('successBody')}</p>
+    <MotionSection id="contact" className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-surface-muted">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
+          {/* Left: heading + context */}
+          <div>
+            <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-6">
+              Kontakt
+            </p>
+            <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em] mb-6">
+              {t('heading')}
+            </h2>
+            <p className="text-base md:text-lg text-secondary leading-[1.7]">{t('subline')}</p>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} noValidate className="space-y-4">
-            {/* Name */}
-            <div>
-              <label htmlFor="contact-name" className="text-sm font-medium text-primary block mb-1">
-                {t('labelName')}
-              </label>
-              <input
-                id="contact-name"
-                name="name"
-                type="text"
-                autoComplete="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                disabled={disabled}
-                placeholder={t('placeholderName')}
-                aria-invalid={errors.name ? true : undefined}
-                aria-describedby={errors.name ? 'contact-name-error' : undefined}
-                className={`w-full rounded-sm px-4 py-3 text-base text-primary bg-surface placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-                  errors.name
-                    ? 'border border-destructive ring-1 ring-destructive'
-                    : 'border border-border'
-                }`}
-              />
-              {errors.name && (
-                <p id="contact-name-error" className="text-sm text-destructive mt-1">
-                  {errors.name}
-                </p>
-              )}
-            </div>
 
-            {/* Email */}
-            <div>
-              <label htmlFor="contact-email" className="text-sm font-medium text-primary block mb-1">
-                {t('labelEmail')}
-              </label>
-              <input
-                id="contact-email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={disabled}
-                placeholder={t('placeholderEmail')}
-                aria-invalid={errors.email ? true : undefined}
-                aria-describedby={errors.email ? 'contact-email-error' : undefined}
-                className={`w-full rounded-sm px-4 py-3 text-base text-primary bg-surface placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-                  errors.email
-                    ? 'border border-destructive ring-1 ring-destructive'
-                    : 'border border-border'
-                }`}
-              />
-              {errors.email && (
-                <p id="contact-email-error" className="text-sm text-destructive mt-1">
-                  {errors.email}
-                </p>
-              )}
-            </div>
-
-            {/* Message */}
-            <div>
-              <label htmlFor="contact-message" className="text-sm font-medium text-primary block mb-1">
-                {t('labelMessage')}
-              </label>
-              <textarea
-                id="contact-message"
-                name="message"
-                rows={5}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                disabled={disabled}
-                placeholder={t('placeholderMessage')}
-                aria-invalid={errors.message ? true : undefined}
-                aria-describedby={errors.message ? 'contact-message-error' : undefined}
-                className={`w-full rounded-sm px-4 py-3 text-base text-primary bg-surface placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-                  errors.message
-                    ? 'border border-destructive ring-1 ring-destructive'
-                    : 'border border-border'
-                }`}
-              />
-              {errors.message && (
-                <p id="contact-message-error" className="text-sm text-destructive mt-1">
-                  {errors.message}
-                </p>
-              )}
-            </div>
-
-            {/* Honeypot — hidden from real users (D-10). Never populated legitimately. */}
-            <div className="hidden" aria-hidden="true">
-              <label htmlFor="contact-website">Website</label>
-              <input
-                id="contact-website"
-                name="website"
-                type="text"
-                tabIndex={-1}
-                autoComplete="off"
-                value={website}
-                onChange={(e) => setWebsite(e.target.value)}
-              />
-            </div>
-
-            {/* Submit */}
-            <button
-              type="submit"
-              disabled={disabled}
-              className={`inline-flex items-center justify-center gap-2 rounded-sm bg-accent px-6 py-3 text-sm font-medium text-surface transition-colors duration-150 hover:bg-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 w-full md:w-auto ${
-                disabled ? 'opacity-75 cursor-not-allowed' : ''
-              }`}
-              data-testid="contact-submit"
-            >
-              {state === 'loading' && (
+          {/* Right: form */}
+          <div>
+            {state === 'success' ? (
+              <div
+                role="status"
+                aria-live="polite"
+                className="py-8"
+                data-testid="contact-success"
+              >
                 <svg
-                  className="h-4 w-4 animate-spin"
+                  className="mb-4 h-10 w-10 text-accent"
                   viewBox="0 0 24 24"
                   fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   aria-hidden="true"
                 >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 0 1 8-8v4a4 4 0 0 0-4 4H4z"
-                  />
+                  <path d="M20 6 9 17l-5-5" />
                 </svg>
-              )}
-              {state === 'loading' ? t('submitLoading') : t('submitIdle')}
-            </button>
+                <h3 className="text-2xl font-semibold text-primary">
+                  {t('successHeading')}
+                </h3>
+                <p className="text-base text-secondary mt-2">{t('successBody')}</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} noValidate className="space-y-5">
+                {/* Name */}
+                <div>
+                  <label htmlFor="contact-name" className="text-xs font-medium text-secondary uppercase tracking-[0.1em] block mb-2">
+                    {t('labelName')}
+                  </label>
+                  <input
+                    id="contact-name"
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    disabled={disabled}
+                    placeholder={t('placeholderName')}
+                    aria-invalid={errors.name ? true : undefined}
+                    aria-describedby={errors.name ? 'contact-name-error' : undefined}
+                    className={`w-full px-4 py-3.5 text-base text-primary bg-surface placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+                      errors.name
+                        ? 'border border-destructive ring-1 ring-destructive'
+                        : 'border border-border'
+                    }`}
+                  />
+                  {errors.name && (
+                    <p id="contact-name-error" className="text-sm text-destructive mt-1.5">
+                      {errors.name}
+                    </p>
+                  )}
+                </div>
 
-            {/* Inline error (network/server) — button re-enabled, no reload (SEC-07) */}
-            {state === 'error' && (
-              <p
-                role="alert"
-                aria-live="assertive"
-                className="text-sm text-destructive mt-1"
-                data-testid="contact-error"
-              >
-                {t('errorGeneric')}
-              </p>
+                {/* Email */}
+                <div>
+                  <label htmlFor="contact-email" className="text-xs font-medium text-secondary uppercase tracking-[0.1em] block mb-2">
+                    {t('labelEmail')}
+                  </label>
+                  <input
+                    id="contact-email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={disabled}
+                    placeholder={t('placeholderEmail')}
+                    aria-invalid={errors.email ? true : undefined}
+                    aria-describedby={errors.email ? 'contact-email-error' : undefined}
+                    className={`w-full px-4 py-3.5 text-base text-primary bg-surface placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+                      errors.email
+                        ? 'border border-destructive ring-1 ring-destructive'
+                        : 'border border-border'
+                    }`}
+                  />
+                  {errors.email && (
+                    <p id="contact-email-error" className="text-sm text-destructive mt-1.5">
+                      {errors.email}
+                    </p>
+                  )}
+                </div>
+
+                {/* Message */}
+                <div>
+                  <label htmlFor="contact-message" className="text-xs font-medium text-secondary uppercase tracking-[0.1em] block mb-2">
+                    {t('labelMessage')}
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    rows={5}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    disabled={disabled}
+                    placeholder={t('placeholderMessage')}
+                    aria-invalid={errors.message ? true : undefined}
+                    aria-describedby={errors.message ? 'contact-message-error' : undefined}
+                    className={`w-full px-4 py-3.5 text-base text-primary bg-surface placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+                      errors.message
+                        ? 'border border-destructive ring-1 ring-destructive'
+                        : 'border border-border'
+                    }`}
+                  />
+                  {errors.message && (
+                    <p id="contact-message-error" className="text-sm text-destructive mt-1.5">
+                      {errors.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Honeypot */}
+                <div className="hidden" aria-hidden="true">
+                  <label htmlFor="contact-website">Website</label>
+                  <input
+                    id="contact-website"
+                    name="website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                  />
+                </div>
+
+                {/* Submit */}
+                <button
+                  type="submit"
+                  disabled={disabled}
+                  className={`inline-flex items-center justify-center gap-2 bg-accent px-8 py-4 text-sm font-semibold text-surface transition-colors duration-150 hover:bg-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 w-full ${
+                    disabled ? 'opacity-75 cursor-not-allowed' : ''
+                  }`}
+                  data-testid="contact-submit"
+                >
+                  {state === 'loading' && (
+                    <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8v4a4 4 0 0 0-4 4H4z" />
+                    </svg>
+                  )}
+                  {state === 'loading' ? t('submitLoading') : t('submitIdle')}
+                </button>
+
+                {state === 'error' && (
+                  <p
+                    role="alert"
+                    aria-live="assertive"
+                    className="text-sm text-destructive mt-1"
+                    data-testid="contact-error"
+                  >
+                    {t('errorGeneric')}
+                  </p>
+                )}
+              </form>
             )}
-          </form>
-        )}
+          </div>
+        </div>
       </div>
     </MotionSection>
   )

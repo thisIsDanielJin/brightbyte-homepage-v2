@@ -39,76 +39,56 @@ function AboutSectionInner({ settings }: AboutSectionProps) {
   return (
     <MotionSection
       id="about"
-      className="py-16 px-4 md:px-8 lg:px-16"
+      className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-surface"
     >
-      <div className="max-w-5xl mx-auto">
-        {/* Section header (eyebrow above the content block) */}
-        <div className="text-center mb-12">
-          <p className="text-sm font-medium text-secondary uppercase tracking-widest mb-2">
-            {t('eyebrow')}
-          </p>
-          <h2 className="text-4xl font-semibold text-primary">
-            {t('heading')}
-          </h2>
-        </div>
+      <div className="max-w-6xl mx-auto">
+        {/* Two-column: photo left, text right — stacked mobile */}
+        <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-12 md:gap-20 items-start">
 
-        {/*
-          Two-column at 1440px (40% photo / 60% text), stacked at 375px.
-          Photo / initials aligned to start (left column); text in flex column.
-        */}
-        <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-12">
-
-          {/* Photo column — 40% at desktop */}
-          <div className="flex-shrink-0 flex justify-center md:w-[40%]">
+          {/* Photo column */}
+          <div className="flex-shrink-0">
             {hasPhoto ? (
-              /* Real photo — next/image, rounded-full, 1:1 aspect box */
               <div
-                className="relative w-[120px] h-[120px] md:w-[160px] md:h-[160px] rounded-full overflow-hidden"
+                className="relative w-[160px] h-[200px] md:w-[200px] md:h-[260px] overflow-hidden"
                 data-testid="about-photo"
               >
                 <Image
                   src={urlFor(settings!.aboutPhoto!)
-                    .width(160)
-                    .height(160)
+                    .width(400)
+                    .height(520)
                     .fit('crop')
                     .url()}
                   alt="Daniel Jin Wodke"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 120px, 160px"
+                  sizes="(max-width: 768px) 160px, 200px"
                 />
               </div>
             ) : (
-              /* Initials fallback — circular surface-muted, "DJ" centered.
-               * role="img" required for aria-label on a non-semantic div (QA-03/WCAG 2). */
               <div
-                className="w-[120px] h-[120px] md:w-[160px] md:h-[160px] rounded-full bg-surface-muted flex items-center justify-center flex-shrink-0"
+                className="w-[160px] h-[200px] md:w-[200px] md:h-[260px] bg-surface-muted border border-border flex items-center justify-center"
                 data-testid="about-initials"
                 role="img"
                 aria-label="Daniel Jin Wodke"
               >
-                <span className="text-2xl font-semibold text-secondary" aria-hidden="true">
-                  DJ
-                </span>
+                <span className="text-3xl font-bold text-muted" aria-hidden="true">DJ</span>
               </div>
             )}
           </div>
 
-          {/* Text column — 60% at desktop */}
-          <div className="md:w-[60%] text-center md:text-left">
-            {/* Name heading */}
-            <h3 className="text-2xl font-semibold text-primary mb-1">
+          {/* Text column */}
+          <div className="flex flex-col justify-center">
+            <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-6">
+              {t('eyebrow')}
+            </p>
+            <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em] mb-2">
               {t('name')}
-            </h3>
-
-            {/* Solo-studio subline */}
-            <p className="text-sm font-medium text-secondary mb-4">
+            </h2>
+            <p className="text-sm font-medium text-secondary mb-8">
               {t('subline')}
             </p>
-
-            {/* Body — "you work directly with me" framing */}
             <p
-              className="text-base text-secondary leading-relaxed"
+              className="text-base md:text-lg text-secondary leading-[1.7] max-w-[520px]"
               data-testid="about-body"
             >
               {body}

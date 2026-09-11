@@ -26,15 +26,18 @@
     "heading": "What I offer",
     "priceFrom": "from",
     "priceOnRequest": "On request",
-    "includes": "What's included"
+    "includes": "What's included",
+    "ctaBlurb": "Not sure which package fits? Write to me — I'll help you choose.",
+    "cta": "Start a project"
   },
   "Pricing": {
     "eyebrow": "Pricing",
-    "heading": "Transparent Pricing",
+    "heading": "Clear prices, no surprises",
     "priceFrom": "from",
     "priceOnRequest": "On request",
     "priceSuffix": "One-time, incl. hosting recommendation",
-    "cta": "Start a project"
+    "cta": "Start a project",
+    "trustNote": "Fixed price means fixed price — no hidden costs, no hourly rate roulette."
   },
   "Work": {
     "eyebrow": "Portfolio",

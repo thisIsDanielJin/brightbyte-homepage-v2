@@ -39,30 +39,30 @@ function TestimonialsSectionInner({ testimonials }: TestimonialsSectionProps) {
   return (
     <MotionSection
       id="testimonials"
-      className="py-24 px-4 md:px-8 lg:px-16 bg-surface"
+      className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-surface-subtle"
     >
-      <div className="max-w-5xl mx-auto">
-        {/* Section header */}
-        <div className="text-center mb-12">
-          <p className="text-sm font-medium text-secondary uppercase tracking-widest mb-2">
+      <div className="max-w-6xl mx-auto">
+        {/* Section header — left-aligned */}
+        <div className="mb-16 md:mb-20">
+          <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-4">
             {t('eyebrow')}
           </p>
-          <h2 className="text-4xl font-semibold text-primary">
+          <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em]">
             {t('heading')}
           </h2>
         </div>
 
-        {/* Testimonial cards: stacked mobile, 3-col desktop */}
+        {/* Testimonial cards */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {testimonials.map((testimonial) => (
             <div
               key={testimonial._id}
-              className="bg-surface border border-border rounded-sm p-6"
+              className="flex flex-col p-8 bg-surface border border-border"
               data-testid="testimonial-card"
             >
-              {/* Outcome metric — OWN visual field above the quote (SEC-05 constraint) */}
+              {/* Outcome metric */}
               <p
-                className="text-4xl font-bold text-primary leading-none"
+                className="text-5xl font-bold text-primary leading-none tracking-[-0.03em]"
                 data-testid="testimonial-metric"
                 aria-label={`${testimonial.outcomeValue} ${testimonial.outcomeLabel ?? ''}`}
               >
@@ -70,7 +70,7 @@ function TestimonialsSectionInner({ testimonials }: TestimonialsSectionProps) {
               </p>
               {testimonial.outcomeLabel && (
                 <p
-                  className="text-sm font-medium text-secondary mt-1"
+                  className="text-xs font-medium text-secondary uppercase tracking-[0.1em] mt-2 mb-6"
                   data-testid="testimonial-outcome-label"
                   aria-hidden="true"
                 >
@@ -78,13 +78,10 @@ function TestimonialsSectionInner({ testimonials }: TestimonialsSectionProps) {
                 </p>
               )}
 
-              {/* Rule separating metric from quote */}
-              <div className="border-t border-border mt-4 mb-4" role="separator" aria-hidden="true" />
-
               {/* Quote */}
-              <blockquote>
+              <blockquote className="flex-1 mb-6">
                 <p
-                  className="text-base text-secondary italic leading-relaxed"
+                  className="text-base text-secondary leading-relaxed"
                   data-testid="testimonial-quote"
                 >
                   &ldquo;{testimonial.quote}&rdquo;
@@ -92,7 +89,7 @@ function TestimonialsSectionInner({ testimonials }: TestimonialsSectionProps) {
               </blockquote>
 
               {/* Attribution */}
-              <footer className="mt-4">
+              <footer className="pt-6 border-t border-border">
                 <p
                   className="text-sm font-semibold text-primary"
                   data-testid="testimonial-author"
@@ -101,7 +98,7 @@ function TestimonialsSectionInner({ testimonials }: TestimonialsSectionProps) {
                 </p>
                 {testimonial.company && (
                   <p
-                    className="text-sm text-secondary"
+                    className="text-xs text-muted mt-0.5"
                     data-testid="testimonial-company"
                   >
                     {testimonial.company}

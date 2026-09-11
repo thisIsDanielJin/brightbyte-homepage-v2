@@ -26,15 +26,18 @@
     "heading": "Was ich anbiete",
     "priceFrom": "ab",
     "priceOnRequest": "Auf Anfrage",
-    "includes": "Leistungsumfang"
+    "includes": "Leistungsumfang",
+    "ctaBlurb": "Unsicher, welches Paket passt? Schreib mir — ich helfe dir bei der Wahl.",
+    "cta": "Projekt anfragen"
   },
   "Pricing": {
     "eyebrow": "Preise",
-    "heading": "Transparente Preise",
+    "heading": "Klare Preise, keine Überraschungen",
     "priceFrom": "ab",
     "priceOnRequest": "Auf Anfrage",
     "priceSuffix": "Einmalig, inkl. Hosting-Empfehlung",
-    "cta": "Projekt anfragen"
+    "cta": "Projekt anfragen",
+    "trustNote": "Festpreis heißt Festpreis — keine versteckten Kosten, kein Stundensatz-Roulette."
   },
   "Work": {
     "eyebrow": "Referenzen",

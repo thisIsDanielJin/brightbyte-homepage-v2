@@ -1,20 +1,3 @@
-/**
- * components/sections/ServicesSection.tsx — Services section (SEC-02)
- *
- * RSC: receives services data fetched at page level (Pattern 2 — no per-section fetch).
- * Renders 2 seeded service tiers as cards in a 1-col (375px) / 2-col (1440px) grid.
- * Section hidden entirely when 0 services (UI Considerations row 9).
- *
- * Price display logic per UI-SPEC:
- *   - priceFrom: true → prepend "ab " (DE) / "from " (EN) prefix to price.label
- *   - priceOnRequest: true → "Auf Anfrage" / "On request" (no numeric)
- *   - Otherwise → price.label verbatim
- *
- * IDENT-01: zero raw hex, zero text-gray-* — all via @theme token utilities.
- * No icon library — checkmark via Unicode ✓ in text-accent.
- *
- * Source: 04-UI-SPEC.md Services Section; 04-RESEARCH.md Pattern 2.
- */
 import { useTranslations } from 'next-intl'
 import { MotionSection } from '@/components/ui/MotionSection'
 import type { SERVICES_QUERY_RESULT } from '@/sanity.types'
@@ -24,141 +7,95 @@ interface ServicesSectionProps {
   locale: string
 }
 
-function PriceDisplay({
-  service,
-  priceFromLabel,
-  priceOnRequestLabel,
-}: {
-  service: SERVICES_QUERY_RESULT[number]
-  priceFromLabel: string
-  priceOnRequestLabel: string
-}) {
-  if (service.priceOnRequest) {
-    return (
-      <p
-        className="text-2xl font-semibold text-primary"
-        data-testid="service-price"
-      >
-        {priceOnRequestLabel}
-      </p>
-    )
-  }
-
-  if (service.price) {
-    const { amount, currency, label, priceFrom } = service.price
-    const currencySymbol = currency === 'EUR' ? '€' : (currency ?? '€')
-
-    if (priceFrom && amount) {
-      return (
-        <p
-          className="text-2xl font-semibold text-primary"
-          data-testid="service-price"
-        >
-          {priceFromLabel} {currencySymbol}{amount}
-        </p>
-      )
-    }
-
-    if (label) {
-      return (
-        <p
-          className="text-2xl font-semibold text-primary"
-          data-testid="service-price"
-        >
-          {label}
-        </p>
-      )
-    }
-
-    if (amount) {
-      return (
-        <p
-          className="text-2xl font-semibold text-primary"
-          data-testid="service-price"
-        >
-          {currencySymbol}{amount}
-        </p>
-      )
-    }
-  }
-
-  return (
-    <p
-      className="text-2xl font-semibold text-primary"
-      data-testid="service-price"
-    >
-      {priceOnRequestLabel}
-    </p>
-  )
-}
-
-// Inner RSC component that uses translations
-function ServicesSectionInner({ services, locale }: ServicesSectionProps) {
+function ServicesSectionInner({ services }: ServicesSectionProps) {
   const t = useTranslations('Services')
 
-  if (!services || services.length === 0) {
-    return null
-  }
+  if (!services || services.length === 0) return null
 
   return (
     <MotionSection
       id="services"
-      className="py-24 px-4 md:px-8 lg:px-16"
+      className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-surface-subtle"
     >
-      <div className="max-w-5xl mx-auto">
-        {/* Section header */}
-        <div className="text-center mb-12">
-          <p className="text-sm font-medium text-secondary uppercase tracking-widest mb-2">
+      <div className="max-w-6xl mx-auto">
+        {/* Section header — left-aligned, editorial */}
+        <div className="mb-16 md:mb-20">
+          <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-4">
             {t('eyebrow')}
           </p>
-          <h2 className="text-4xl font-semibold text-primary">
+          <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em] max-w-[480px]">
             {t('heading')}
           </h2>
         </div>
 
-        {/* Service cards grid: 1-col mobile, 2-col desktop */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {services.map((service) => (
+        {/* Service rows */}
+        <div className="flex flex-col divide-y divide-border">
+          {services.map((service, idx) => (
             <div
               key={service._id}
-              className="bg-surface border border-border p-6 rounded-sm"
+              className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-6 md:gap-16 py-10 md:py-12"
               data-testid="service-card"
             >
-              {/* Title */}
-              <h3
-                className="text-2xl font-semibold text-primary mb-3"
-                data-testid="service-title"
-              >
-                {service.title}
-              </h3>
-
-              {/* Blurb */}
-              {service.blurb && (
-                <p className="text-base text-secondary leading-relaxed mb-4">
-                  {service.blurb}
+              {/* Left: index + title + price */}
+              <div>
+                <p className="text-xs text-muted font-medium tabular-nums mb-3">
+                  {String(idx + 1).padStart(2, '0')}
                 </p>
-              )}
+                <h3
+                  className="text-xl md:text-2xl font-semibold text-primary leading-snug"
+                  data-testid="service-title"
+                >
+                  {service.title}
+                </h3>
+                <p
+                  className="text-2xl font-bold text-accent mt-4"
+                  data-testid="service-price"
+                >
+                  {service.priceOnRequest
+                    ? t('priceOnRequest')
+                    : service.price?.priceFrom && service.price?.amount
+                      ? `${t('priceFrom')} €${service.price.amount}`
+                      : service.price?.label
+                        ? service.price.label
+                        : service.price?.amount
+                          ? `€${service.price.amount}`
+                          : t('priceOnRequest')}
+                </p>
+              </div>
 
-              {/* Includes list */}
-              {service.includes && service.includes.length > 0 && (
-                <ul className="space-y-2 mb-6" aria-label={t('includes')}>
-                  {service.includes.map((item, idx) => (
-                    <li key={idx} className="text-sm text-secondary flex items-start gap-2">
-                      <span className="text-accent font-medium mt-0.5" aria-hidden="true">✓</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              {/* Price */}
-              <PriceDisplay
-                service={service}
-                priceFromLabel={t('priceFrom')}
-                priceOnRequestLabel={t('priceOnRequest')}
-              />
+              {/* Right: blurb + includes */}
+              <div className="flex flex-col justify-center">
+                {service.blurb && (
+                  <p className="text-base md:text-lg text-secondary leading-relaxed mb-6">
+                    {service.blurb}
+                  </p>
+                )}
+                {service.includes && service.includes.length > 0 && (
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
+                    {service.includes.map((item, i) => (
+                      <li key={i} className="text-sm text-secondary flex items-start gap-2">
+                        <span className="text-accent font-semibold mt-0.5 flex-shrink-0" aria-hidden="true">→</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
           ))}
+        </div>
+
+        {/* CTA row */}
+        <div className="mt-12 pt-10 border-t border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+          <p className="text-base text-secondary max-w-sm">
+            {t('ctaBlurb')}
+          </p>
+          <a
+            href="#contact"
+            className="flex-shrink-0 inline-block border border-accent text-accent text-sm font-semibold px-7 py-3.5 rounded-sm hover:bg-accent hover:text-surface [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+          >
+            {t('cta')}
+          </a>
         </div>
       </div>
     </MotionSection>

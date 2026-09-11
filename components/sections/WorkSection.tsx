@@ -62,16 +62,16 @@ function WorkSectionInner({ projects, locale }: WorkSectionProps) {
         </div>
 
         {/* Card text: name + outcome note */}
-        <div className="p-4">
+        <div className="p-5">
           <p
-            className="text-base font-semibold text-primary mb-1"
+            className="text-sm font-semibold text-primary mb-1"
             data-testid="work-title"
           >
             {project.title}
           </p>
           {project.outcomeNote && (
             <p
-              className="text-sm text-secondary"
+              className="text-xs text-secondary"
               data-testid="work-outcome"
             >
               {project.outcomeNote}
@@ -85,25 +85,26 @@ function WorkSectionInner({ projects, locale }: WorkSectionProps) {
   return (
     <MotionSection
       id="work"
-      className="py-24 px-4 md:px-8 lg:px-16"
+      className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-surface"
     >
-      <div className="max-w-5xl mx-auto">
-        {/* Section header */}
-        <div className="text-center mb-12">
-          <p className="text-sm font-medium text-secondary uppercase tracking-widest mb-2">
-            {t('eyebrow')}
-          </p>
-          <h2 className="text-4xl font-semibold text-primary">
-            {t('heading')}
-          </h2>
+      <div className="max-w-6xl mx-auto">
+        {/* Section header — left-aligned */}
+        <div className="mb-16 md:mb-20 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+          <div>
+            <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-4">
+              {t('eyebrow')}
+            </p>
+            <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em]">
+              {t('heading')}
+            </h2>
+          </div>
         </div>
 
         {projects && projects.length > 0 ? (
-          /* Project cards grid: 1-col mobile, 2-col md, 3-col lg; auto-wrap (row 30) */
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          /* Project cards grid: 1-col mobile, 2-col md, 3-col lg */
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project) =>
               project.hasCaseStudy ? (
-                // Linked card: hasCaseStudy = true → navigate to case study
                 <Link
                   key={project._id}
                   href={'/' + locale + '/work/' + (project.slug?.current ?? '')}
@@ -112,16 +113,15 @@ function WorkSectionInner({ projects, locale }: WorkSectionProps) {
                       ? 'Fallstudie ' + project.title + ' anzeigen'
                       : 'View case study for ' + project.title
                   }
-                  className="bg-surface-muted rounded-sm overflow-hidden cursor-pointer transition-all [transition-duration:var(--duration-standard)] [transition-timing-function:var(--ease-standard)] hover:-translate-y-1 hover:shadow-md focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
+                  className="group bg-surface-muted overflow-hidden cursor-pointer transition-all [transition-duration:var(--duration-standard)] [transition-timing-function:var(--ease-standard)] hover:-translate-y-1 hover:shadow-lg focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
                   data-testid="work-card"
                 >
                   <CardContent project={project} />
                 </Link>
               ) : (
-                // Display-only card: hasCaseStudy falsy → no link
                 <div
                   key={project._id}
-                  className="bg-surface-muted rounded-sm overflow-hidden cursor-default transition-all [transition-duration:var(--duration-standard)] [transition-timing-function:var(--ease-standard)] hover:-translate-y-1 hover:shadow-md focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 outline-none"
+                  className="group bg-surface-muted overflow-hidden"
                   data-testid="work-card"
                 >
                   <CardContent project={project} />
@@ -130,14 +130,10 @@ function WorkSectionInner({ projects, locale }: WorkSectionProps) {
             )}
           </div>
         ) : (
-          /* Empty state: "Projekte folgen in Kürze" / "Projects coming soon" (row 25) */
-          <div className="text-center py-16" data-testid="work-empty-state">
-            <h3
-              className="text-2xl font-semibold text-primary mb-3"
-              data-testid="work-empty-heading"
-            >
+          <div className="py-20 border border-border text-center" data-testid="work-empty-state">
+            <p className="text-xs font-medium text-muted uppercase tracking-[0.15em] mb-3">
               {t('emptyHeading')}
-            </h3>
+            </p>
             <p className="text-base text-secondary">
               {t('emptyBody')}
             </p>

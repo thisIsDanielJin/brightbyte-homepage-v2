@@ -40,7 +40,7 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
   return (
     <MotionSection
       id="hero"
-      className="relative min-h-svh flex items-center bg-surface"
+      className="relative min-h-svh bg-surface"
     >
       {/*
         Phase 5 backdrop swap (D-06, D-10, D-11):
@@ -69,29 +69,45 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
           leaving the glass reveal on the right fully intact.
       */}
       <div
-        className="absolute inset-0 z-0 bg-surface/85 md:hidden pointer-events-none"
+        className="absolute inset-0 z-0 bg-surface/90 md:hidden pointer-events-none"
         aria-hidden="true"
       />
       <div
-        className="absolute inset-y-0 left-0 z-0 hidden md:block md:w-3/5 bg-gradient-to-r from-surface/90 via-surface/70 to-transparent pointer-events-none"
+        className="absolute inset-y-0 left-0 z-0 hidden md:block md:w-2/3 bg-gradient-to-r from-surface/95 via-surface/80 to-transparent pointer-events-none"
         aria-hidden="true"
       />
 
       {/* Text content — relative child, stays above Phase 5 canvas */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-8 py-32">
-        <div className="max-w-[640px] md:max-w-[50%]">
-          <h1 className="text-4xl md:text-5xl font-bold text-primary leading-[1.1] mb-8">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 py-32 md:py-0 flex items-center min-h-svh">
+        <div className="max-w-[720px]">
+          {/* Overline */}
+          <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-6 md:mb-8">
+            Berlin · Webdesign Studio
+          </p>
+
+          {/* Headline — editorial scale, tight leading */}
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-primary leading-[0.95] tracking-[-0.02em] mb-8 md:mb-10">
             {headlineText}
           </h1>
-          <p className="text-base text-secondary leading-[1.6] max-w-[560px] mb-10">
-            {sublineText}
-          </p>
-          <a
-            href="#contact"
-            className="inline-block bg-accent text-surface text-sm font-medium px-6 py-3 rounded-sm hover:bg-accent-hover [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 active:scale-[0.98]"
-          >
-            {t('cta')}
-          </a>
+
+          {/* Subline + CTA row */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+            <p className="text-base md:text-lg text-secondary leading-[1.6] max-w-[380px]">
+              {sublineText}
+            </p>
+            <a
+              href="#contact"
+              className="flex-shrink-0 inline-block bg-accent text-surface text-sm font-semibold px-7 py-3.5 rounded-sm hover:bg-accent-hover [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 active:scale-[0.98]"
+            >
+              {t('cta')}
+            </a>
+          </div>
+
+          {/* Scroll hint */}
+          <div className="mt-16 md:mt-20 flex items-center gap-3" aria-hidden="true">
+            <div className="w-px h-8 bg-border" />
+            <span className="text-xs text-muted uppercase tracking-[0.15em]">{t('scrollHint')}</span>
+          </div>
         </div>
       </div>
     </MotionSection>

@@ -28,20 +28,23 @@ interface MotionSectionProps {
 export function MotionSection({ children, id, className }: MotionSectionProps) {
   const prefersReduced = useReducedMotion()
 
+  if (prefersReduced) {
+    return <section id={id} className={className}>{children}</section>
+  }
+
   return (
     <motion.section
       id={id}
       className={className}
-      initial={{ opacity: 0, y: 10 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={
-        prefersReduced
-          ? { duration: 0 }
-          : { duration: 0.5, ease: [0.0, 0.0, 0.2, 1] }
-      }
+      // opacity stays 1 at all times — content always visible for SSR/headless/no-JS.
+      // Only y animates: subtle rise on viewport entry, imperceptible if IO never fires.
+      initial={{ y: 16 }}
+      whileInView={{ y: 0 }}
+      viewport={{ once: true, amount: 0.05 }}
+      transition={{ duration: 0.55, ease: [0.0, 0.0, 0.2, 1] }}
     >
       {children}
     </motion.section>
   )
 }
+
