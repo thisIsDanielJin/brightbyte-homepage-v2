@@ -161,6 +161,8 @@ Seven phases that build the site the way it must be built — identity locked fi
 
 - [x] 06-03-PLAN.md — Phase gate: Vercel preview deploy + curl hreflang cross-check + human-verify SC #2/#3/#4 (Rich Results Test, sitemap validator, bidirectional hreflang) (SEO-01, SEO-02, SEO-03)
 
+### Phase 7: P2 Differentiators & Polish
+
 **Goal**: Conversion-improving additions (case studies, FAQ, process section, guarantee framing) layered onto a complete, live site — plus final motion tuning and a full accessibility audit pass.
 **Mode:** mvp
 **Depends on**: Phase 6
@@ -172,7 +174,14 @@ Seven phases that build the site the way it must be built — identity locked fi
   3. Final `axe-playwright` audit across all pages shows zero violations; Vercel Speed Insights shows green Core Web Vitals on production
   4. All section motion passes a final refinement review — timing, easing, and intensity are consistent with the identity tokens defined in Phase 1
 
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 07-01-PLAN.md — Tracer: Sanity case study schema + GROQ updates + Blumenspiess end-to-end case study page + work grid conditional linking + test fixes
+- [ ] 07-02-PLAN.md — Expansion: Learnstep + Lumo case study pages (content authoring + test coverage for all 3 projects)
+- [ ] 07-03-PLAN.md — Homepage new sections: Process, Guarantee, FAQ, CaseStudiesBridge components + message dictionary keys + page.tsx wiring
+- [ ] 07-04-PLAN.md — Phase gate: D-11 hero fade-in fix + axe audit extension + production Vercel deploy + all 4 SC verification
+
 **UI hint**: yes
 
 ## Progress
