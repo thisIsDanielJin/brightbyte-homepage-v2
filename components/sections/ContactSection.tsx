@@ -104,15 +104,46 @@ export function ContactSection() {
     <MotionSection id="contact" className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-surface-dark">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
-          {/* Left: heading + context */}
+          {/* Left: heading + context + direct-contact reassurance.
+              The 3-step process and direct email fill what was dead space and
+              double as conversion content — an SMB owner sees the path before
+              committing. i18n via next-intl only (I18N-01). */}
           <div>
             <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-6">
-              Kontakt
+              {t('eyebrow')}
             </p>
             <h2 className="text-4xl md:text-5xl font-bold text-on-dark leading-[1.05] tracking-[-0.02em] mb-6 text-balance">
               {t('heading')}
             </h2>
-            <p className="text-base md:text-lg text-muted-on-dark leading-[1.7] text-pretty">{t('subline')}</p>
+            <p className="text-base md:text-lg text-muted-on-dark leading-[1.7] text-pretty mb-12">{t('subline')}</p>
+
+            {/* Three-step process — numbered because it is a real sequence */}
+            <ol className="space-y-4 mb-12">
+              {[t('step1'), t('step2'), t('step3')].map((step, i) => (
+                <li key={i} className="flex items-start gap-4">
+                  <span
+                    className="flex-shrink-0 text-sm font-semibold text-accent tabular-nums leading-6"
+                    aria-hidden="true"
+                  >
+                    0{i + 1}
+                  </span>
+                  <span className="text-base text-on-dark/80 leading-6 text-pretty">{step}</span>
+                </li>
+              ))}
+            </ol>
+
+            {/* Direct email — for owners who skip forms */}
+            <div>
+              <p className="text-xs font-medium text-muted-on-dark uppercase tracking-[0.1em] mb-2">
+                {t('directLabel')}
+              </p>
+              <a
+                href={'mailto:' + t('directEmail')}
+                className="text-base font-medium text-on-dark underline decoration-accent decoration-2 underline-offset-4 hover:text-accent [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+              >
+                {t('directEmail')}
+              </a>
+            </div>
           </div>
 
           {/* Right: form */}
@@ -263,7 +294,7 @@ export function ContactSection() {
 
                 {/* Risk reversal */}
                 <p className="text-xs text-muted-on-dark text-center">
-                  Kein Risiko — unverbindliche Erstberatung, kostenlos.
+                  {t('trustNote')}
                 </p>
 
                 {state === 'error' && (

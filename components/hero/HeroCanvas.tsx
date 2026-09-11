@@ -75,6 +75,15 @@ export function HeroCanvas() {
   // ~747ms main-thread cost stays off the initial hydration critical path while the
   // hero still fades in promptly on load (D-11, 05-06).
   const [shouldMount, setShouldMount] = useState(false)
+  // Hydration gate: the reduced-motion / WebGL decision depends on browser-only APIs
+  // (matchMedia, document.createElement), so it CANNOT run during SSR without the
+  // server output diverging from the client's first render. We render the fallback
+  // (identical to the server's static markup) until mounted, then switch to the real
+  // decision on the client. This keeps hydration byte-identical (fixes the
+  // server/client className mismatch on the fade-in wrapper). CLS stays 0 because the
+  // fallback and the wrapper share `absolute inset-0` geometry.
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
 
   // Idle mount (05-06): mount at the first browser idle window post-hydration via
   // requestIdleCallback, with a short setTimeout(HERO_IDLE_FALLBACK_MS) fallback for
@@ -96,7 +105,10 @@ export function HeroCanvas() {
 
   // Reduced-motion / no-WebGL gate: no Canvas rendered at all (D-06, HERO-02).
   // MUST stay BEFORE the idle gate so these users never enter the idle path.
-  if (prefersReduced || !canUseWebGL()) return <HeroFallback />
+  // Also gated on `mounted`: before hydration completes we render the identical
+  // static fallback the server produced, so the first client render matches the
+  // server byte-for-byte (no hydration mismatch on the wrapper className).
+  if (!mounted || prefersReduced || !canUseWebGL()) return <HeroFallback />
 
   return (
     <div

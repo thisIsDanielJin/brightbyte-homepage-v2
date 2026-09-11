@@ -44,15 +44,23 @@
     "eyebrow": "Portfolio",
     "heading": "Selected Projects",
     "emptyHeading": "Projects coming soon",
-    "emptyBody": "I'll share concrete outcomes soon."
+    "emptyBody": "I'll share concrete outcomes soon.",
+    "emptyCta": "Start a project"
   },
   "Testimonials": {
     "eyebrow": "Testimonials",
     "heading": "What clients say"
   },
   "Contact": {
+    "eyebrow": "Contact",
     "heading": "Let's start",
     "subline": "Tell me briefly about your project — I'll reply within 24 hours.",
+    "directLabel": "Prefer to email directly?",
+    "directEmail": "hello@brightbyte-berlin.com",
+    "step1": "You describe your project",
+    "step2": "We agree on scope and a fixed price",
+    "step3": "I deliver — on time, as agreed",
+    "trustNote": "No risk — free, no-obligation first consultation.",
     "labelName": "Your name",
     "labelEmail": "Your email",
     "labelMessage": "Your project",

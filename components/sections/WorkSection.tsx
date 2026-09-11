@@ -161,7 +161,7 @@ function WorkSectionInner({ projects, locale }: WorkSectionProps) {
               href="#contact"
               className="mt-6 inline-block border border-accent text-accent text-sm font-semibold px-6 py-3 rounded-sm hover:bg-accent hover:text-surface [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
             >
-              Projekt anfragen
+              {t('emptyCta')}
             </a>
           </div>
         )}
