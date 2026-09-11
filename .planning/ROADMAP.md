@@ -177,9 +177,17 @@ Seven phases that build the site the way it must be built — identity locked fi
 **Plans**: 4 plans
 
 Plans:
+**Wave 1**
+
 - [ ] 07-01-PLAN.md — Tracer: Sanity case study schema + GROQ updates + Blumenspiess end-to-end case study page + work grid conditional linking + test fixes
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 07-02-PLAN.md — Expansion: Learnstep + Lumo case study pages (content authoring + test coverage for all 3 projects)
 - [ ] 07-03-PLAN.md — Homepage new sections: Process, Guarantee, FAQ, CaseStudiesBridge components + message dictionary keys + page.tsx wiring
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] 07-04-PLAN.md — Phase gate: D-11 hero fade-in fix + axe audit extension + production Vercel deploy + all 4 SC verification
 
 **UI hint**: yes
