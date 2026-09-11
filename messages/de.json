@@ -36,6 +36,7 @@
     "priceFrom": "ab",
     "priceOnRequest": "Auf Anfrage",
     "priceSuffix": "Einmalig, inkl. Hosting-Empfehlung",
+    "priceOnRequestSuffix": "Individuelles Angebot nach Umfang",
     "cta": "Projekt anfragen",
     "trustNote": "Festpreis heißt Festpreis — keine versteckten Kosten, kein Stundensatz-Roulette."
   },

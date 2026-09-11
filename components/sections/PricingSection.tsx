@@ -57,11 +57,12 @@ function PricingSectionInner({ services }: PricingSectionProps) {
                         : t('priceOnRequest')}
               </p>
 
-              {!service.priceOnRequest && (
-                <p className="text-sm text-muted-on-dark mb-8">
-                  {t('priceSuffix')}
-                </p>
-              )}
+              {/* Price suffix — always rendered so both columns' dividers and
+                  checklists align. On-request tier gets a meaningful subline
+                  instead of a blank spacer. */}
+              <p className="text-sm text-muted-on-dark mb-8">
+                {service.priceOnRequest ? t('priceOnRequestSuffix') : t('priceSuffix')}
+              </p>
 
               {/* Divider */}
               <div className="border-t border-on-dark/10 my-8" />

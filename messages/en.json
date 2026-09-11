@@ -36,6 +36,7 @@
     "priceFrom": "from",
     "priceOnRequest": "On request",
     "priceSuffix": "One-time, incl. hosting recommendation",
+    "priceOnRequestSuffix": "Custom quote based on scope",
     "cta": "Start a project",
     "trustNote": "Fixed price means fixed price — no hidden costs, no hourly rate roulette."
   },
