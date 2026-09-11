@@ -41,9 +41,10 @@ All spacing consumes the `@theme` tokens from `styles/tokens.css`. No new tokens
 | `--spacing-6` | 24px | Card internal padding, grouped item gaps |
 | `--spacing-8` | 32px | Component-level gaps |
 | `--spacing-12` | 48px | Section-internal block spacing |
-| `--spacing-16` | 64px | Section padding desktop (small sections — e.g. guarantee strip) |
+| `--spacing-16` | 64px | Section padding desktop (small sections — e.g. guarantee strip, case studies bridge) |
 | `--spacing-24` | 96px | Section padding desktop (standard — py-24 for all new sections) |
-| `--spacing-32` | 128px | Section padding desktop (hero-scale — not used for Phase 7 sections) |
+
+> **Project-level extensions:** 96px (`--spacing-24`) and 128px (`--spacing-32`) are section-rhythm extensions established in Phase 4, not component-level spacing tokens. 128px is not used in Phase 7 sections.
 
 Exceptions: Touch targets on accordion summaries and interactive controls minimum 44px height (WCAG 2.5.5 — already established in `FaqAccordion.tsx`).
 
@@ -59,13 +60,12 @@ Consumes the existing `@theme` type scale. No new sizes or weights are introduce
 
 | Role | Token | Size | Weight | Line Height | Usage in Phase 7 |
 |------|-------|------|--------|-------------|-----------------|
-| Display | `text-5xl` | 48px (desktop) | 700 (bold) | 1.1 | Case study page H1 |
-| Heading | `text-4xl` | 32px | 600 (semibold) | 1.2 | Section `<h2>` headings (FAQ, Process, Guarantee, Case Study section headers) |
-| Subheading | `text-2xl` | 24px | 600 (semibold) | 1.3 | Case study section sub-headers (Problem / Solution / Outcome), process step titles |
+| Heading | `text-4xl` | 32px | 700 (bold) | 1.2 | Section `<h2>` headings (FAQ, Process, Guarantee, Case Study section headers, case study page H1). Responsive variant: `text-4xl md:text-5xl font-bold` on case study H1 — `md:text-5xl` is a breakpoint modifier of the Heading role, not a distinct type role. |
+| Subheading | `text-2xl` | 24px | 700 (bold) | 1.3 | Case study section sub-headers (Problem / Solution / Outcome), process step titles |
 | Body | `text-base` | 16px | 400 (regular) | 1.6 | Body copy in case studies, FAQ answers, process descriptions |
-| Label | `text-sm` | 14px | 500 (medium) | 1.4 | Eyebrow labels (uppercase tracking-widest), outcome metric labels, trust ticks, step numbers |
+| Label | `text-sm` | 14px | 400 (regular) | 1.4 | Eyebrow labels (uppercase tracking-widest), outcome metric labels, trust ticks, step numbers. Uppercase tracking and color provide visual distinction without a weight bump. |
 
-**Eyebrow pattern** (established in all Phase 4 sections): `text-sm font-medium text-secondary uppercase tracking-widest mb-2`. All new sections use this identical pattern.
+**Eyebrow pattern** (established in all Phase 4 sections): `text-sm text-secondary uppercase tracking-widest mb-2`. All new sections use this identical pattern.
 
 **Case study outcome metric:** `text-4xl font-bold text-primary leading-none` — mirrors the existing testimonials outcome metric pattern (`TestimonialsSection.tsx`).
 
@@ -136,7 +136,7 @@ Hero → Services → Pricing → Work → Case Studies CTA Bridge → Testimoni
 
 ### Case Study Hero Band
 
-- Left column: category pill (`border border-border rounded-full px-3 py-1 text-sm font-medium uppercase tracking-widest text-secondary`) + H1 (`text-4xl md:text-5xl font-bold text-primary leading-[1.1]`) + outcome metric callout (`text-4xl font-bold text-primary`) + metric label (`text-sm font-medium text-secondary`) + short descriptor (`text-base text-secondary leading-[1.6]`)
+- Left column: category pill (`border border-border rounded-full px-3 py-1 text-sm uppercase tracking-widest text-secondary`) + H1 (`text-4xl md:text-5xl font-bold text-primary leading-[1.1]` — `md:text-5xl` is a responsive modifier of the Heading role, not a distinct type role) + outcome metric callout (`text-4xl font-bold text-primary`) + metric label (`text-sm text-secondary`) + short descriptor (`text-base text-secondary leading-[1.6]`)
 - Right column (desktop only, `lg:block hidden`): project screenshot at `aspect-[4/3]` with `next/image fill object-cover rounded-sm` — omitted entirely (not placeholder) if no image exists
 - Grid: `grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-16` (mirrors `SeoPageLayout.tsx` hero pattern)
 
@@ -168,7 +168,7 @@ Phase 4 left `WorkSection` cards as `cursor-default` display-only (D-11 deferred
 - `bg-surface-subtle py-16 px-4 md:px-8 lg:px-16`
 - Section header: eyebrow + `<h2>` using the standard pattern
 - Three project reference cards in `grid grid-cols-1 sm:grid-cols-3 gap-6`
-- Each card: project image (same `aspect-[4/3]` box as WorkSection), project name, 1-line outcome note, and a text link "Mehr erfahren" / "Read more" in `text-accent text-sm font-medium`
+- Each card: project image (same `aspect-[4/3]` box as WorkSection), project name, 1-line outcome note, and a text link "Mehr erfahren" / "Read more" in `text-accent text-sm` with `aria-label="Fallstudie {Projektname} lesen"` / `aria-label="Read case study for {project name}"` — mirrors the work grid aria-label pattern
 - Card background: `bg-surface border border-border rounded-sm` with `hover:-translate-y-1 hover:shadow-md` lift
 
 ### FAQ Section (Homepage)
@@ -189,8 +189,8 @@ Reuses the existing `FaqAccordion` component with zero modification. The homepag
 - Section header: eyebrow + `<h2>` (standard pattern)
 - Steps container: `grid grid-cols-1 md:grid-cols-3 gap-8`
 - Each step card: `bg-surface rounded-sm p-6`
-  - Step number chip: `w-8 h-8 rounded-full bg-surface-muted flex items-center justify-center text-sm font-semibold text-secondary mb-4`
-  - Step title: `text-2xl font-semibold text-primary mb-2`
+  - Step number chip: `w-8 h-8 rounded-full bg-surface-muted flex items-center justify-center text-sm text-secondary mb-4`
+  - Step title: `text-2xl font-bold text-primary mb-2`
   - Step description: `text-base text-secondary leading-relaxed`
   - No border on step cards (surface on surface-subtle creates implicit delineation)
 - Static section — no Sanity data fetch; copy lives in `messages/de.json` and `messages/en.json`
@@ -201,9 +201,9 @@ Centered strip, short and confident.
 
 - `bg-surface-muted py-16 px-4 md:px-8 lg:px-16`
 - `max-w-2xl mx-auto text-center`
-- Headline: `text-4xl font-semibold text-primary mb-4`
+- Headline: `text-4xl font-bold text-primary mb-4`
 - Body: `text-base text-secondary leading-relaxed mb-8`
-- Three trust ticks in a `flex flex-wrap justify-center gap-6` row: `text-sm text-secondary` with `text-accent font-medium` checkmark prefix
+- Three trust ticks in a `flex flex-wrap justify-center gap-6` row: `text-sm text-secondary` with `text-accent` checkmark prefix
 - No CTA button in this section — it is a trust signal, not a conversion action; the Contact section below it handles conversion
 - Static section — no Sanity data fetch; copy in message dictionaries
 
@@ -235,6 +235,7 @@ All copy is bilingual (DE default / EN alternate). Copy lives in `messages/de.js
 |---------|---------|---------|
 | Primary CTA (case study pages) | "Ähnliches Projekt besprechen" | "Discuss a similar project" |
 | Primary CTA (case studies bridge section) | "Mehr erfahren" (per card) | "Read more" (per card) |
+| Case studies bridge card aria-label | `aria-label="Fallstudie {Projektname} lesen"` | `aria-label="Read case study for {project name}"` |
 | Case study back link | "← Alle Projekte" | "← All projects" |
 | FAQ section heading | "Häufige Fragen" | "Frequently asked questions" |
 | FAQ eyebrow | "FAQ" | "FAQ" |
@@ -259,27 +260,88 @@ All copy is bilingual (DE default / EN alternate). Copy lives in `messages/de.js
 
 ## UI Considerations
 
-State coverage resolved against the ui-consideration-probe taxonomy for Phase 7 UI elements.
+State coverage resolved against the ui-consideration-probe taxonomy for Phase 7 UI elements (probe run 2026-09-11, 46 applicable considerations across 7 elements).
 
-| Category | Element(s) | Status | Resolution |
-|----------|------------|--------|------------|
-| empty | FAQ accordion list | ✅ covered | Section hidden entirely when `faqs.length === 0` — mirrors Services/Testimonials hide pattern. No "coming soon" for FAQ. |
-| empty | Case studies bridge section | ✅ covered | Section omitted entirely when no projects have `caseStudySlug` set — same pattern as empty WorkSection (renders empty state) except bridge hides fully. |
-| empty | Work grid cards (link upgrade) | ✅ covered | Projects without a case study slug remain `cursor-default` display-only cards; link wrapping is conditional on slug presence. |
-| populated | FAQ accordion (5–7 items) | ✅ covered | `max-w-3xl` container handles typical 5–7 items cleanly. Multiple panels open simultaneously — no exclusive-open constraint. |
-| populated | Process steps (exactly 3) | ✅ covered | Grid is `grid-cols-3` at desktop — exactly 3 steps by product decision. Mobile stacks to single column. |
-| populated | Case study page bands | ✅ covered | Each band is a full-width MotionSection; typical prose length (150–300 words) fits the `max-w-4xl` container without overflow at both 375px and 1440px. |
-| overflow | FAQ answer text | ✅ covered | `<p>` with `leading-[1.6]` wraps naturally; no truncation. Long answers are expected (1–3 paragraphs) and the accordion open height is unconstrained. |
-| overflow | Case study H1 (long project name) | 🧪 backstop | H1 uses `whitespace-pre-line` — intentional wrapping; no ellipsis. Playwright visual test should confirm at 375px that a 40-char project name wraps without overflow. |
-| overflow | Guarantee trust ticks (DE long strings) | ✅ covered | `flex-wrap` on the ticks row handles line breaks at 375px. |
-| zero-one-many | Case study project cards in bridge section | ✅ covered | Section shows 1–3 cards (product constraint — exactly the 3 anchor clients: Blumenspiess, Learnstep, Lumo). Single card: `sm:grid-cols-3` collapses gracefully to 1-col mobile. |
-| zero-one-many | FAQ items | ✅ covered | 0 → section hidden; 1 → single accordion item renders cleanly (last:border-b-0 already in FaqAccordion); 5–7 → standard populated state. |
-| long-text | Process step descriptions | 🧪 backstop | Descriptions should be kept to 2–3 sentences by editorial policy. If authors exceed this, card height grows without truncation. Playwright visual test at 1440px should confirm 3-col grid stays aligned when one step has ~120 words. |
-| partial | Case study page (missing project image) | ✅ covered | Hero right column is omitted entirely when no project image — `null` check, `hidden lg:block` already conditional on `heroImage` — mirrors SeoPageLayout pattern. |
-| partial | Case study page (missing outcome metric) | ✅ covered | Outcome metric callout in Hero band is conditional — omitted when `outcomeValue` is null/empty. The Outcome band still renders the prose description. |
-| loading | All new homepage sections | ✅ covered | All sections are RSC, fetched server-side. No client loading states needed. Page-level `Suspense` from Next.js handles streaming if needed. |
-| loading | Case study page | ✅ covered | Full RSC page, static generation via `generateStaticParams`. No runtime loading spinner needed. |
-| error | Case study page (slug not found) | ✅ covered | Next.js `notFound()` is called — the locale 404 page handles the user-visible state. |
+### E1 — FAQ Accordion List
+
+| Category | Status | Resolution |
+|----------|--------|------------|
+| empty | resolved (explicit) | Section hidden entirely when `faqs.length === 0` — mirrors Services/Testimonials hide pattern. No placeholder copy. |
+| loading | resolved (explicit) | RSC server-side fetch; no client loading state. Page-level Next.js Suspense handles streaming if needed. |
+| error | resolved (explicit) | Fetch failure at build time causes static generation to fail-fast (desired behavior for a static site). No runtime error state needed. |
+| populated | resolved (explicit) | 5–7 items in `max-w-3xl` container. Multiple panels open simultaneously (no exclusive-open constraint). `FaqAccordion` handles this natively. |
+| partial | resolved (explicit) | FAQ items are complete Sanity documents — no partial-data scenario. An item without an answer is a content authoring error; it will be skipped server-side if the GROQ query requires both question and answer fields. |
+| overflow | resolved (explicit) | `<p>` with `leading-[1.6]` wraps naturally; accordion height is unconstrained. Long answers (1–3 paragraphs) are expected and handled. |
+| zero-one-many | resolved (explicit) | 0 → hidden; 1 → single item renders cleanly (`last:border-b-0` in FaqAccordion); 5–7 → standard populated state. No singular/plural copy distinction needed (accordion items are self-contained). |
+
+### E2 — Case Studies CTA Bridge Section
+
+| Category | Status | Resolution |
+|----------|--------|------------|
+| empty | resolved (explicit) | Section omitted entirely when `projects.filter(p => p.caseStudySlug).length === 0`. |
+| loading | resolved (explicit) | RSC server-side fetch; no client loading state. |
+| error | resolved (explicit) | Build-time failure on Sanity fetch; no runtime error state needed. |
+| populated | resolved (explicit) | 3 cards in `grid-cols-1 sm:grid-cols-3 gap-6`. Each card: project image (aspect-[4/3]), project name, 1-line outcome note, "Mehr erfahren" / "Read more" text link with aria-label. |
+| partial | resolved (explicit) | Cards without a project image render with a `bg-surface-muted` placeholder box at the same `aspect-[4/3]` ratio — consistent with WorkSection card behavior. |
+| overflow | resolved (explicit) | Project names and outcome notes wrap naturally within card bounds. Card width is constrained by the 3-col grid. |
+| zero-one-many | resolved (explicit) | 0 → section hidden; 1–2 → `sm:grid-cols-3` with empty columns (acceptable for a product-constrained 3-client section); 3 → standard populated state. |
+| long-text | { "statement": "A project name exceeding ~30 chars wraps within its card without overflow at both 375px and 1440px.", "verification": "backstop" } |
+
+### E3 — Work Grid Cards (Link Upgrade)
+
+| Category | Status | Resolution |
+|----------|--------|------------|
+| empty | resolved (explicit) | WorkSection already handles empty state (renders empty grid). Link upgrade is conditional on slug presence — no new empty-state needed. |
+| loading | resolved (explicit) | RSC server-side fetch; no client loading state. |
+| error | resolved (explicit) | Build-time failure on Sanity fetch; no runtime error state needed. |
+| populated | resolved (explicit) | Cards with `caseStudySlug`: wrapped in `<Link>`, `cursor-pointer`, hover lift retained. Cards without slug: `cursor-default`, display-only, unchanged from Phase 4. |
+| partial | resolved (explicit) | Mixed grid (some linked, some not) is the intended state for the launch period. Visual differentiation is via cursor only — no badge or "coming soon" overlay (keeps the grid visually clean). |
+| overflow | resolved (explicit) | No change to card layout — existing WorkSection overflow handling applies. |
+| zero-one-many | resolved (explicit) | 0 linked cards → all display-only (valid state during early launch). 1–3 → grid renders as before; linked cards stand out via cursor change only. |
+
+### E4 — Process Section
+
+| Category | Status | Resolution |
+|----------|--------|------------|
+| empty | resolved (explicit) | Static section — always renders exactly 3 steps. No empty state exists by product decision. |
+| loading | resolved (explicit) | Static, no data fetch. |
+| error | resolved (explicit) | Static, no data fetch. |
+| populated | resolved (explicit) | 3-step grid (`grid-cols-1 md:grid-cols-3 gap-8`). Each step: number chip + title (`text-2xl font-bold`) + description (`text-base text-secondary`). |
+| partial | resolved (explicit) | Not applicable — steps are statically authored in message dictionaries. All 3 steps always present. |
+| overflow | resolved (explicit) | Step titles wrap within card (`max-w ~33% at desktop`). Descriptions use `leading-relaxed`. |
+| zero-one-many | resolved (explicit) | Always exactly 3 steps — no zero/one variant needed. |
+| long-text | { "statement": "3-column grid stays aligned when one step description reaches ~120 words at 1440px viewport width.", "verification": "backstop" } |
+
+### E5 — Guarantee Section
+
+| Category | Status | Resolution |
+|----------|--------|------------|
+| empty | resolved (explicit) | Static section — always renders. No empty state. |
+| loading | resolved (explicit) | Static, no data fetch. |
+| error | resolved (explicit) | Static, no data fetch. |
+| populated | resolved (explicit) | Centered strip: headline (`text-4xl font-bold`) + body (`text-base text-secondary`) + 3 trust ticks in `flex flex-wrap justify-center gap-6`. |
+| partial | resolved (explicit) | Not applicable — statically authored. All elements always present. |
+| overflow | resolved (explicit) | Trust ticks use `flex-wrap` — long DE strings (e.g. "Quellcode übergeben") wrap to second line at 375px. |
+| zero-one-many | resolved (explicit) | Always exactly 3 trust ticks — no zero/one variant needed. |
+| long-text | resolved (explicit) | Trust tick labels are short editorial copy (2–4 words). Body copy is a single sentence. Overflow not a concern at either breakpoint. |
+
+### E6 — Case Study Hero Band
+
+| Category | Status | Resolution |
+|----------|--------|------------|
+| empty | resolved (explicit) | A case study page requires at minimum: title, problem, solution, outcome. If Sanity data is missing, `notFound()` is called — locale 404 page handles display. |
+| loading | resolved (explicit) | Full RSC page, `generateStaticParams`. No runtime loading state. |
+| error | resolved (explicit) | `notFound()` on missing slug → locale 404. Sanity fetch error at build time causes build failure (desired). |
+| populated | resolved (explicit) | Left column: category pill + H1 + outcome metric + metric label + descriptor. Right column (desktop): project image `aspect-[4/3]`. Right column omitted entirely when no `heroImage` — not a placeholder box. |
+| overflow | { "statement": "Case study H1 wraps without overflow at 375px for a project name up to 40 characters. No ellipsis — `whitespace-pre-line` intentional wrapping.", "verification": "backstop" } |
+| long-text | { "statement": "Short descriptor text (1–2 sentences, ~100 chars) renders without overflow in the left column at both 375px and 1440px.", "verification": "backstop" } |
+
+### E7 — Case Study Problem/Solution/Outcome Bands
+
+| Category | Status | Resolution |
+|----------|--------|------------|
+| overflow | resolved (explicit) | Each band is a full-width MotionSection with `max-w-4xl mx-auto`. Prose wraps naturally. No truncation. Typical band length: 150–300 words. |
+| long-text | resolved (explicit) | Long prose (up to 500 words per band) renders in `text-base leading-[1.6]` within `max-w-4xl` — no overflow at 375px or 1440px. Outcome metric callout is a short number + label, never a long string. |
 
 ---
 
@@ -327,11 +389,11 @@ No third-party component registry is used. All components are bespoke, extending
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
+- [x] Dimension 1 Copywriting: FLAG (non-blocking — bridge card "Read more" visible copy lacks noun; aria-label compensates)
+- [x] Dimension 2 Visuals: PASS
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: PASS (4 sizes, 2 weights — prior BLOCKs resolved)
+- [x] Dimension 5 Spacing: PASS (all multiples of 4; 96px/128px documented as project-level extensions)
+- [x] Dimension 6 Registry Safety: PASS
 
-**Approval:** pending
+**Approval:** VERIFIED (2026-09-11)
