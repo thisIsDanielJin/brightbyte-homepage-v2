@@ -30,9 +30,15 @@ See: .planning/PROJECT.md (updated 2026-08-18)
 Phase: 07 (p2-differentiators-polish) — EXECUTING
 Plan: 1 of 4
 Status: Executing Phase 07
-Last activity: 2026-09-11 — Phase 07 execution started
+Last activity: 2026-09-12 — Quick task hero-lattice complete (Bright Lattice hero)
 
 Progress: [██████████] 95% (4/7 phases)
+
+## Quick Tasks Completed
+
+| Date       | Slug          | Description                                              | Status     |
+|------------|---------------|----------------------------------------------------------|------------|
+| 2026-09-12 | hero-lattice  | Replaced frosted-glass 3D hero with Bright Lattice wireframe + accent pulse (~2 draw calls, D-12 budget freed) | complete ✓ |
 
 ## Performance Metrics
 
