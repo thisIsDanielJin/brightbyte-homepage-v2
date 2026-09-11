@@ -40,7 +40,7 @@ function TestimonialsSectionInner({ testimonials }: TestimonialsSectionProps) {
   return (
     <MotionSection
       id="testimonials"
-      className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-surface-subtle"
+      className="py-20 md:py-28 px-6 md:px-12 lg:px-16 bg-surface"
     >
       <div className="max-w-6xl mx-auto">
         {/* Section header — left-aligned */}
