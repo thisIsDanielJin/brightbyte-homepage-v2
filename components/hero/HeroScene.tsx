@@ -1,16 +1,17 @@
 /**
- * components/hero/HeroScene.tsx — R3F Canvas root (Bright Lattice scene).
+ * components/hero/HeroScene.tsx — R3F Canvas root (point-cloud hero scene).
  *
- * Renders the wireframe lattice centerpiece:
+ * Renders the point-cloud centerpiece:
  *   - IntersectionObserver → `isVisible` drives `frameloop={isVisible ? 'always' : 'never'}`
  *     on the SAME <Canvas> (prop change, NOT a remount — 05-RESEARCH Pattern 2 / Pitfall 5).
  *     The loop pauses within a frame of the hero leaving the viewport (D-05) and resumes
  *     on re-entry with no Canvas flash.
- *   - <LatticeMesh /> is the wireframe icosahedron + traveling accent pulse. It issues
- *     ~2 draw calls (lineSegments + pulse), so the PerformanceMonitor/AdaptiveDpr
- *     degradation machinery from the glass scene is GONE — there is no per-frame
- *     transmission cost to throttle. The D-12 mobile-LCP budget stops being a design
- *     constraint (that inversion is the whole point of the lattice redesign).
+ *   - <PointCloud /> is a jittered 3D grid of ~3.5k points with an accent-blue wave of
+ *     light sweeping across it. It issues ONE draw call (a single THREE.Points), so the
+ *     PerformanceMonitor/AdaptiveDpr degradation machinery from the glass scene is GONE —
+ *     there is no per-frame transmission cost to throttle. The remaining cost is
+ *     fragment-stage overdraw (bounded by round-discard in the point shader), verified
+ *     against the Phase-5 perf gate.
  *   - <DebugHook /> stays: the Phase 5 perf gate reads window.__r3f_hero.calls()/dpr().
  *
  * Loaded EXCLUSIVELY via next/dynamic({ ssr:false }) from HeroCanvas — never imported
@@ -32,7 +33,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Canvas, useThree } from '@react-three/fiber'
 import { CAMERA_FOV, CAMERA_Z } from './constants'
-import { LatticeMesh } from './LatticeMesh'
+import { PointCloud } from './PointCloud'
 
 /**
  * Mount-only read-only debug hook for the Phase 5 perf gate (05-03).
@@ -90,7 +91,7 @@ export function HeroScene({ onReady }: { onReady?: () => void }) {
         onCreated={onReady}
         style={{ position: 'absolute', inset: 0 }}
       >
-        <LatticeMesh />
+        <PointCloud />
         <DebugHook />
       </Canvas>
     </div>
