@@ -97,5 +97,34 @@
   },
   "Datenschutz": {
     "title": "Privacy Policy"
+  },
+  "Process": {
+    "eyebrow": "Process",
+    "heading": "How we work",
+    "step1Title": "Discovery call",
+    "step1Desc": "We talk about your business, your goals, and what you need from your website. No jargon, no sales pitch, just an honest conversation.",
+    "step1Number": "01",
+    "step2Title": "Design & development",
+    "step2Desc": "I personally design and build your website, fixed price, clear timeline, regular updates. You see progress before we go live.",
+    "step2Number": "02",
+    "step3Title": "Launch & handover",
+    "step3Desc": "Your website goes live. You receive the full source code, all credentials, and a short walkthrough, everything is yours from day one.",
+    "step3Number": "03"
+  },
+  "Guarantee": {
+    "heading": "You own the code",
+    "body": "No lock-in. No subscription. Everything we build is yours, completely, from day one.",
+    "tick1": "Source code delivered",
+    "tick2": "No subscription",
+    "tick3": "Full ownership"
+  },
+  "CaseStudies": {
+    "eyebrow": "Case studies",
+    "heading": "Real results for real businesses",
+    "readMore": "Read more"
+  },
+  "FAQ": {
+    "eyebrow": "FAQ",
+    "heading": "Frequently asked questions"
   }
 }

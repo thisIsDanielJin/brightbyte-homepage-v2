@@ -97,5 +97,34 @@
   },
   "Datenschutz": {
     "title": "Datenschutzerklärung"
+  },
+  "Process": {
+    "eyebrow": "Vorgehen",
+    "heading": "So arbeiten wir",
+    "step1Title": "Kennenlerngespräch",
+    "step1Desc": "Wir sprechen über dein Unternehmen, deine Ziele und was du dir von deiner Website erhoffst. Kein Fachjargon, keine Verkäuferpitch, nur ein ehrliches Gespräch.",
+    "step1Number": "01",
+    "step2Title": "Design & Entwicklung",
+    "step2Desc": "Ich designe und baue deine Website persönlich, mit Festpreis, klarer Lieferzeit und regelmäßigen Updates. Du siehst den Fortschritt, bevor wir live gehen.",
+    "step2Number": "02",
+    "step3Title": "Launch & Übergabe",
+    "step3Desc": "Deine Website geht live. Du bekommst den vollständigen Quellcode, alle Zugangsdaten und eine kurze Einweisung, alles gehört dir von Anfang an.",
+    "step3Number": "03"
+  },
+  "Guarantee": {
+    "heading": "Du behältst den Code",
+    "body": "Kein Lock-in. Kein Abo. Alles, was wir bauen, gehört dir, vollständig, von Anfang an.",
+    "tick1": "Quellcode übergeben",
+    "tick2": "Kein Abo",
+    "tick3": "Volle Kontrolle"
+  },
+  "CaseStudies": {
+    "eyebrow": "Fallstudien",
+    "heading": "Echte Ergebnisse für echte Unternehmen",
+    "readMore": "Mehr erfahren"
+  },
+  "FAQ": {
+    "eyebrow": "FAQ",
+    "heading": "Häufige Fragen"
   }
 }
