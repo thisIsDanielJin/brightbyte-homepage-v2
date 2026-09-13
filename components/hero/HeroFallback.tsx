@@ -56,7 +56,7 @@ const DOTS: Array<{ cx: number; cy: number; r: number }> = []
       DOTS.push({
         cx: Math.round((originX + x * FALLBACK_SPACING + jx) * 1000) / 1000,
         cy: Math.round((originY + y * FALLBACK_SPACING + jy) * 1000) / 1000,
-        r: 2.6,
+        r: 3.2,
       })
       i++
     }

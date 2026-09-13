@@ -81,8 +81,8 @@ export const POINTCLOUD_JITTER = 0.05 // max per-point random offset (fraction o
 // Base (unlit) dot appearance. As a background the resting field stays quiet on the light
 // backdrop — the wave is the only bold moment. Sizes bumped so dots read clearly as a
 // texture behind the content (user: "make the dots even bigger to see").
-export const POINTCLOUD_BASE_SIZE = 16.0 // gl_PointSize in px for a resting node (pre-attenuation)
-export const POINTCLOUD_LIT_SIZE = 26.0 // gl_PointSize in px for a fully wave-lit node
+export const POINTCLOUD_BASE_SIZE = 20.0 // gl_PointSize in px for a resting node (pre-attenuation)
+export const POINTCLOUD_LIT_SIZE = 34.0 // gl_PointSize in px for a fully wave-lit node
 export const POINTCLOUD_BASE_OPACITY = 0.32 // resting dot opacity (quiet, reads as node not noise)
 export const POINTCLOUD_LIT_OPACITY = 0.95 // wave-lit dot opacity
 // Drift: a slow in-shader breathing so the resting field is not dead-static (D-04),
@@ -95,8 +95,17 @@ export const POINTCLOUD_DRIFT_SPEED = 0.6
 // band around the front's current X: bright at the front, fading behind. WAVE_SPEED is
 // world-X units per second; the front wraps across the grid's X extent. WAVE_WIDTH is
 // the half-width of the lit band in world X (wider = softer, more points lit at once).
-export const WAVE_SPEED = 0.55 // world-X units/sec the wavefront travels
-export const WAVE_WIDTH = 0.5 // half-width of the lit band in world X (softness)
+export const WAVE_SPEED = 0.4 // world-X units/sec the wavefront travels (slower, calmer sweep)
+export const WAVE_WIDTH = 0.9 // half-width of the lit band in world X (wider = more points lit at once)
+// Wrap-margin scale (< 1 = more frequent passes). "Increase frequency" = the front
+// should recur sooner (user-confirmed 2026-09-13). The front always travels the full
+// grid width (every column lights → full-section), plus a small OFF-SCREEN idle margin
+// past each edge. This factor scales ONLY that idle margin (as a fraction of WAVE_WIDTH):
+// shrinking it shortens the dead time between passes so the wave recurs more often,
+// WITHOUT reducing coverage or touching dot placement. Combined with the wider WAVE_WIDTH
+// band this reads as "more of the field lit, more often" — kept > 0 so the front still
+// fully exits before wrapping (never becomes "always lit" / never stuck half-lit).
+export const WAVE_SPAN_SCALE = 0.6
 
 // ── Point-cloud placement (FULL-WIDTH BACKGROUND, not a focal element) ─────────
 // The point cloud is now the hero BACKGROUND spanning the full width behind the

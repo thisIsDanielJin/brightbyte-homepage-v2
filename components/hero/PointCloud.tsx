@@ -66,6 +66,7 @@ import {
   POINTCLOUD_DRIFT_SPEED,
   WAVE_SPEED,
   WAVE_WIDTH,
+  WAVE_SPAN_SCALE,
   LATTICE_BREAKPOINT_PX,
   POINTCLOUD_POSITION_DESKTOP,
   POINTCLOUD_POSITION_MOBILE,
@@ -179,14 +180,18 @@ export function PointCloud() {
     geo.setAttribute('position', new BufferAttribute(positions, 3))
     geo.setAttribute('aSeed', new BufferAttribute(seeds, 1))
 
-    // The wave sweeps across the X extent. Give it a little margin past each edge so the
-    // front fully enters and fully exits (no point permanently half-lit at the ends).
+    // The wave sweeps across the X extent. The front travels the full grid width so
+    // EVERY column lights (full-section). WAVE_SPAN_SCALE (< 1) shrinks the OFF-SCREEN
+    // margin the front idles in past each edge, NOT the covered width — shorter idle =
+    // the front re-enters sooner, so wave activity recurs more often ("increase
+    // frequency" = faster recurrence, user-confirmed) while still crossing edge to edge.
+    // Kept > 0 so the front still fully exits before wrapping (no point stuck half-lit).
     const halfX = cx + POINTCLOUD_JITTER
-    const margin = WAVE_WIDTH
+    const margin = WAVE_WIDTH * WAVE_SPAN_SCALE
     return {
       geometry: geo,
       waveMinX: -halfX - margin,
-      waveSpanX: (halfX + margin) * 2,
+      waveSpanX: halfX * 2 + margin * 2,
     }
   }, [])
 
