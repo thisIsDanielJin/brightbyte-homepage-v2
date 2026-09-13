@@ -5,15 +5,15 @@ milestone_name: milestone
 current_phase: 07
 current_phase_name: p2-differentiators-polish
 status: executing
-stopped_at: Completed 07-03-PLAN.md
-last_updated: "2026-09-13T17:35:52.228Z"
+stopped_at: "07-04-PLAN.md — halted at checkpoint:human-verify (Tasks 1+2 complete, Tasks 3+4 pending)"
+last_updated: "2026-09-13T18:11:49.624Z"
 last_activity: 2026-09-12
 last_activity_desc: Quick task hero-lattice complete (Bright Lattice hero)
 progress:
   total_phases: 7
   completed_phases: 6
   total_plans: 24
-  completed_plans: 22
+  completed_plans: 23
 ---
 
 # Project State
@@ -110,6 +110,8 @@ Recent decisions affecting current work:
 - [Phase ?]: Em-dashes removed from all user-visible copy per CLAUDE.md copy rules
 - [Phase ?]: FAQ section hidden when siteSettings.faqs empty — content authoring is user-side dependency
 - [Phase ?]: Playwright tests require next build + next start (not dev server) for accurate message translation assertions
+- [Phase ?]: data-decorative='true' is the axe 4.12 exclusion mechanism for aria-hidden decorative elements — aria-hidden alone does not suppress color-contrast checks in this version
+- [Phase ?]: text-accent on bg-surface-dark fails WCAG AA (2.14:1); eyebrow text on dark sections must use text-muted-on-dark (7.48:1 AAA)
 
 ### Pending Todos
 
@@ -136,6 +138,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-09-13T17:35:52.216Z
-Stopped at: Completed 07-03-PLAN.md
-Resume file: None
+Last session: 2026-09-13T18:11:42.594Z
+Stopped at: 07-04-PLAN.md — halted at checkpoint:human-verify (Tasks 1+2 complete, Tasks 3+4 pending)
+Resume file: 07-04-PLAN.md
