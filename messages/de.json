@@ -17,7 +17,7 @@
   },
   "Hero": {
     "headline": "Deine Website, fertig gebaut und live",
-    "subline": "Design, Entwicklung und Launch — komplett von mir, zum Festpreis.",
+    "subline": "Design, Entwicklung und Launch, komplett von mir, zum Festpreis.",
     "cta": "Projekt anfragen",
     "scrollHint": "Mehr erfahren"
   },
@@ -27,7 +27,7 @@
     "priceFrom": "ab",
     "priceOnRequest": "Auf Anfrage",
     "includes": "Leistungsumfang",
-    "ctaBlurb": "Unsicher, welches Paket passt? Schreib mir — ich helfe dir bei der Wahl.",
+    "ctaBlurb": "Unsicher, welches Paket passt? Schreib mir, ich helfe dir bei der Wahl.",
     "cta": "Projekt anfragen"
   },
   "Pricing": {
@@ -38,7 +38,7 @@
     "priceSuffix": "Einmalig, inkl. Hosting-Empfehlung",
     "priceOnRequestSuffix": "Individuelles Angebot nach Umfang",
     "cta": "Projekt anfragen",
-    "trustNote": "Festpreis heißt Festpreis — keine versteckten Kosten, kein Stundensatz-Roulette."
+    "trustNote": "Festpreis heißt Festpreis. Keine versteckten Kosten, kein Stundensatz-Roulette."
   },
   "Work": {
     "eyebrow": "Referenzen",
@@ -54,13 +54,13 @@
   "Contact": {
     "eyebrow": "Kontakt",
     "heading": "Starten wir",
-    "subline": "Beschreib kurz dein Projekt — ich melde mich innerhalb von 24h.",
+    "subline": "Beschreib kurz dein Projekt, ich melde mich innerhalb von 24h.",
     "directLabel": "Lieber direkt schreiben?",
     "directEmail": "hello@brightbyte-berlin.com",
     "step1": "Du beschreibst dein Projekt",
     "step2": "Wir klären Umfang und Festpreis",
-    "step3": "Ich liefere — pünktlich, wie vereinbart",
-    "trustNote": "Kein Risiko — unverbindliche Erstberatung, kostenlos.",
+    "step3": "Ich liefere, pünktlich, wie vereinbart",
+    "trustNote": "Kein Risiko. Unverbindliche Erstberatung, kostenlos.",
     "labelName": "Dein Name",
     "labelEmail": "Deine E-Mail",
     "labelMessage": "Dein Projekt",
@@ -80,14 +80,14 @@
     "heading": "Über mich",
     "name": "Daniel Jin Wodke",
     "subline": "Freelance Webdesigner, Berlin",
-    "body": "Du arbeitest direkt mit mir — keine Agentur, kein Mittelsmann. Ich designe und baue deine Website persönlich, mit Festpreisen und einer klaren Lieferzeit. Jedes Projekt bekommt meine volle Aufmerksamkeit."
+    "body": "Du arbeitest direkt mit mir, keine Agentur, kein Mittelsmann. Ich designe und baue deine Website persönlich, mit Festpreisen und einer klaren Lieferzeit. Jedes Projekt bekommt meine volle Aufmerksamkeit."
   },
   "Footer": {
     "tagline": "Webdesign für kleine Unternehmen in Berlin.",
     "legal": "Rechtliches",
     "impressum": "Impressum",
     "datenschutz": "Datenschutz",
-    "copyright": "BrightByte Berlin — Daniel Jin Wodke"
+    "copyright": "BrightByte Berlin · Daniel Jin Wodke"
   },
   "Impressum": {
     "title": "Impressum",

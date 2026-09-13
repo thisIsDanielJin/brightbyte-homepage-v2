@@ -17,7 +17,7 @@
   },
   "Hero": {
     "headline": "Your website, built and shipped",
-    "subline": "Design, development and launch — all from me, at a fixed price.",
+    "subline": "Design, development and launch, all from me, at a fixed price.",
     "cta": "Start a project",
     "scrollHint": "Learn more"
   },
@@ -27,7 +27,7 @@
     "priceFrom": "from",
     "priceOnRequest": "On request",
     "includes": "What's included",
-    "ctaBlurb": "Not sure which package fits? Write to me — I'll help you choose.",
+    "ctaBlurb": "Not sure which package fits? Write to me, I'll help you choose.",
     "cta": "Start a project"
   },
   "Pricing": {
@@ -38,7 +38,7 @@
     "priceSuffix": "One-time, incl. hosting recommendation",
     "priceOnRequestSuffix": "Custom quote based on scope",
     "cta": "Start a project",
-    "trustNote": "Fixed price means fixed price — no hidden costs, no hourly rate roulette."
+    "trustNote": "Fixed price means fixed price. No hidden costs, no hourly rate roulette."
   },
   "Work": {
     "eyebrow": "Portfolio",
@@ -54,13 +54,13 @@
   "Contact": {
     "eyebrow": "Contact",
     "heading": "Let's start",
-    "subline": "Tell me briefly about your project — I'll reply within 24 hours.",
+    "subline": "Tell me briefly about your project, I'll reply within 24 hours.",
     "directLabel": "Prefer to email directly?",
     "directEmail": "hello@brightbyte-berlin.com",
     "step1": "You describe your project",
     "step2": "We agree on scope and a fixed price",
-    "step3": "I deliver — on time, as agreed",
-    "trustNote": "No risk — free, no-obligation first consultation.",
+    "step3": "I deliver, on time, as agreed",
+    "trustNote": "No risk. Free, no-obligation first consultation.",
     "labelName": "Your name",
     "labelEmail": "Your email",
     "labelMessage": "Your project",
@@ -80,14 +80,14 @@
     "heading": "About me",
     "name": "Daniel Jin Wodke",
     "subline": "Freelance Web Designer, Berlin",
-    "body": "You work directly with me — no agency, no middleman. I design and build your website personally, with fixed prices and a clear delivery timeline. Every project gets my full attention."
+    "body": "You work directly with me, no agency, no middleman. I design and build your website personally, with fixed prices and a clear delivery timeline. Every project gets my full attention."
   },
   "Footer": {
     "tagline": "Web design for small businesses in Berlin.",
     "legal": "Legal",
     "impressum": "Legal Notice",
     "datenschutz": "Privacy Policy",
-    "copyright": "BrightByte Berlin — Daniel Jin Wodke"
+    "copyright": "BrightByte Berlin · Daniel Jin Wodke"
   },
   "Impressum": {
     "title": "Legal Notice",

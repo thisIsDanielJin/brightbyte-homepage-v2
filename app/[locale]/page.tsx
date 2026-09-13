@@ -44,8 +44,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale } = await params
 
   const titles: Record<string, string> = {
-    de: 'BrightByte Berlin — Webdesign für kleine Unternehmen',
-    en: 'BrightByte Berlin — Web Design for Small Businesses',
+    de: 'BrightByte Berlin | Webdesign für kleine Unternehmen',
+    en: 'BrightByte Berlin | Web Design for Small Businesses',
   }
   const descriptions: Record<string, string> = {
     de: 'Professionelles Webdesign für kleine Unternehmen in Berlin. Faire Preise, schnelle Lieferung.',
