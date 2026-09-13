@@ -28,7 +28,11 @@ import { HeroSection } from '@/components/sections/HeroSection'
 import { ServicesSection } from '@/components/sections/ServicesSection'
 import { PricingSection } from '@/components/sections/PricingSection'
 import { WorkSection } from '@/components/sections/WorkSection'
+import { CaseStudiesBridge } from '@/components/sections/CaseStudiesBridge'
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
+import { ProcessSection } from '@/components/sections/ProcessSection'
+import { GuaranteeSection } from '@/components/sections/GuaranteeSection'
+import { FaqSection } from '@/components/sections/FaqSection'
 import { AboutSection } from '@/components/sections/AboutSection'
 import { ContactSection } from '@/components/sections/ContactSection'
 
@@ -77,6 +81,17 @@ export default async function HomePage({ params }: PageProps) {
   const safeLocale: 'de' | 'en' = locale === 'en' ? 'en' : 'de'
   const localBusinessLd = buildLocalBusinessLd(safeLocale, settings, BASE_URL)
 
+  // Filter projects that have a case study page for the CaseStudiesBridge section.
+  const projectsWithCaseStudy = (projects ?? []).filter(
+    (p): p is typeof p & { hasCaseStudy: true } => !!p.hasCaseStudy,
+  )
+
+  // Filter faqs — only items with both question and answer populated.
+  const validFaqs = (settings?.faqs ?? []).filter(
+    (f): f is { question: string; answer: string } =>
+      typeof f?.question === 'string' && typeof f?.answer === 'string',
+  )
+
   return (
     <>
       {/* SEO-02 / D-05: ProfessionalService/LocalBusiness JSON-LD — build-time, stega:false */}
@@ -85,7 +100,9 @@ export default async function HomePage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessLd) }}
       />
       <main>
-        {/* D-05 section order: Hero → Services → Pricing → Work → Testimonials → About → Contact */}
+        {/* D-05 section order (Phase 7 extended):
+            Hero → Services → Pricing → Work → CaseStudiesBridge → Testimonials
+            → Process → Guarantee → FAQ → About → Contact */}
 
         {/* SEC-01 — Hero: static backdrop, Sanity copy (Phase 5 swaps backdrop for R3F canvas) */}
         <HeroSection
@@ -102,8 +119,22 @@ export default async function HomePage({ params }: PageProps) {
         {/* SEC-04 — Work grid: images + outcome notes, hover lift, empty state */}
         <WorkSection projects={projects} locale={locale} />
 
+        {/* SEC-08 — Case Studies Bridge: cards linking to case study pages (hidden when 0) */}
+        {projectsWithCaseStudy.length > 0 && (
+          <CaseStudiesBridge projects={projectsWithCaseStudy} locale={locale} />
+        )}
+
         {/* SEC-05 — Testimonials: metric as own field above quote */}
         <TestimonialsSection testimonials={testimonials} locale={locale} />
+
+        {/* SEC-09 — Process: 3-step static section (message dictionary copy) */}
+        <ProcessSection />
+
+        {/* SEC-10 — Guarantee: trust strip, static (message dictionary copy) */}
+        <GuaranteeSection />
+
+        {/* SEC-11 — FAQ: accordion from siteSettings.faqs[], hidden when empty */}
+        {validFaqs.length > 0 && <FaqSection faqs={validFaqs} />}
 
         {/* SEC-06 — About: photo or DJ initials fallback */}
         <AboutSection settings={settings} locale={locale} />
