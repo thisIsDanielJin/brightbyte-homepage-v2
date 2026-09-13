@@ -79,7 +79,7 @@ export const POINTCLOUD_JITTER = 0.05 // max per-point random offset (fraction o
 // backdrop — the wave is the only bold moment (mirrors lattice: quiet field, one accent).
 export const POINTCLOUD_BASE_SIZE = 9.0 // gl_PointSize in px for a resting node (pre-attenuation)
 export const POINTCLOUD_LIT_SIZE = 16.0 // gl_PointSize in px for a fully wave-lit node
-export const POINTCLOUD_BASE_OPACITY = 0.28 // resting dot opacity (quiet, reads as node not noise)
+export const POINTCLOUD_BASE_OPACITY = 0.32 // resting dot opacity (quiet, reads as node not noise)
 export const POINTCLOUD_LIT_OPACITY = 0.95 // wave-lit dot opacity
 // Drift: a slow in-shader breathing so the resting field is not dead-static (D-04),
 // far gentler than the lattice spin. Amplitude in world space, speed scales uTime.
