@@ -49,9 +49,13 @@ const DOTS: Array<{ cx: number; cy: number; r: number }> = []
     for (let x = 0; x < FALLBACK_COLS; x++) {
       const jx = (rand(i * 3 + 0) - 0.5) * 2 * FALLBACK_JITTER
       const jy = (rand(i * 3 + 1) - 0.5) * 2 * FALLBACK_JITTER
+      // Round to 3 decimals: the raw hashed-random floats differ in their last digits
+      // between the Node (SSR) and browser (hydration) JS engines, tripping a React
+      // hydration mismatch. Rounding makes both emit an identical string (sub-pixel, so
+      // no visual change). D-11 CLS=0 preserved.
       DOTS.push({
-        cx: originX + x * FALLBACK_SPACING + jx,
-        cy: originY + y * FALLBACK_SPACING + jy,
+        cx: Math.round((originX + x * FALLBACK_SPACING + jx) * 1000) / 1000,
+        cy: Math.round((originY + y * FALLBACK_SPACING + jy) * 1000) / 1000,
         r: 2.6,
       })
       i++
