@@ -82,7 +82,7 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
         <div className="max-w-[720px]">
           {/* Overline */}
           <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-6 md:mb-8">
-            Berlin · Webdesign Studio
+            Berlin Web Development Studio
           </p>
 
           {/* Headline — editorial scale, tight leading */}
