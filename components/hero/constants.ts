@@ -70,15 +70,19 @@ export const LATTICE_SCALE_MOBILE = 0.95
 // small per-point random offset — regular enough to read "structured," jittered enough
 // to not look like a stiff spreadsheet. Grid dims chosen so cols*rows*depth ≈ 3.5k,
 // inside the ~3-4k cap.
-export const POINTCLOUD_GRID_COLS = 24 // X points
+// Grid dims widened so the field spans the FULL hero width as a background (not a
+// right-of-center focal mass). More columns than rows → a landscape field that fills
+// edge to edge. 32*18*8 = 4608 points — at the top of the 3-4k cap, still 1 draw call.
+export const POINTCLOUD_GRID_COLS = 32 // X points (widened for full-width background)
 export const POINTCLOUD_GRID_ROWS = 18 // Y points
-export const POINTCLOUD_GRID_DEPTH = 8 // Z points  → 24*18*8 = 3456 points, ~1 draw call
+export const POINTCLOUD_GRID_DEPTH = 8 // Z points  → 32*18*8 = 4608 points, ~1 draw call
 export const POINTCLOUD_SPACING = 0.16 // world-space gap between grid nodes
 export const POINTCLOUD_JITTER = 0.05 // max per-point random offset (fraction of world space)
-// Base (unlit) dot appearance. Low opacity so the resting field is quiet on the light
-// backdrop — the wave is the only bold moment (mirrors lattice: quiet field, one accent).
-export const POINTCLOUD_BASE_SIZE = 9.0 // gl_PointSize in px for a resting node (pre-attenuation)
-export const POINTCLOUD_LIT_SIZE = 16.0 // gl_PointSize in px for a fully wave-lit node
+// Base (unlit) dot appearance. As a background the resting field stays quiet on the light
+// backdrop — the wave is the only bold moment. Sizes bumped so dots read clearly as a
+// texture behind the content (user: "make the dots even bigger to see").
+export const POINTCLOUD_BASE_SIZE = 16.0 // gl_PointSize in px for a resting node (pre-attenuation)
+export const POINTCLOUD_LIT_SIZE = 26.0 // gl_PointSize in px for a fully wave-lit node
 export const POINTCLOUD_BASE_OPACITY = 0.32 // resting dot opacity (quiet, reads as node not noise)
 export const POINTCLOUD_LIT_OPACITY = 0.95 // wave-lit dot opacity
 // Drift: a slow in-shader breathing so the resting field is not dead-static (D-04),
@@ -93,6 +97,18 @@ export const POINTCLOUD_DRIFT_SPEED = 0.6
 // the half-width of the lit band in world X (wider = softer, more points lit at once).
 export const WAVE_SPEED = 0.55 // world-X units/sec the wavefront travels
 export const WAVE_WIDTH = 0.5 // half-width of the lit band in world X (softness)
+
+// ── Point-cloud placement (FULL-WIDTH BACKGROUND, not a focal element) ─────────
+// The point cloud is now the hero BACKGROUND spanning the full width behind the
+// content (user decision 2026-09-13: "background for the entire hero", "better for
+// background instead of being the main attraction"). Unlike the lattice's right-of-
+// center focal placement (LATTICE_POSITION_DESKTOP = [0.9,…]), the cloud is CENTERED
+// (x=0) and scaled up so the field + wave read edge-to-edge. A future right-side
+// element will sit ON TOP of this background in its own focal slot.
+export const POINTCLOUD_POSITION_DESKTOP: [number, number, number] = [0, 0, -0.5] // centered, pushed back
+export const POINTCLOUD_POSITION_MOBILE: [number, number, number] = [0, 0, -0.8] // centered, further back
+export const POINTCLOUD_SCALE_DESKTOP = 1.9 // fills the full hero width as a backdrop
+export const POINTCLOUD_SCALE_MOBILE = 1.4
 
 // ── Transition timing (from --duration-entrance: 500ms) ───────────────────────
 // No exact 400ms token exists. Use 500ms (--duration-entrance) as the conservative

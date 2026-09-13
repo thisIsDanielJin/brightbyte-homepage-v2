@@ -67,10 +67,10 @@ import {
   WAVE_SPEED,
   WAVE_WIDTH,
   LATTICE_BREAKPOINT_PX,
-  LATTICE_POSITION_DESKTOP,
-  LATTICE_POSITION_MOBILE,
-  LATTICE_SCALE_DESKTOP,
-  LATTICE_SCALE_MOBILE,
+  POINTCLOUD_POSITION_DESKTOP,
+  POINTCLOUD_POSITION_MOBILE,
+  POINTCLOUD_SCALE_DESKTOP,
+  POINTCLOUD_SCALE_MOBILE,
 } from './constants'
 
 // GLSL is authored inline (no external .glsl loader in the pipeline). Kept small and
@@ -215,11 +215,12 @@ export function PointCloud() {
     []
   )
 
-  // Responsive: same focal slot as the lattice (reuse its placement/scale guardrails).
+  // Responsive: full-width BACKGROUND placement (centered + scaled to fill the hero),
+  // not the lattice's right-of-center focal slot.
   const width = useThree((s) => s.size.width)
   const isMobile = width < LATTICE_BREAKPOINT_PX
-  const position = isMobile ? LATTICE_POSITION_MOBILE : LATTICE_POSITION_DESKTOP
-  const scale = isMobile ? LATTICE_SCALE_MOBILE : LATTICE_SCALE_DESKTOP
+  const position = isMobile ? POINTCLOUD_POSITION_MOBILE : POINTCLOUD_POSITION_DESKTOP
+  const scale = isMobile ? POINTCLOUD_SCALE_MOBILE : POINTCLOUD_SCALE_DESKTOP
 
   useFrame((_, delta) => {
     const mat = matRef.current

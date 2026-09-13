@@ -25,8 +25,8 @@
 // offset per dot (the static echo of the animated cloud's jitter). Built at module load
 // from a hashed-index pseudo-random so the markup is stable across renders — no hooks,
 // no Math.random at render time.
-const FALLBACK_COLS = 11
-const FALLBACK_ROWS = 8
+const FALLBACK_COLS = 16
+const FALLBACK_ROWS = 9
 const FALLBACK_SPACING = 26 // SVG user units between grid nodes
 const FALLBACK_JITTER = 5 // max per-dot offset in SVG units
 
@@ -37,11 +37,12 @@ const rand = (n: number) => {
 
 const DOTS: Array<{ cx: number; cy: number; r: number }> = []
 {
-  // Center the grid within the 400×400 viewBox, offset right-of-center to mirror the
-  // live cloud's desktop focal placement.
+  // Center the grid within the 400×400 viewBox. As a full-width background the frozen
+  // field is centered (mirrors the live cloud's centered background placement), not
+  // offset right-of-center.
   const gridW = (FALLBACK_COLS - 1) * FALLBACK_SPACING
   const gridH = (FALLBACK_ROWS - 1) * FALLBACK_SPACING
-  const originX = 200 + 40 - gridW / 2 // ~right-of-center
+  const originX = 200 - gridW / 2 // centered
   const originY = 200 - gridH / 2
   let i = 0
   for (let y = 0; y < FALLBACK_ROWS; y++) {
@@ -51,7 +52,7 @@ const DOTS: Array<{ cx: number; cy: number; r: number }> = []
       DOTS.push({
         cx: originX + x * FALLBACK_SPACING + jx,
         cy: originY + y * FALLBACK_SPACING + jy,
-        r: 1.6,
+        r: 2.6,
       })
       i++
     }
