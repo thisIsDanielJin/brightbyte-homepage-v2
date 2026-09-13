@@ -58,6 +58,42 @@ export const LATTICE_POSITION_MOBILE: [number, number, number] = [0, 0.15, -0.6]
 export const LATTICE_SCALE_DESKTOP = 1.25
 export const LATTICE_SCALE_MOBILE = 0.95
 
+// ── Point-cloud geometry / wave parameters (pure R3F params, not design tokens) ──
+// The point cloud replaces the lattice: a loose 3D grid / node field ("structured
+// data / the web, organized") with an accent-blue wave of light sweeping across it.
+// Base dots use the SAME muted decorative tone as the lattice edges (LATTICE_LINE_HEX
+// = --color-muted) so the two heroes share a family; the wave lifts each point toward
+// ACCENT_HEX as it passes. ONE draw call (THREE.Points + custom ShaderMaterial); drift
+// + wave are BOTH computed in-shader off a single uTime uniform.
+//
+// Layout = JITTERED GRID (decision 2026-09-13): a regular lattice of points with a
+// small per-point random offset — regular enough to read "structured," jittered enough
+// to not look like a stiff spreadsheet. Grid dims chosen so cols*rows*depth ≈ 3.5k,
+// inside the ~3-4k cap.
+export const POINTCLOUD_GRID_COLS = 24 // X points
+export const POINTCLOUD_GRID_ROWS = 18 // Y points
+export const POINTCLOUD_GRID_DEPTH = 8 // Z points  → 24*18*8 = 3456 points, ~1 draw call
+export const POINTCLOUD_SPACING = 0.16 // world-space gap between grid nodes
+export const POINTCLOUD_JITTER = 0.05 // max per-point random offset (fraction of world space)
+// Base (unlit) dot appearance. Low opacity so the resting field is quiet on the light
+// backdrop — the wave is the only bold moment (mirrors lattice: quiet field, one accent).
+export const POINTCLOUD_BASE_SIZE = 9.0 // gl_PointSize in px for a resting node (pre-attenuation)
+export const POINTCLOUD_LIT_SIZE = 16.0 // gl_PointSize in px for a fully wave-lit node
+export const POINTCLOUD_BASE_OPACITY = 0.28 // resting dot opacity (quiet, reads as node not noise)
+export const POINTCLOUD_LIT_OPACITY = 0.95 // wave-lit dot opacity
+// Drift: a slow in-shader breathing so the resting field is not dead-static (D-04),
+// far gentler than the lattice spin. Amplitude in world space, speed scales uTime.
+export const POINTCLOUD_DRIFT_AMP = 0.03
+export const POINTCLOUD_DRIFT_SPEED = 0.6
+
+// ── Wave-of-light parameters (the identity motion — "current through the network") ──
+// A soft front sweeps along +X across the cloud. A point's "lit" amount is a smooth
+// band around the front's current X: bright at the front, fading behind. WAVE_SPEED is
+// world-X units per second; the front wraps across the grid's X extent. WAVE_WIDTH is
+// the half-width of the lit band in world X (wider = softer, more points lit at once).
+export const WAVE_SPEED = 0.55 // world-X units/sec the wavefront travels
+export const WAVE_WIDTH = 0.5 // half-width of the lit band in world X (softness)
+
 // ── Transition timing (from --duration-entrance: 500ms) ───────────────────────
 // No exact 400ms token exists. Use 500ms (--duration-entrance) as the conservative
 // pick within the D-11 "300–500ms" window. Do NOT add a new token to tokens.css.
