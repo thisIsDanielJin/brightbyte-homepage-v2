@@ -5,15 +5,15 @@ milestone_name: milestone
 current_phase: 07
 current_phase_name: p2-differentiators-polish
 status: executing
-stopped_at: context exhaustion at 75% (2026-09-13)
-last_updated: "2026-09-13T17:16:31.277Z"
+stopped_at: Completed 07-03-PLAN.md
+last_updated: "2026-09-13T17:35:52.228Z"
 last_activity: 2026-09-12
 last_activity_desc: Quick task hero-lattice complete (Bright Lattice hero)
 progress:
   total_phases: 7
   completed_phases: 6
   total_plans: 24
-  completed_plans: 21
+  completed_plans: 22
 ---
 
 # Project State
@@ -28,11 +28,11 @@ See: .planning/PROJECT.md (updated 2026-08-18)
 ## Current Position
 
 Phase: 07 (p2-differentiators-polish) — EXECUTING
-Plan: 1 of 4
-Status: Executing Phase 07
+Plan: 2 of 4
+Status: Ready to execute
 Last activity: 2026-09-12 — Quick task hero-lattice complete (Bright Lattice hero)
 
-Progress: [██████████] 95% (4/7 phases)
+Progress: [█████████░] 92% (4/7 phases)
 
 ## Quick Tasks Completed
 
@@ -78,6 +78,7 @@ Progress: [██████████] 95% (4/7 phases)
 | Phase 04-2d-marketing-sections P02 | 32 | 3 tasks | 16 files |
 | Phase 04 P03 | 12 min | 2 tasks | 8 files |
 | Phase 06-seo-layer-programmatic-pages P02 | 19min | 3 tasks | 6 files |
+| Phase 07-p2-differentiators-polish P03 | 45m | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -106,6 +107,9 @@ Recent decisions affecting current work:
 - [Phase ?]: WorkSection always renders empty state; Services/Pricing/Testimonials return null on 0 data
 - [Phase ?]: ProfessionalService/LocalBusiness JSON-LD on homepage sourced from siteSettings with D-05 fallback constants
 - [Phase ?]: Next.js fetch cache must be cleared before rebuild when Sanity data changes (sitemap is static prerendered)
+- [Phase ?]: Em-dashes removed from all user-visible copy per CLAUDE.md copy rules
+- [Phase ?]: FAQ section hidden when siteSettings.faqs empty — content authoring is user-side dependency
+- [Phase ?]: Playwright tests require next build + next start (not dev server) for accurate message translation assertions
 
 ### Pending Todos
 
@@ -132,6 +136,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-09-13T17:16:31.033Z
-Stopped at: context exhaustion at 75% (2026-09-13)
-Resume file: /Users/I750579/Documents/brightbyte-homepage-v2/.continue-here.md
+Last session: 2026-09-13T17:35:52.216Z
+Stopped at: Completed 07-03-PLAN.md
+Resume file: None

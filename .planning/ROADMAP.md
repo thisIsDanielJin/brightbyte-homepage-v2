@@ -174,17 +174,17 @@ Seven phases that build the site the way it must be built — identity locked fi
   3. Final `axe-playwright` audit across all pages shows zero violations; Vercel Speed Insights shows green Core Web Vitals on production
   4. All section motion passes a final refinement review — timing, easing, and intensity are consistent with the identity tokens defined in Phase 1
 
-**Plans**: 4 plans
+**Plans**: 2/4 plans executed
 
 Plans:
 **Wave 1**
 
-- [ ] 07-01-PLAN.md — Tracer: Sanity case study schema + GROQ updates + Blumenspiess end-to-end case study page + work grid conditional linking + test fixes
+- [x] 07-01-PLAN.md — Tracer: Sanity case study schema + GROQ updates + Blumenspiess end-to-end case study page + work grid conditional linking + test fixes
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
 - [ ] 07-02-PLAN.md — Expansion: Learnstep + Lumo case study pages (content authoring + test coverage for all 3 projects)
-- [ ] 07-03-PLAN.md — Homepage new sections: Process, Guarantee, FAQ, CaseStudiesBridge components + message dictionary keys + page.tsx wiring
+- [x] 07-03-PLAN.md — Homepage new sections: Process, Guarantee, FAQ, CaseStudiesBridge components + message dictionary keys + page.tsx wiring
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
@@ -202,4 +202,4 @@ Plans:
 | 4. 2D Marketing Sections | 4/4 | Complete    | 2026-08-18 |
 | 5. R3F Hero | 5/5 | Complete    | 2026-09-02 |
 | 6. SEO Layer & Programmatic Pages | 3/3 | Complete    | 2026-09-09 |
-| 7. P2 Differentiators & Polish | 0/TBD | Not started | - |
+| 7. P2 Differentiators & Polish | 2/4 | In Progress|  |
