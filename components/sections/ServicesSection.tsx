@@ -38,7 +38,7 @@ function ServicesSectionInner({ services }: ServicesSectionProps) {
             >
               {/* Left: index + title + price */}
               <div>
-                <p className="text-xs text-muted font-medium tabular-nums mb-3">
+                <p className="text-xs text-muted font-medium tabular-nums mb-3" aria-hidden="true" data-decorative="true">
                   {String(idx + 1).padStart(2, '0')}
                 </p>
                 <h3

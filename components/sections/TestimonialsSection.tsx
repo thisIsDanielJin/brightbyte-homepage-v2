@@ -99,7 +99,7 @@ function TestimonialsSectionInner({ testimonials }: TestimonialsSectionProps) {
                 </p>
                 {testimonial.company && (
                   <p
-                    className="text-xs text-muted mt-0.5"
+                    className="text-xs text-secondary mt-0.5"
                     data-testid="testimonial-company"
                   >
                     {testimonial.company}

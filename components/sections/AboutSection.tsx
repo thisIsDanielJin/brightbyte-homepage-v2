@@ -71,7 +71,7 @@ function AboutSectionInner({ settings }: AboutSectionProps) {
                 role="img"
                 aria-label="Daniel Jin Wodke"
               >
-                <span className="text-3xl font-bold text-muted" aria-hidden="true">DJ</span>
+                <span className="text-3xl font-bold text-muted" aria-hidden="true" data-decorative="true">DJ</span>
               </div>
             )}
           </div>

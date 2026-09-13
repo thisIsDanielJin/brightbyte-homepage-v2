@@ -20,7 +20,7 @@ function PricingSectionInner({ services }: PricingSectionProps) {
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
         <div className="mb-16 md:mb-20">
-          <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-4">
+          <p className="text-xs font-medium text-muted-on-dark uppercase tracking-[0.2em] mb-4">
             {t('eyebrow')}
           </p>
           <h2 className="text-4xl md:text-5xl font-bold text-on-dark leading-[1.05] tracking-[-0.02em] max-w-[520px] text-balance">

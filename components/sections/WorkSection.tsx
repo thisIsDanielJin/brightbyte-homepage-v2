@@ -64,15 +64,16 @@ function WorkSectionInner({ projects, locale }: WorkSectionProps) {
             <div
               className="w-full h-full flex flex-col items-center justify-center gap-1 bg-[color-mix(in_srgb,var(--color-accent)_5%,var(--color-surface-muted))] border-b border-border px-6 text-center"
               aria-hidden="true"
+              data-decorative="true"
             >
               {(() => {
                 const m = project.outcomeNote?.match(/[+\-]?\d[\d.,]*\s?%?/)
                 return m ? (
-                  <span className="text-6xl font-bold leading-none tracking-[-0.04em] tabular-nums text-[color-mix(in_srgb,var(--color-accent)_38%,transparent)] select-none">
+                  <span className="text-6xl font-bold leading-none tracking-[-0.04em] tabular-nums text-[color-mix(in_srgb,var(--color-accent)_38%,transparent)] select-none" aria-hidden="true" data-decorative="true">
                     {m[0].trim()}
                   </span>
                 ) : (
-                  <span className="text-7xl font-bold leading-none tracking-[-0.04em] text-[color-mix(in_srgb,var(--color-accent)_22%,transparent)] select-none">
+                  <span className="text-7xl font-bold leading-none tracking-[-0.04em] text-[color-mix(in_srgb,var(--color-accent)_22%,transparent)] select-none" aria-hidden="true" data-decorative="true">
                     {(project.title ?? '·').trim().charAt(0).toUpperCase()}
                   </span>
                 )

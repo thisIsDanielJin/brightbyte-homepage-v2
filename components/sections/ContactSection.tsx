@@ -109,7 +109,7 @@ export function ContactSection() {
               double as conversion content — an SMB owner sees the path before
               committing. i18n via next-intl only (I18N-01). */}
           <div>
-            <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-6">
+            <p className="text-xs font-medium text-muted-on-dark uppercase tracking-[0.2em] mb-6">
               {t('eyebrow')}
             </p>
             <h2 className="text-4xl md:text-5xl font-bold text-on-dark leading-[1.05] tracking-[-0.02em] mb-6 text-balance">
@@ -124,6 +124,7 @@ export function ContactSection() {
                   <span
                     className="flex-shrink-0 text-sm font-semibold text-accent tabular-nums leading-6"
                     aria-hidden="true"
+                    data-decorative="true"
                   >
                     0{i + 1}
                   </span>
