@@ -39,6 +39,7 @@ Progress: [██████████] 95% (4/7 phases)
 | Date       | Slug          | Description                                              | Status     |
 |------------|---------------|----------------------------------------------------------|------------|
 | 2026-09-12 | hero-lattice  | Replaced frosted-glass 3D hero with Bright Lattice wireframe + accent pulse (~2 draw calls, D-12 budget freed) | complete ✓ |
+| 2026-09-13 | point-cloud-hero | Replaced Bright Lattice with point-cloud hero — jittered 3.5k-node grid + in-shader accent wave of light (1 draw call, browser-verified animation) | complete ✓ |
 
 ## Performance Metrics
 
