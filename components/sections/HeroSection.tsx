@@ -11,6 +11,9 @@
  *   - Subline: text-base text-secondary max-w-[560px]
  *   - CTA: bg-accent text-surface, href="#contact"
  *
+ * LAYOUT: centered single column (overline → headline → subline → CTA → proof →
+ * scroll hint), all center-aligned; the point cloud is a full-bleed backdrop behind.
+ *
  * CONTENT: headline/subline from Sanity siteSettings (D-07). If null, next-intl fallback renders.
  * IDENT-01: zero raw hex, zero text-gray-*, zero inline styles — all via @theme token utilities.
  * SEC-11/D-14: wrapped in MotionSection for whisper-quiet entrance fade.
@@ -55,31 +58,30 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
       <HeroCanvas />
 
       {/*
-        D-08 legibility scrim (UI-SPEC Option B): a token-only `bg-surface` wash
-        over the copy region, sitting ABOVE the canvas (z-0 wrapper) and BELOW
-        the z-10 text column. No raw hex (bg-surface + v4 opacity modifiers);
-        pointer-events-none so it never blocks the CTA.
-
-        - Mobile (< md): the glass is centered + pushed back, so the copy sits over
-          dark scene pixels. A near-solid full-bleed `bg-surface/85` band restores
-          WCAG AA for headline (#18181B) AND subline (#52525B) across the whole
-          full-width column.
-        - Desktop (md+): the glass focal mass is right-of-center (~65-70%), so a
-          left-anchored gradient that fades to transparent lightens the copy while
-          leaving the glass reveal on the right fully intact.
+        Legibility scrim (centered layout): the point cloud is now a full-bleed
+        backdrop and the copy sits center-column, so the old LEFT-anchored gradient
+        no longer matches the composition. Replaced with a SYMMETRIC treatment that
+        keeps the copy WCAG AA over the dots without killing the field at the edges:
+          - Mobile (< md): near-solid full-bleed `bg-surface/85` band (dots are pushed
+            furthest back on mobile; copy is the priority at narrow widths).
+          - Desktop (md+): a centered vertical wash `bg-gradient-to-b` that is strongest
+            through the vertical middle (where the copy lives) and fades toward the top
+            and bottom edges, so the wave stays visible at the hero's edges.
+        No raw hex (bg-surface + v4 opacity modifiers); pointer-events-none so it never
+        blocks the CTA. Sits ABOVE the canvas (z-0) and BELOW the z-10 text column.
       */}
       <div
-        className="absolute inset-0 z-0 bg-surface/90 md:hidden pointer-events-none"
+        className="absolute inset-0 z-0 bg-surface/85 md:hidden pointer-events-none"
         aria-hidden="true"
       />
       <div
-        className="absolute inset-y-0 left-0 z-0 hidden md:block md:w-2/3 bg-gradient-to-r from-surface/95 via-surface/80 to-transparent pointer-events-none"
+        className="absolute inset-0 z-0 hidden md:block bg-gradient-to-b from-surface/70 via-surface/80 to-surface/70 pointer-events-none"
         aria-hidden="true"
       />
 
-      {/* Text content — relative child, stays above Phase 5 canvas */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 py-32 md:py-0 flex items-center min-h-dvh">
-        <div className="max-w-[720px]">
+      {/* Text content — centered single column, stays above Phase 5 canvas */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 py-32 md:py-0 flex items-center justify-center min-h-dvh">
+        <div className="mx-auto max-w-[900px] text-center">
           {/* Overline */}
           <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-6 md:mb-8">
             Berlin Web Development Studio
@@ -90,9 +92,9 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
             {headlineText}
           </h1>
 
-          {/* Subline + CTA — stacked */}
-          <div className="flex flex-col gap-6 max-w-[480px]">
-            <p className="text-base md:text-lg text-secondary leading-[1.6] text-pretty">
+          {/* Subline + CTA — stacked, centered */}
+          <div className="flex flex-col items-center gap-6">
+            <p className="max-w-[560px] text-base md:text-lg text-secondary leading-[1.6] text-pretty">
               {sublineText}
             </p>
             <div>
@@ -115,7 +117,7 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
           </div>
 
           {/* Scroll hint */}
-          <div className="mt-16 md:mt-20 flex items-center gap-3" aria-hidden="true">
+          <div className="mt-16 md:mt-20 flex items-center justify-center gap-3" aria-hidden="true">
             <div className="w-px h-8 bg-border" />
             <span className="text-xs text-muted uppercase tracking-[0.15em]">{t('scrollHint')}</span>
           </div>
