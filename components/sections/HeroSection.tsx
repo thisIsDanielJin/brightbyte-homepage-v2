@@ -54,7 +54,7 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
           the same gradient, so the fallback is the single source of visual truth.
         No inline styles, no raw hex here (IDENT-01). Text column below stays z-10.
       */}
-      <div className="absolute inset-0 hero-backdrop" aria-hidden="true" />
+      <div key="hero-backdrop" className="absolute inset-0 hero-backdrop" aria-hidden="true" />
       <HeroCanvas />
 
       {/*

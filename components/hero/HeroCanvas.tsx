@@ -113,6 +113,7 @@ export function HeroCanvas() {
   return (
     <div
       ref={wrapperRef}
+      data-testid="hero-canvas-wrapper"
       className="absolute inset-0 opacity-0 [transition:opacity_500ms_cubic-bezier(0,0,0.2,1)] data-[ready=true]:opacity-100"
       aria-hidden="true"
     >
