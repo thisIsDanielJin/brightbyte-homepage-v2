@@ -76,3 +76,35 @@ Strictly cheaper than the glass. window.__r3f_hero.calls() still compiles/expose
 ## Self-Check: PASSED
 - LatticeMesh.tsx exists; GlassMesh.tsx removed. constants/HeroScene/HeroFallback updated.
 - Commits: 8e98a64 (constants), 16c1d3b (LatticeMesh), fa0966f (HeroScene + HeroFallback).
+
+## NEXT DIRECTION (decided 2026-09-13 — NOT yet built)
+
+User reviewed the shipped lattice + the 54-agent hero-3d research (workflow wf_deb6fd42-a57).
+Verdict from research was "keep the lattice," but user chose to pursue research Rec #2 instead:
+the geometric-shape-with-a-dot "has no meaning." Replace it with a **point cloud that means
+something**.
+
+**LOCKED concept:** data grid / node field + sweeping wave of light.
+- Form: points arranged as a loose 3D GRID / node field (not the icosahedron surface) — reads
+  as "structured data / the web, organized." Meaning tied to brand: bright / byte / web presence.
+- Identity motion: a soft accent-blue WAVE sweeps across the cloud by position — points light up
+  as it passes, fade behind. This carries the studio's "current through the network" pulse
+  signature forward, now dissolved across the cloud (not a single wandering sphere).
+
+**LOCKED design constraints (from research perf + light-backdrop warnings):**
+- NORMAL blending, never additive (additive washes to white on the light .hero-backdrop).
+- Ink/muted dots at low opacity; ~5% tinted accent #1C39BB that the wave lights up as it passes.
+- ~3-4k points cap; gl_PointSize tuned so dots read as intentional NODES, not noise
+  (dots-on-light = the exact v1 "reads as noise / no identity" failure mode — the make-or-break).
+- ONE draw call (THREE.Points + custom ShaderMaterial). Drift + wave BOTH in-shader off one
+  uTime uniform → zero per-frame CPU beyond a uniform write. ACCEPTABLE-not-cheap: watch
+  fragment-stage OVERDRAW at high dpr; verify on throttled Android vs the Phase-5 perf gate.
+- Carry over: D-05 offscreen frameloop pause, reduced-motion freeze, D-11 idle mount + cross-fade
+  CLS=0, HERO-01 isolation (three.js only via dynamic ssr:false).
+- Static fallback: needs its own SVG treatment (a static node-grid), same contract as HeroFallback.
+
+**Build plan for next session:** write a fresh quick-task PLAN capturing the above FIRST (so it
+survives), then build the point cloud as a drop-in replacement for <LatticeMesh> (same scene
+wiring in HeroScene, same HeroCanvas/fallback contract). MANDATORY: eyeball the real ANIMATION in
+a browser — headless Playwright screenshots freeze one frame and will not reveal the wave or the
+noise-vs-nodes legibility call. Lattice is 4 clean commits back if the point cloud does not land.
