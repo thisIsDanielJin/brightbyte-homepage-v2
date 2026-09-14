@@ -75,6 +75,10 @@ export function Header() {
     label: t(id),
   }))
 
+  // Contact is rendered as a dominant CTA button, split out of the text-link loop.
+  const textNavLinks = navLinks.filter(({ id }) => id !== 'contact')
+  const contactLink = navLinks.find(({ id }) => id === 'contact')!
+
   const isActive = (id: string) => activeSection === id
 
   return (
@@ -100,12 +104,12 @@ export function Header() {
         </a>
 
         {/* Desktop nav — hidden on mobile */}
-        <nav className="hidden md:flex items-center gap-6" aria-label="Hauptnavigation">
-          {navLinks.map(({ id, href, label }) => (
+        <nav className="hidden md:flex items-center gap-8" aria-label="Hauptnavigation">
+          {textNavLinks.map(({ id, href, label }) => (
             <a
               key={id}
               href={href}
-              className={`text-sm font-medium [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors ${
+              className={`text-base font-medium [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors ${
                 isActive(id)
                   ? 'text-primary border-b-2 border-accent pb-0.5'
                   : 'text-secondary hover:text-primary'
@@ -115,6 +119,12 @@ export function Header() {
             </a>
           ))}
           <LocaleSwitcher />
+          <a
+            href={contactLink.href}
+            className="text-base font-semibold border-2 border-accent text-accent px-5 py-1.5 [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors hover:bg-accent hover:text-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+          >
+            {contactLink.label}
+          </a>
         </nav>
 
         {/* Mobile hamburger — shown only on mobile */}
@@ -152,18 +162,25 @@ export function Header() {
           aria-label="Mobile Navigation"
         >
           <nav className="px-4 py-6 flex flex-col gap-4">
-            {navLinks.map(({ id, href, label }) => (
+            {textNavLinks.map(({ id, href, label }) => (
               <a
                 key={id}
                 href={href}
                 onClick={closeMobileNav}
-                className={`text-base font-medium py-2 [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors ${
+                className={`text-lg font-medium py-2 [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors ${
                   isActive(id) ? 'text-primary' : 'text-secondary hover:text-primary'
                 }`}
               >
                 {label}
               </a>
             ))}
+            <a
+              href={contactLink.href}
+              onClick={closeMobileNav}
+              className="text-lg font-semibold text-center border-2 border-accent text-accent px-5 py-3 [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors hover:bg-accent hover:text-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+            >
+              {contactLink.label}
+            </a>
             <div className="pt-2 border-t border-border">
               <LocaleSwitcher />
             </div>

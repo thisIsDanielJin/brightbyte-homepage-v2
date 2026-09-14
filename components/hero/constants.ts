@@ -58,54 +58,43 @@ export const LATTICE_POSITION_MOBILE: [number, number, number] = [0, 0.15, -0.6]
 export const LATTICE_SCALE_DESKTOP = 1.25
 export const LATTICE_SCALE_MOBILE = 0.95
 
-// ── Point-cloud geometry / wave parameters (pure R3F params, not design tokens) ──
-// The point cloud replaces the lattice: a loose 3D grid / node field ("structured
-// data / the web, organized") with an accent-blue wave of light sweeping across it.
-// Base dots use the SAME muted decorative tone as the lattice edges (LATTICE_LINE_HEX
-// = --color-muted) so the two heroes share a family; the wave lifts each point toward
-// ACCENT_HEX as it passes. ONE draw call (THREE.Points + custom ShaderMaterial); drift
-// + wave are BOTH computed in-shader off a single uTime uniform.
+// ── Point-cloud geometry / bloom parameters (pure R3F params, not design tokens) ──
+// The point cloud is a jittered-grid field of dots that breathes on its own — no
+// directional sweep. Each dot pulses independently via a sine keyed to uTime plus its
+// own seed-derived phase offset, so the field shimmers with organic, uncorrelated blooms.
+// A pow() on the sine sharpens the curve: dots spend most of the cycle dim and only
+// briefly peak bright — this produces the "occasional intense spot" feel.
 //
-// Layout = JITTERED GRID (decision 2026-09-13): a regular lattice of points with a
-// small per-point random offset — regular enough to read "structured," jittered enough
-// to not look like a stiff spreadsheet. Grid dims chosen so cols*rows*depth ≈ 3.5k,
-// inside the ~3-4k cap.
-// Grid dims widened so the field spans the FULL hero width as a background (not a
-// right-of-center focal mass). More columns than rows → a landscape field that fills
-// edge to edge. 32*18*8 = 4608 points — at the top of the 3-4k cap, still 1 draw call.
+// Layout = JITTERED GRID (decision 2026-09-13): regular lattice + small per-point random
+// offset. Grid dims widened so the field spans the FULL hero width as a background.
+// 32*18*8 = 4608 points — at the top of the 3-4k cap, still 1 draw call.
 export const POINTCLOUD_GRID_COLS = 32 // X points (widened for full-width background)
 export const POINTCLOUD_GRID_ROWS = 18 // Y points
 export const POINTCLOUD_GRID_DEPTH = 8 // Z points  → 32*18*8 = 4608 points, ~1 draw call
 export const POINTCLOUD_SPACING = 0.16 // world-space gap between grid nodes
 export const POINTCLOUD_JITTER = 0.05 // max per-point random offset (fraction of world space)
-// Base (unlit) dot appearance. As a background the resting field stays quiet on the light
-// backdrop — the wave is the only bold moment. Sizes bumped so dots read clearly as a
-// texture behind the content (user: "make the dots even bigger to see").
-export const POINTCLOUD_BASE_SIZE = 20.0 // gl_PointSize in px for a resting node (pre-attenuation)
-export const POINTCLOUD_LIT_SIZE = 34.0 // gl_PointSize in px for a fully wave-lit node
-export const POINTCLOUD_BASE_OPACITY = 0.32 // resting dot opacity (quiet, reads as node not noise)
-export const POINTCLOUD_LIT_OPACITY = 0.95 // wave-lit dot opacity
-// Drift: a slow in-shader breathing so the resting field is not dead-static (D-04),
-// far gentler than the lattice spin. Amplitude in world space, speed scales uTime.
+// Base dot appearance. Resting field stays quiet — blooms are the bold moments.
+export const POINTCLOUD_BASE_SIZE = 10.0 // gl_PointSize in px for a resting node (pre-attenuation)
+export const POINTCLOUD_LIT_SIZE = 22.0 // gl_PointSize in px for a fully bloomed node
+export const POINTCLOUD_BASE_OPACITY = 0.15 // resting dot opacity — quiet texture, not noise
+export const POINTCLOUD_LIT_OPACITY = 0.75 // peak-bloom opacity — visible but not harsh
+// Vertical center boost: dots near the horizontal center row (y=0) are enlarged by this
+// factor. Smooth full-height falloff. 1.5 = subtle; user-confirmed (2026-09-14).
+export const POINTCLOUD_CENTER_BOOST = 1.5
+// Drift: slow in-shader positional shimmer so the resting field is not dead-static.
 export const POINTCLOUD_DRIFT_AMP = 0.03
 export const POINTCLOUD_DRIFT_SPEED = 0.6
-
-// ── Wave-of-light parameters (the identity motion — "current through the network") ──
-// A soft front sweeps along +X across the cloud. A point's "lit" amount is a smooth
-// band around the front's current X: bright at the front, fading behind. WAVE_SPEED is
-// world-X units per second; the front wraps across the grid's X extent. WAVE_WIDTH is
-// the half-width of the lit band in world X (wider = softer, more points lit at once).
-export const WAVE_SPEED = 0.4 // world-X units/sec the wavefront travels (slower, calmer sweep)
-export const WAVE_WIDTH = 0.9 // half-width of the lit band in world X (wider = more points lit at once)
-// Wrap-margin scale (< 1 = more frequent passes). "Increase frequency" = the front
-// should recur sooner (user-confirmed 2026-09-13). The front always travels the full
-// grid width (every column lights → full-section), plus a small OFF-SCREEN idle margin
-// past each edge. This factor scales ONLY that idle margin (as a fraction of WAVE_WIDTH):
-// shrinking it shortens the dead time between passes so the wave recurs more often,
-// WITHOUT reducing coverage or touching dot placement. Combined with the wider WAVE_WIDTH
-// band this reads as "more of the field lit, more often" — kept > 0 so the front still
-// fully exits before wrapping (never becomes "always lit" / never stuck half-lit).
-export const WAVE_SPAN_SCALE = 0.6
+// Bloom pulse parameters:
+//   PULSE_SPEED   — how many full sine cycles per second (0.2 → ~5s per cycle, slow + meditative)
+//   PULSE_CONTRAST — pow() exponent applied to the [0,1] sine output. Higher = sharper peaks,
+//                    more time spent near zero. 3.0 means dots are dim ~80% of the time
+//                    and bloom briefly — gives the "occasionally a spot gets intense" look.
+//   PHASE_SPREAD  — multiplier on aSeed when computing each dot's phase offset. Higher =
+//                   more phase diversity across the field so blooms feel spatially random
+//                   rather than synchronized.
+export const POINTCLOUD_PULSE_SPEED = 0.2
+export const POINTCLOUD_PULSE_CONTRAST = 4.5  // sharper peaks → fewer dots bright at once
+export const POINTCLOUD_PHASE_SPREAD = 40.0   // wide spread → blooms cluster in isolated pockets
 
 // ── Point-cloud placement (FULL-WIDTH BACKGROUND, not a focal element) ─────────
 // The point cloud is now the hero BACKGROUND spanning the full width behind the

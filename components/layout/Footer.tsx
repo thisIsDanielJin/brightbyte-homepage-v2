@@ -16,6 +16,7 @@
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import { getTranslations } from 'next-intl/server'
+import { getSeoPages } from '@/lib/sanity/queries'
 
 interface FooterSettings {
   contactEmail?: string | null
@@ -32,6 +33,7 @@ export async function Footer({ settings, locale }: FooterProps) {
   const nav = await getTranslations('Nav')
   const currentYear = new Date().getFullYear()
   const email = settings?.contactEmail ?? 'hello@brightbyte-berlin.com'
+  const seoPages = await getSeoPages(locale)
 
   const navLinks = [
     { href: '#services', label: nav('services') },
@@ -44,7 +46,7 @@ export async function Footer({ settings, locale }: FooterProps) {
     <footer className="bg-surface-dark text-on-dark">
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-16">
         {/* Three-column at desktop, stacked at mobile */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
           {/* Column 1: Logo + tagline */}
           <div className="flex flex-col gap-4">
             <a href="#hero" aria-label="BrightByte Berlin — zur Startseite">
@@ -78,7 +80,26 @@ export async function Footer({ settings, locale }: FooterProps) {
             </ul>
           </nav>
 
-          {/* Column 3: Legal links + contact email */}
+          {/* Column 3: SEO landing pages (hidden when none exist) */}
+          {seoPages.length > 0 && (
+            <nav aria-label="Leistungsseiten">
+              <ul className="flex flex-col gap-3">
+                {seoPages.map((page) => (
+                  <li key={page._id}>
+                    <Link
+                      href={`/s/${page.slug?.current}`}
+                      locale={locale as 'de' | 'en'}
+                      className="text-sm text-on-dark [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                    >
+                      {page.title ?? page.slug?.current}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
+
+          {/* Column 4: Legal links + contact email */}
           <div className="flex flex-col gap-3">
             <p className="text-sm font-medium text-muted-on-dark uppercase tracking-widest">
               {t('legal')}

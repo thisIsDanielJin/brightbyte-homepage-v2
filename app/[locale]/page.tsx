@@ -30,7 +30,6 @@ import { PricingSection } from '@/components/sections/PricingSection'
 import { WorkSection } from '@/components/sections/WorkSection'
 import { CaseStudiesBridge } from '@/components/sections/CaseStudiesBridge'
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
-import { ProcessSection } from '@/components/sections/ProcessSection'
 import { GuaranteeSection } from '@/components/sections/GuaranteeSection'
 import { FaqSection } from '@/components/sections/FaqSection'
 import { AboutSection } from '@/components/sections/AboutSection'
@@ -44,8 +43,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale } = await params
 
   const titles: Record<string, string> = {
-    de: 'BrightByte Berlin | Webdesign für kleine Unternehmen',
-    en: 'BrightByte Berlin | Web Design for Small Businesses',
+    de: 'BrightByte Berlin. Webdesign für kleine Unternehmen',
+    en: 'BrightByte Berlin. Web Design for Small Businesses',
   }
   const descriptions: Record<string, string> = {
     de: 'Professionelles Webdesign für kleine Unternehmen in Berlin. Faire Preise, schnelle Lieferung.',
@@ -126,9 +125,6 @@ export default async function HomePage({ params }: PageProps) {
 
         {/* SEC-05 — Testimonials: metric as own field above quote */}
         <TestimonialsSection testimonials={testimonials} locale={locale} />
-
-        {/* SEC-09 — Process: 3-step static section (message dictionary copy) */}
-        <ProcessSection />
 
         {/* SEC-10 — Guarantee: trust strip, static (message dictionary copy) */}
         <GuaranteeSection />

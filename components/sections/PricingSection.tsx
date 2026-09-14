@@ -82,7 +82,7 @@ function PricingSectionInner({ services }: PricingSectionProps) {
               {/* CTA */}
               <a
                 href="#contact"
-                className="mt-auto inline-block bg-accent text-surface text-sm font-semibold px-7 py-3.5 rounded-sm text-center hover:bg-accent-hover [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                className="mt-auto inline-block bg-accent text-surface text-sm font-semibold px-7 py-3.5 text-center hover:bg-accent-hover [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
               >
                 {t('cta')}
               </a>

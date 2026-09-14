@@ -92,7 +92,7 @@ function ServicesSectionInner({ services }: ServicesSectionProps) {
           </p>
           <a
             href="#contact"
-            className="flex-shrink-0 inline-block border border-accent text-accent text-sm font-semibold px-7 py-3.5 rounded-sm hover:bg-accent hover:text-surface [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+            className="flex-shrink-0 inline-block border border-accent text-accent text-sm font-semibold px-7 py-3.5 hover:bg-accent hover:text-surface [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
           >
             {t('cta')}
           </a>

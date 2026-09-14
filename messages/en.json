@@ -16,10 +16,10 @@
     "closeMenu": "Close menu"
   },
   "Hero": {
-    "headline": "Your website, built and shipped",
+    "headline": "Your website,\nbuilt and shipped",
     "subline": "Design, development and launch, all from me, at a fixed price.",
     "cta": "Start a project",
-    "scrollHint": "Learn more"
+    "ctaSecondary": "See my work"
   },
   "Services": {
     "eyebrow": "Services",

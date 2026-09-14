@@ -26,7 +26,6 @@
 
 import { useTranslations } from 'next-intl'
 import { MotionSection } from '@/components/ui/MotionSection'
-import { HeroCanvas } from '@/components/hero/HeroCanvas'
 
 interface HeroSectionProps {
   headline?: string | null
@@ -55,7 +54,6 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
         No inline styles, no raw hex here (IDENT-01). Text column below stays z-10.
       */}
       <div key="hero-backdrop" className="absolute inset-0 hero-backdrop" aria-hidden="true" />
-      <HeroCanvas />
 
       {/*
         Legibility scrim (centered layout): the point cloud is now a full-bleed
@@ -87,39 +85,30 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
             Berlin Web Development Studio
           </p>
 
-          {/* Headline — editorial scale, tight leading */}
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-primary leading-[0.95] tracking-[-0.02em] mb-8 md:mb-10 text-balance">
+          {/* Headline — editorial scale, tight leading, always 2 lines via \n in copy */}
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-primary leading-[0.95] tracking-[-0.02em] mb-8 md:mb-10 whitespace-pre-line">
             {headlineText}
           </h1>
 
-          {/* Subline + CTA — stacked, centered */}
+          {/* Subline + CTA row */}
           <div className="flex flex-col items-center gap-6">
             <p className="max-w-[560px] text-base md:text-lg text-secondary leading-[1.6] text-pretty">
               {sublineText}
             </p>
-            <div>
+            <div className="flex flex-col sm:flex-row items-center gap-3">
               <a
                 href="#contact"
-                className="inline-block bg-accent text-surface text-sm font-semibold px-7 py-3.5 rounded-sm hover:bg-accent-hover [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 active:scale-[0.98]"
+                className="inline-block bg-accent text-surface text-sm font-semibold px-7 py-3.5 hover:bg-accent-hover [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 active:scale-[0.98]"
               >
                 {t('cta')}
               </a>
+              <a
+                href="#work"
+                className="inline-block border border-secondary/40 text-secondary text-sm font-medium px-7 py-3.5 hover:border-primary hover:text-primary [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+              >
+                {t('ctaSecondary')}
+              </a>
             </div>
-
-            {/* Proof strip — 3 trust signals inline */}
-            <p className="text-xs text-muted" aria-label="3 Berliner Unternehmen · Festpreis · 4 Wochen Lieferzeit">
-              <span>3 Berliner Unternehmen</span>
-              <span className="mx-2 opacity-40" aria-hidden="true">·</span>
-              <span>Festpreis</span>
-              <span className="mx-2 opacity-40" aria-hidden="true">·</span>
-              <span>4 Wochen Lieferzeit</span>
-            </p>
-          </div>
-
-          {/* Scroll hint */}
-          <div className="mt-16 md:mt-20 flex items-center justify-center gap-3" aria-hidden="true">
-            <div className="w-px h-8 bg-border" />
-            <span className="text-xs text-muted uppercase tracking-[0.15em]">{t('scrollHint')}</span>
           </div>
         </div>
       </div>

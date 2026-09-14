@@ -117,9 +117,9 @@ export type SiteSettings = {
     _type: "image";
   };
   faqs?: Array<{
-    _key: string;
     question?: string;
     answer?: string;
+    _key: string;
   }>;
   defaultSeo?: {
     metaTitle?: string;
@@ -657,8 +657,8 @@ export type SITE_SETTINGS_QUERY_RESULT = {
   impressumBody: string | null;
   datenschutzBody: string | null;
   faqs: Array<{
-    question: string;
-    answer: string;
+    question: string | null;
+    answer: string | null;
   }> | null;
 } | null;
 

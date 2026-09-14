@@ -16,10 +16,10 @@
     "closeMenu": "Menü schließen"
   },
   "Hero": {
-    "headline": "Deine Website, fertig gebaut und live",
+    "headline": "Deine Website,\nfertig gebaut und live",
     "subline": "Design, Entwicklung und Launch, komplett von mir, zum Festpreis.",
     "cta": "Projekt anfragen",
-    "scrollHint": "Mehr erfahren"
+    "ctaSecondary": "Projekte ansehen"
   },
   "Services": {
     "eyebrow": "Leistungen",
