@@ -1,15 +1,24 @@
 /**
- * components/sections/ProjectsSection.tsx — Projects: gap-px grid with stock images.
+ * components/sections/ProjectsSection.tsx — 3-col card grid (Stripe/Vercel).
  *
- * Matches the site's design language: gap-px borders, eyebrow labels,
- * clean typography. Each project is a horizontal row inside a bordered grid.
- * Left: stock image (replaced with real screenshots later).
- * Right: title, metric, outcome, testimonial.
+ * Design language alignment:
+ *   - gap-px bg-border grid (same technique as ServicesSection)
+ *   - Eyebrow label (uppercase, tracking-widest, text-accent)
+ *   - Image outlines at rgba(0,0,0,0.08) per better-ui
+ *   - No rounded corners (site-wide convention)
+ *   - Accent color for metrics only (#1C39BB)
+ *   - bg-surface-subtle section, bg-surface card fills
  *
- * Stock photos from Pexels (free, no attribution required for web use).
- * When real project screenshots land in Sanity, the stock images swap out.
+ * Card anatomy (top to bottom):
+ *   1. Image (3:2, stock or Sanity, with outline)
+ *   2. Title (h3, bold, primary)
+ *   3. Metric (accent, tabular-nums, prominent)
+ *   4. Outcome note (secondary, relaxed)
+ *   5. Testimonial quote (italic, border-l accent/30)
+ *   6. Author line
  *
- * better-ui: image outlines at low opacity, optical alignment.
+ * Mobile: single column. Tablet: 2-col. Desktop: 3-col.
+ * Stock photos as fallback until Sanity images land.
  */
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
@@ -20,11 +29,11 @@ import type { PROJECTS_QUERY_RESULT, TESTIMONIALS_QUERY_RESULT } from '@/sanity.
 /** Stock photos keyed by project title (lowercase). Pexels, royalty-free. */
 const STOCK_PHOTOS: Record<string, string> = {
   blumenspiess:
-    'https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=960&h=640&fit=crop',
+    'https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=800&h=534&fit=crop',
   learnstep:
-    'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=960&h=640&fit=crop',
+    'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800&h=534&fit=crop',
   lumo:
-    'https://images.pexels.com/photos/326503/pexels-photo-326503.jpeg?auto=compress&cs=tinysrgb&w=960&h=640&fit=crop',
+    'https://images.pexels.com/photos/326503/pexels-photo-326503.jpeg?auto=compress&cs=tinysrgb&w=800&h=534&fit=crop',
 }
 
 interface ProjectsSectionProps {
@@ -63,9 +72,9 @@ function ProjectsSectionInner({
           {t('heading')}
         </h2>
 
-        {/* Project rows: gap-px grid for 1px borders */}
-        <div className="flex flex-col gap-px bg-border">
-          {projects.map((project, index) => {
+        {/* 3-col card grid: gap-px for 1px borders */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border">
+          {projects.map((project) => {
             const matched = project.title
               ? testimonialByCompany.get(project.title.toLowerCase())
               : undefined
@@ -74,29 +83,26 @@ function ProjectsSectionInner({
             const metric = metricMatch ? metricMatch[0].trim() : null
             const titleLower = (project.title ?? '').toLowerCase()
 
-            // Use Sanity image if available, otherwise stock photo
+            // Sanity image takes priority, stock photo as fallback
             const sanityUrl = project.image?.asset
               ? urlFor(project.image)
-                  .width(960)
-                  .height(640)
+                  .width(800)
+                  .height(534)
                   .fit('crop')
                   .auto('format')
                   .url()
               : null
             const stockUrl = STOCK_PHOTOS[titleLower]
             const imageUrl = sanityUrl ?? stockUrl
-            const isEven = index % 2 === 1
 
             return (
-              <div
+              <article
                 key={project._id}
-                className="bg-surface grid grid-cols-1 md:grid-cols-2"
-                data-testid="project-row"
+                className="bg-surface flex flex-col"
+                data-testid="project-card"
               >
-                {/* Image */}
-                <div
-                  className={`relative aspect-[3/2] overflow-hidden bg-surface-muted${isEven ? ' md:order-2' : ''}`}
-                >
+                {/* Image: 3:2 aspect */}
+                <div className="relative aspect-[3/2] overflow-hidden bg-surface-muted">
                   {imageUrl ? (
                     sanityUrl ? (
                       <Image
@@ -104,7 +110,7 @@ function ProjectsSectionInner({
                         alt={project.title ?? ''}
                         fill
                         className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 50vw"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         style={{
                           outline: '1px solid rgba(0,0,0,0.08)',
                           outlineOffset: '-1px',
@@ -128,7 +134,7 @@ function ProjectsSectionInner({
                       className="w-full h-full flex items-center justify-center"
                       aria-hidden="true"
                     >
-                      <span className="text-6xl font-bold text-border select-none">
+                      <span className="text-5xl font-bold text-border select-none">
                         {titleLower.charAt(0).toUpperCase()}
                       </span>
                     </div>
@@ -136,36 +142,35 @@ function ProjectsSectionInner({
                 </div>
 
                 {/* Content */}
-                <div
-                  className={`flex flex-col justify-center p-8 md:p-12 lg:p-16${isEven ? ' md:order-1' : ''}`}
-                >
-                  <h3 className="text-2xl md:text-3xl font-bold text-primary leading-tight tracking-[-0.01em] mb-3">
+                <div className="flex flex-col flex-1 p-8 lg:p-10">
+                  <h3 className="text-xl font-bold text-primary leading-snug tracking-[-0.01em] mb-2">
                     {project.title}
                   </h3>
 
                   {metric && (
-                    <p className="text-4xl md:text-5xl font-bold text-accent tabular-nums tracking-[-0.03em] mb-4">
+                    <p className="text-3xl font-bold text-accent tabular-nums tracking-[-0.02em] mb-3">
                       {metric}
                     </p>
                   )}
 
                   {project.outcomeNote && (
-                    <p className="text-base text-secondary leading-relaxed max-w-md text-pretty mb-6">
+                    <p className="text-sm text-secondary leading-relaxed text-pretty mb-6">
                       {project.outcomeNote}
                     </p>
                   )}
 
+                  {/* Testimonial pushed to bottom of card via mt-auto */}
                   {matched?.quote && (
-                    <blockquote className="border-l-2 border-accent/30 pl-5 mt-auto">
+                    <blockquote className="border-l-2 border-accent/30 pl-4 mt-auto pt-4">
                       <p className="text-sm text-secondary leading-relaxed text-pretty italic">
                         &ldquo;{matched.quote}&rdquo;
                       </p>
                       {matched.author && (
                         <footer className="mt-2">
-                          <p className="text-sm text-primary font-medium">
+                          <p className="text-xs text-muted">
                             {matched.author}
                             {matched.company && (
-                              <span className="text-muted font-normal">
+                              <span>
                                 , {matched.company}
                               </span>
                             )}
@@ -175,7 +180,7 @@ function ProjectsSectionInner({
                     </blockquote>
                   )}
                 </div>
-              </div>
+              </article>
             )
           })}
         </div>
