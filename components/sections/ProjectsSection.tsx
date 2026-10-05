@@ -36,6 +36,13 @@ const STOCK_PHOTOS: Record<string, string> = {
     'https://images.pexels.com/photos/326503/pexels-photo-326503.jpeg?auto=compress&cs=tinysrgb&w=800&h=534&fit=crop',
 }
 
+/** Display titles: clearer project naming for the portfolio context. */
+const DISPLAY_TITLES: Record<string, string> = {
+  blumenspiess: 'Studio Blumenspiess Homepage',
+  learnstep: 'Projekt Learnstep',
+  lumo: 'Baumpflege Lumo Website',
+}
+
 interface ProjectsSectionProps {
   projects: PROJECTS_QUERY_RESULT
   testimonials: TESTIMONIALS_QUERY_RESULT
@@ -82,6 +89,13 @@ function ProjectsSectionInner({
               project.outcomeNote?.match(/[+\-]?\d[\d.,]*\s?%?/)
             const metric = metricMatch ? metricMatch[0].trim() : null
             const titleLower = (project.title ?? '').toLowerCase()
+
+            // Strip the metric from the outcome note to avoid duplication
+            const outcomeText = metric && project.outcomeNote
+              ? project.outcomeNote.replace(metricMatch![0], '').replace(/^\s*/, '').replace(/^[,.]\s*/, '')
+              : project.outcomeNote
+
+            const displayTitle = DISPLAY_TITLES[titleLower] ?? project.title
 
             // Sanity image takes priority, stock photo as fallback
             const sanityUrl = project.image?.asset
@@ -144,7 +158,7 @@ function ProjectsSectionInner({
                 {/* Content */}
                 <div className="flex flex-col flex-1 p-8 lg:p-10">
                   <h3 className="text-xl font-bold text-primary leading-snug tracking-[-0.01em] mb-2">
-                    {project.title}
+                    {displayTitle}
                   </h3>
 
                   {metric && (
@@ -153,31 +167,27 @@ function ProjectsSectionInner({
                     </p>
                   )}
 
-                  {project.outcomeNote && (
+                  {outcomeText && (
                     <p className="text-sm text-secondary leading-relaxed text-pretty mb-6">
-                      {project.outcomeNote}
+                      {outcomeText}
                     </p>
                   )}
 
-                  {/* Testimonial pushed to bottom of card via mt-auto */}
+                  {/* Testimonial: quote mark + clean layout, no border-l */}
                   {matched?.quote && (
-                    <blockquote className="border-l-2 border-accent/30 pl-4 mt-auto pt-4">
-                      <p className="text-sm text-secondary leading-relaxed text-pretty italic">
+                    <div className="mt-auto pt-6 border-t border-border">
+                      <p className="text-sm text-secondary leading-relaxed text-pretty">
                         &ldquo;{matched.quote}&rdquo;
                       </p>
                       {matched.author && (
-                        <footer className="mt-2">
-                          <p className="text-xs text-muted">
-                            {matched.author}
-                            {matched.company && (
-                              <span>
-                                , {matched.company}
-                              </span>
-                            )}
-                          </p>
-                        </footer>
+                        <p className="text-xs text-muted mt-3">
+                          {matched.author}
+                          {matched.company && (
+                            <span>, {matched.company}</span>
+                          )}
+                        </p>
                       )}
-                    </blockquote>
+                    </div>
                   )}
                 </div>
               </article>
