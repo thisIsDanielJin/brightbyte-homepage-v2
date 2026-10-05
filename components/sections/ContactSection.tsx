@@ -67,9 +67,6 @@ export function ContactSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
           {/* Left: heading + process */}
           <div>
-            <p className="text-xs font-medium uppercase tracking-widest text-accent/70 mb-4">
-              {t('eyebrow')}
-            </p>
             <h2 className="text-3xl md:text-4xl font-bold text-on-dark leading-[1.1] tracking-[-0.02em] mb-4">
               {t('heading')}
             </h2>

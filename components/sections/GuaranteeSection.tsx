@@ -38,25 +38,12 @@ export function GuaranteeSection() {
         }}
       />
 
-      {/* Subtle radial glow for depth */}
+      {/* Radial glow for depth */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
             'radial-gradient(ellipse 70% 60% at 20% 40%, rgba(74,108,247,0.25), transparent 60%)',
-        }}
-      />
-
-      {/* Vertical stripe texture (echoes hero panel) */}
-      <div
-        className="absolute inset-0 opacity-20"
-        style={{
-          maskImage:
-            'repeating-linear-gradient(90deg, black, black 5px, transparent 5px, transparent 11px)',
-          WebkitMaskImage:
-            'repeating-linear-gradient(90deg, black, black 5px, transparent 5px, transparent 11px)',
-          background:
-            'linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%)',
         }}
       />
 

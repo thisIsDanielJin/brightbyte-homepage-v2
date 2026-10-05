@@ -83,9 +83,6 @@ function ServicesSectionInner({ services, locale }: ServicesSectionProps) {
       <div className="px-6 md:px-8 lg:px-12 xl:px-[max(calc((100vw-90rem)/2+3rem),3rem)]">
         {/* Eyebrow + heading */}
         <div className="max-w-2xl mb-16 md:mb-20">
-          <p className="text-xs font-medium uppercase tracking-widest text-accent mb-4">
-            {t('eyebrow')}
-          </p>
           <h2 className="text-3xl md:text-4xl font-bold text-primary leading-[1.1] tracking-[-0.02em]">
             {t('heading')}
           </h2>

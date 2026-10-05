@@ -36,11 +36,6 @@ export function AboutSection({ settings, aboutPhotoUrl }: AboutSectionProps) {
       />
 
       <div className="relative px-6 md:px-8 lg:px-12 xl:px-[max(calc((100vw-90rem)/2+3rem),3rem)]">
-        {/* Eyebrow */}
-        <p className="text-xs font-medium uppercase tracking-widest text-accent/70 mb-12 md:mb-16">
-          {t('eyebrow')}
-        </p>
-
         <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-12 md:gap-20 items-start">
           {/* Photo - larger for visual weight */}
           <div className="flex-shrink-0">

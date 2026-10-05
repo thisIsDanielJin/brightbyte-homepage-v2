@@ -20,16 +20,7 @@ function PricingSectionInner({ services }: PricingSectionProps) {
 
   return (
     <MotionSection id="pricing" className="relative py-24 md:py-32 bg-surface-dark overflow-hidden">
-      <div className="absolute inset-0 opacity-20" style={{
-        background: 'linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.03) 100%)',
-        maskImage: 'repeating-linear-gradient(90deg, black, black 5px, transparent 5px, transparent 11px)',
-        WebkitMaskImage: 'repeating-linear-gradient(90deg, black, black 5px, transparent 5px, transparent 11px)',
-      }} />
-
       <div className="relative px-6 md:px-8 lg:px-12 xl:px-[max(calc((100vw-90rem)/2+3rem),3rem)]">
-        <p className="text-xs font-medium uppercase tracking-widest text-accent/70 mb-4">
-          {t('eyebrow')}
-        </p>
         <h2 className="text-3xl md:text-4xl font-bold text-on-dark leading-[1.1] tracking-[-0.02em] max-w-lg mb-16 md:mb-20">
           {t('heading')}
         </h2>
