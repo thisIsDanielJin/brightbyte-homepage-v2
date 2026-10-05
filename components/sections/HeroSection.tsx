@@ -125,7 +125,6 @@ function AnimatedWireframe() {
   const refs = useRef<Map<string, HTMLDivElement>>(new Map())
   const [layoutIdx, setLayoutIdx] = useState(0)
   const [ready, setReady] = useState(false)
-  const [showCursor, setShowCursor] = useState(false)
   const morphTlRef = useRef<gsap.core.Timeline | null>(null)
 
   // Enhancement 2: mouse parallax tilt
@@ -190,10 +189,8 @@ function AnimatedWireframe() {
         }
       }
 
-      // Enhancement 3: show blinking cursor after build
       tl.then(() => {
         setReady(true)
-        setShowCursor(true)
       })
     }, 800)
     return () => clearTimeout(timer)
@@ -275,16 +272,8 @@ function AnimatedWireframe() {
             <div data-dot className="w-[7px] h-[7px] rounded-full bg-white/30" style={{ transform: 'scale(0)' }} />
           </div>
 
-          {/* URL bar + blinking cursor (Enhancement 3) */}
-          <div className="absolute left-[15%] right-[35%] top-[2.8%] h-[1.5%] flex items-center" style={{ opacity: 0 }} ref={setElRef('url')}>
-            <div className="w-full h-full bg-white/15" />
-            {showCursor && (
-              <div
-                className="w-[1px] h-[70%] bg-white/60 ml-[2px] flex-shrink-0"
-                style={{ animation: 'wire-cursor 1s step-end infinite' }}
-              />
-            )}
-          </div>
+          {/* URL bar */}
+          <div className="absolute left-[15%] right-[35%] top-[2.8%] h-[1.5%] bg-white/15" style={{ opacity: 0 }} ref={setElRef('url')} />
 
           {/* Wireframe elements (all from layout 0, GSAP morphs positions) */}
           {initialEls.map(el => (
