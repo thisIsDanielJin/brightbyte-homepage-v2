@@ -168,14 +168,14 @@ function ProjectsSectionInner({
                   )}
 
                   {outcomeText && (
-                    <p className="text-sm text-secondary leading-relaxed text-pretty mb-6">
+                    <p className="text-sm text-secondary leading-relaxed text-pretty flex-1">
                       {outcomeText}
                     </p>
                   )}
 
-                  {/* Testimonial: quote mark + clean layout, no border-l */}
+                  {/* Testimonial: separator aligns across cards via flex-1 above */}
                   {matched?.quote && (
-                    <div className="mt-auto pt-6 border-t border-border">
+                    <div className="pt-6 mt-6 border-t border-border">
                       <p className="text-sm text-secondary leading-relaxed text-pretty">
                         &ldquo;{matched.quote}&rdquo;
                       </p>
