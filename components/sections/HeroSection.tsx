@@ -92,22 +92,34 @@ const layouts: WireEl[][] = [
   ],
 ]
 
-function getClass(type: WireEl['type']): string {
+// Enhancement 1: accent glow for interactive wireframe elements
+function getClass(type: WireEl['type'], id?: string): string {
+  const isAccent = id === 'ncta' || id === 'cta'
+  const isActiveNav = id === 'n1'
   switch (type) {
     case 'chrome': return 'border-b border-white/30'
     case 'image': return 'border border-white/25'
-    case 'text': return 'bg-white/20'
-    case 'button': return 'border border-white/40 bg-white/10'
+    case 'text': return isActiveNav
+      ? 'bg-[rgba(74,108,247,0.5)]'
+      : 'bg-white/20'
+    case 'button': return isAccent
+      ? 'border border-[rgba(74,108,247,0.7)] bg-[rgba(74,108,247,0.25)] shadow-[0_0_12px_rgba(74,108,247,0.3)]'
+      : 'border border-white/40 bg-white/10'
     case 'card': return 'border border-white/20'
     case 'footer': return 'border-t border-white/20 bg-white/[0.04]'
   }
 }
 
-// Diagonal cross for image placeholders (CSS background)
-const imageCross = {
-  background: `linear-gradient(to top right, transparent calc(50% - 0.5px), rgba(255,255,255,0.15) calc(50% - 0.5px), rgba(255,255,255,0.15) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
-    linear-gradient(to bottom right, transparent calc(50% - 0.5px), rgba(255,255,255,0.15) calc(50% - 0.5px), rgba(255,255,255,0.15) calc(50% + 0.5px), transparent calc(50% + 0.5px))`,
-}
+// Image placeholders: small landscape icon (mountain + sun) instead of diagonal cross
+const imagePlaceholderIcon = (
+  <svg viewBox="0 0 48 32" fill="none" className="w-8 h-5 text-white/15" aria-hidden="true">
+    <circle cx="14" cy="10" r="4" fill="currentColor" />
+    <path d="M0 28 L14 16 L22 22 L32 12 L48 28 Z" fill="currentColor" />
+  </svg>
+)
+
+// Layout labels (Enhancement 5)
+const LAYOUT_LABELS = ['Landing Page', 'Dashboard', 'Portfolio']
 
 const CheckIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="size-5 shrink-0 text-accent mt-0.5" aria-hidden="true">
@@ -117,10 +129,35 @@ const CheckIcon = () => (
 
 function AnimatedWireframe() {
   const containerRef = useRef<HTMLDivElement>(null)
+  const outerRef = useRef<HTMLDivElement>(null)
   const refs = useRef<Map<string, HTMLDivElement>>(new Map())
   const [layoutIdx, setLayoutIdx] = useState(0)
   const [ready, setReady] = useState(false)
+  const [showCursor, setShowCursor] = useState(false)
   const morphTlRef = useRef<gsap.core.Timeline | null>(null)
+
+  // Enhancement 2: mouse parallax tilt
+  useEffect(() => {
+    const outer = outerRef.current
+    if (!outer) return
+    const onMove = (e: MouseEvent) => {
+      const rect = outer.getBoundingClientRect()
+      const cx = rect.left + rect.width / 2
+      const cy = rect.top + rect.height / 2
+      const rx = ((e.clientY - cy) / rect.height) * -3 // max 3deg
+      const ry = ((e.clientX - cx) / rect.width) * 3
+      outer.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`
+    }
+    const onLeave = () => {
+      outer.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)'
+    }
+    outer.addEventListener('mousemove', onMove)
+    outer.addEventListener('mouseleave', onLeave)
+    return () => {
+      outer.removeEventListener('mousemove', onMove)
+      outer.removeEventListener('mouseleave', onLeave)
+    }
+  }, [])
 
   const setElRef = useCallback((id: string) => (el: HTMLDivElement | null) => {
     if (el) refs.current.set(id, el); else refs.current.delete(id)
@@ -161,7 +198,11 @@ function AnimatedWireframe() {
         }
       }
 
-      tl.then(() => setReady(true))
+      // Enhancement 3: show blinking cursor after build
+      tl.then(() => {
+        setReady(true)
+        setShowCursor(true)
+      })
     }, 800)
     return () => clearTimeout(timer)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
@@ -225,34 +266,67 @@ function AnimatedWireframe() {
   }, [layoutIdx, ready]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-[500px] mx-auto aspect-[4/3]">
-      {/* Browser frame */}
-      <div className="absolute inset-0 border border-white/30" />
+    <div className="relative w-full max-w-[500px] mx-auto">
+      {/* Parallax container (Enhancement 2) */}
+      <div
+        ref={outerRef}
+        className="aspect-[4/3] [transition:transform_0.15s_ease-out] will-change-transform"
+      >
+        <div ref={containerRef} className="relative w-full h-full">
+          {/* Browser frame */}
+          <div className="absolute inset-0 border border-white/30" />
 
-      {/* Window dots */}
-      <div className="absolute left-[3%] top-[2.5%] flex gap-[5px]">
-        <div data-dot className="w-[7px] h-[7px] rounded-full bg-white/30" style={{ transform: 'scale(0)' }} />
-        <div data-dot className="w-[7px] h-[7px] rounded-full bg-white/30" style={{ transform: 'scale(0)' }} />
-        <div data-dot className="w-[7px] h-[7px] rounded-full bg-white/30" style={{ transform: 'scale(0)' }} />
+          {/* Window dots */}
+          <div className="absolute left-[3%] top-[2.5%] flex gap-[5px]">
+            <div data-dot className="w-[7px] h-[7px] rounded-full bg-white/30" style={{ transform: 'scale(0)' }} />
+            <div data-dot className="w-[7px] h-[7px] rounded-full bg-white/30" style={{ transform: 'scale(0)' }} />
+            <div data-dot className="w-[7px] h-[7px] rounded-full bg-white/30" style={{ transform: 'scale(0)' }} />
+          </div>
+
+          {/* URL bar + blinking cursor (Enhancement 3) */}
+          <div className="absolute left-[15%] right-[35%] top-[2.8%] h-[1.5%] flex items-center" style={{ opacity: 0 }} ref={setElRef('url')}>
+            <div className="w-full h-full bg-white/15" />
+            {showCursor && (
+              <div
+                className="w-[1px] h-[70%] bg-white/60 ml-[2px] flex-shrink-0"
+                style={{ animation: 'wire-cursor 1s step-end infinite' }}
+              />
+            )}
+          </div>
+
+          {/* Wireframe elements (all from layout 0, GSAP morphs positions) */}
+          {initialEls.map(el => (
+            <div
+              key={el.id}
+              ref={setElRef(el.id)}
+              className={getClass(el.type, el.id)}
+              style={{
+                position: 'absolute',
+                left: `${el.x}%`, top: `${el.y}%`, width: `${el.w}%`, height: `${el.h}%`,
+                opacity: 0,
+              }}
+            >
+              {/* Image placeholder icon instead of diagonal cross */}
+              {el.type === 'image' && (
+                <div className="w-full h-full flex items-center justify-center">
+                  {imagePlaceholderIcon}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* URL bar */}
-      <div className="absolute left-[15%] right-[35%] top-[2.8%] h-[1.5%] bg-white/15" style={{ opacity: 0 }} ref={setElRef('url')} />
-
-      {/* Wireframe elements (all from layout 0, GSAP morphs positions) */}
-      {initialEls.map(el => (
-        <div
-          key={el.id}
-          ref={setElRef(el.id)}
-          className={getClass(el.type)}
-          style={{
-            position: 'absolute',
-            left: `${el.x}%`, top: `${el.y}%`, width: `${el.w}%`, height: `${el.h}%`,
-            opacity: 0,
-            ...(el.type === 'image' ? imageCross : {}),
-          }}
-        />
-      ))}
+      {/* Layout label (Enhancement 5) */}
+      <div className="text-center mt-4 h-5">
+        <p
+          key={layoutIdx}
+          className="text-xs font-medium text-white/40 tracking-wide uppercase"
+          style={{ animation: 'wire-label 5s ease-in-out' }}
+        >
+          {LAYOUT_LABELS[layoutIdx]}
+        </p>
+      </div>
     </div>
   )
 }

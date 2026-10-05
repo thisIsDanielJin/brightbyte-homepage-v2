@@ -107,3 +107,17 @@
   );
   background-size: 18px 18px;
 }
+
+/* Hero wireframe: blinking cursor in URL bar */
+@keyframes wire-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Hero wireframe: layout label fade in/out */
+@keyframes wire-label {
+  0% { opacity: 0; transform: translateY(4px); }
+  8% { opacity: 1; transform: translateY(0); }
+  85% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-2px); }
+}
