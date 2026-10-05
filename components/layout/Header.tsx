@@ -13,7 +13,7 @@ import { Link } from '@/i18n/navigation'
 import LocaleSwitcher from '@/components/LocaleSwitcher'
 import { useTranslations } from 'next-intl'
 
-const NAV_SECTIONS = ['services', 'pricing', 'work', 'contact'] as const
+const NAV_SECTIONS = ['services', 'work', 'pricing', 'contact'] as const
 
 export function Header() {
   const t = useTranslations('Nav')

@@ -33,8 +33,8 @@ export async function Footer({ settings, locale }: FooterProps) {
 
   const navLinks = [
     { href: '#services', label: nav('services') },
-    { href: '#pricing', label: nav('pricing') },
     { href: '#work', label: nav('work') },
+    { href: '#pricing', label: nav('pricing') },
     { href: '#contact', label: nav('contact') },
   ]
 
