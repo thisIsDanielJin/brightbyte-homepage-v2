@@ -46,7 +46,7 @@ function ProjectsSectionInner({ projects, testimonials, locale }: ProjectsSectio
 
         {/* Stacked project cards */}
         <div className="flex flex-col gap-6 md:gap-8">
-          {projects.map((project) => {
+          {projects.map((project, index) => {
             const matched = project.title
               ? testimonialByCompany.get(project.title.toLowerCase())
               : undefined
@@ -55,6 +55,9 @@ function ProjectsSectionInner({ projects, testimonials, locale }: ProjectsSectio
             const hasImage = !!project.image?.asset
             const slug = project.slug?.current
             const canLink = project.hasCaseStudy && slug
+            // Vary gradient angle per card so placeholders don't look identical
+            const gradientAngles = [135, 160, 110]
+            const angle = gradientAngles[index % gradientAngles.length]
 
             return (
               <article
@@ -63,7 +66,7 @@ function ProjectsSectionInner({ projects, testimonials, locale }: ProjectsSectio
                 data-testid="project-card"
               >
                 {/* Image area */}
-                <div className="relative aspect-[16/9] md:aspect-[2.4/1] overflow-hidden">
+                <div className="relative aspect-[16/9] md:aspect-[21/9] overflow-hidden">
                   {hasImage ? (
                     <Image
                       src={urlFor(project.image!)
@@ -87,7 +90,7 @@ function ProjectsSectionInner({ projects, testimonials, locale }: ProjectsSectio
                       aria-hidden="true"
                       style={{
                         background:
-                          'linear-gradient(135deg, var(--color-accent) 0%, #0F1F6B 60%, #0A1445 100%)',
+                          `linear-gradient(${angle}deg, var(--color-accent) 0%, #0F1F6B 60%, #0A1445 100%)`,
                       }}
                     >
                       {/* Stripe texture overlay */}
@@ -104,7 +107,7 @@ function ProjectsSectionInner({ projects, testimonials, locale }: ProjectsSectio
                       />
                       {/* Large initial letter */}
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-[8rem] md:text-[12rem] font-bold text-white/[0.07] select-none leading-none">
+                        <span className="text-[6rem] md:text-[8rem] font-bold text-white/[0.08] select-none leading-none">
                           {(project.title ?? '').charAt(0).toUpperCase()}
                         </span>
                       </div>

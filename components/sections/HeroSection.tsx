@@ -98,25 +98,17 @@ function getClass(type: WireEl['type'], id?: string): string {
   const isActiveNav = id === 'n1'
   switch (type) {
     case 'chrome': return 'border-b border-white/30'
-    case 'image': return 'border border-white/25'
+    case 'image': return 'border border-white/20'
     case 'text': return isActiveNav
-      ? 'bg-[rgba(74,108,247,0.5)]'
+      ? 'bg-white/40'
       : 'bg-white/20'
     case 'button': return isAccent
-      ? 'border border-[rgba(74,108,247,0.7)] bg-[rgba(74,108,247,0.25)] shadow-[0_0_12px_rgba(74,108,247,0.3)]'
+      ? 'border border-white/60 bg-white/20 shadow-[0_0_16px_rgba(255,255,255,0.15)]'
       : 'border border-white/40 bg-white/10'
     case 'card': return 'border border-white/20'
     case 'footer': return 'border-t border-white/20 bg-white/[0.04]'
   }
 }
-
-// Image placeholders: small landscape icon (mountain + sun) instead of diagonal cross
-const imagePlaceholderIcon = (
-  <svg viewBox="0 0 48 32" fill="none" className="w-8 h-5 text-white/15" aria-hidden="true">
-    <circle cx="14" cy="10" r="4" fill="currentColor" />
-    <path d="M0 28 L14 16 L22 22 L32 12 L48 28 Z" fill="currentColor" />
-  </svg>
-)
 
 // Layout labels (Enhancement 5)
 const LAYOUT_LABELS = ['Landing Page', 'Dashboard', 'Portfolio']
@@ -305,14 +297,7 @@ function AnimatedWireframe() {
                 left: `${el.x}%`, top: `${el.y}%`, width: `${el.w}%`, height: `${el.h}%`,
                 opacity: 0,
               }}
-            >
-              {/* Image placeholder icon instead of diagonal cross */}
-              {el.type === 'image' && (
-                <div className="w-full h-full flex items-center justify-center">
-                  {imagePlaceholderIcon}
-                </div>
-              )}
-            </div>
+            />
           ))}
         </div>
       </div>
