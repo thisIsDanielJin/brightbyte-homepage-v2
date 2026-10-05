@@ -10,11 +10,11 @@
  * Source: 03-PATTERNS.md lib/sanity/image.ts section; RESEARCH "Don't Hand-Roll: image URLs".
  * Verified: `SanityImageSource` and default `imageUrlBuilder` export in @sanity/image-url.
  */
-import imageUrlBuilder from '@sanity/image-url'
+import { createImageUrlBuilder } from '@sanity/image-url'
 import type { SanityImageSource } from '@sanity/image-url'
 import { client } from './client'
 
-const builder = imageUrlBuilder(client)
+const builder = createImageUrlBuilder(client)
 
 export function urlFor(source: SanityImageSource) {
   return builder.image(source)

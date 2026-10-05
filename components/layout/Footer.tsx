@@ -1,16 +1,12 @@
 /**
- * components/layout/Footer.tsx — Dark-surface footer (RSC — no 'use client').
+ * components/layout/Footer.tsx — Dark-surface footer (RSC).
  *
- * D-13: footer uses --color-surface-dark (#0F0F10) + --color-on-dark tokens — the
- *   intended dark-accent moment in the design. Text, nav links, and legal links all
- *   use on-dark token utilities.
+ * Structure:
+ *   Row 1: Logo + tagline | Nav links | Legal + email (3-col)
+ *   Row 2: SEO pages as a quiet inline flowing list (keeps crawlable links, minimal height)
+ *   Row 3: Copyright
+ *
  * IDENT-01: zero raw hex, zero text-gray-* — all via @theme token utilities.
- * D-04: anchor nav links are plain <a href="#...">; locale routes via i18n Link.
- *
- * Props: siteSettings from getSiteSettings(locale) — contactEmail, copyright year.
- * Falls back gracefully when siteSettings fields are null/absent.
- *
- * Source: 04-UI-SPEC.md Footer spec; 04-RESEARCH.md Pattern 3.
  */
 
 import Image from 'next/image'
@@ -44,99 +40,96 @@ export async function Footer({ settings, locale }: FooterProps) {
 
   return (
     <footer className="bg-surface-dark text-on-dark">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-16">
-        {/* Three-column at desktop, stacked at mobile */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
-          {/* Column 1: Logo + tagline */}
-          <div className="flex flex-col gap-4">
-            <a href="#hero" aria-label="BrightByte Berlin — zur Startseite">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-12 md:py-16">
+
+        {/* Row 1: Logo + Nav + Legal — clean 3-col */}
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10 md:gap-16">
+          {/* Logo + tagline */}
+          <div className="flex flex-col gap-3 md:max-w-[200px]">
+            <a href="#hero" aria-label="BrightByte Berlin, zur Startseite">
               <Image
                 src="/logo-dark.svg"
                 alt="BrightByte Berlin"
                 width={140}
                 height={32}
                 unoptimized
-                className="h-8 w-auto"
+                className="h-7 w-auto"
               />
             </a>
-            <p className="text-sm text-muted-on-dark leading-relaxed max-w-48">
+            <p className="text-sm text-muted-on-dark leading-relaxed">
               {t('tagline')}
             </p>
           </div>
 
-          {/* Column 2: Anchor nav links */}
-          <nav aria-label="Footer Navigation">
-            <ul className="flex flex-col gap-3">
-              {navLinks.map(({ href, label }) => (
-                <li key={href}>
-                  <a
-                    href={href}
-                    className="text-sm text-on-dark hover:text-on-dark [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-opacity hover:opacity-80"
-                  >
-                    {label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          {/* Nav links — horizontal on desktop */}
+          <nav aria-label="Footer Navigation" className="flex flex-wrap gap-x-8 gap-y-2">
+            {navLinks.map(({ href, label }) => (
+              <a
+                key={href}
+                href={href}
+                className="text-sm text-on-dark [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-opacity hover:opacity-70"
+              >
+                {label}
+              </a>
+            ))}
           </nav>
 
-          {/* Column 3: SEO landing pages (hidden when none exist) */}
-          {seoPages.length > 0 && (
-            <nav aria-label="Leistungsseiten">
-              <ul className="flex flex-col gap-3">
-                {seoPages.map((page) => (
-                  <li key={page._id}>
-                    <Link
-                      href={`/s/${page.slug?.current}`}
-                      locale={locale as 'de' | 'en'}
-                      className="text-sm text-on-dark [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-                    >
-                      {page.title ?? page.slug?.current}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          )}
-
-          {/* Column 4: Legal links + contact email */}
-          <div className="flex flex-col gap-3">
-            <p className="text-sm font-medium text-muted-on-dark uppercase tracking-widest">
-              {t('legal')}
-            </p>
-            <ul className="flex flex-col gap-2">
-              <li>
-                <Link
-                  href="/impressum"
-                  locale={locale as 'de' | 'en'}
-                  className="text-sm text-on-dark hover:text-on-dark [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-sm"
-                >
-                  {t('impressum')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/datenschutz"
-                  locale={locale as 'de' | 'en'}
-                  className="text-sm text-on-dark hover:text-on-dark [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-sm"
-                >
-                  {t('datenschutz')}
-                </Link>
-              </li>
-            </ul>
+          {/* Legal + email */}
+          <div className="flex flex-col gap-2 md:items-end">
+            <div className="flex gap-6">
+              <Link
+                href="/impressum"
+                locale={locale as 'de' | 'en'}
+                className="text-sm text-muted-on-dark [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-opacity hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+              >
+                {t('impressum')}
+              </Link>
+              <Link
+                href="/datenschutz"
+                locale={locale as 'de' | 'en'}
+                className="text-sm text-muted-on-dark [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-opacity hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+              >
+                {t('datenschutz')}
+              </Link>
+            </div>
             <a
               href={`mailto:${email}`}
-              className="text-sm text-on-dark underline decoration-accent underline-offset-2 hover:opacity-80 [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 rounded-sm mt-2 inline-block"
+              className="text-sm text-on-dark underline decoration-accent underline-offset-3 [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-opacity hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
             >
               {email}
             </a>
           </div>
         </div>
 
-        {/* Copyright bar */}
-        <div className="mt-12 pt-6 border-t border-muted-on-dark/20">
-          <p className="text-sm text-muted-on-dark">
-            © {currentYear} {t('copyright')}
+        {/* Row 2: SEO pages — quiet inline flowing list, separated by middots */}
+        {seoPages.length > 0 && (
+          <nav
+            aria-label="Leistungsseiten"
+            className="mt-10 pt-8 border-t border-muted-on-dark/15"
+          >
+            <div className="flex flex-wrap gap-x-1.5 gap-y-1 text-[11px] text-muted-on-dark/60 leading-relaxed">
+              {seoPages.map((page, i) => (
+                <span key={page._id}>
+                  <Link
+                    href={`/s/${page.slug?.current}`}
+                    locale={locale as 'de' | 'en'}
+                    className="hover:text-on-dark [transition-duration:150ms] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  >
+                    {page.title ?? page.slug?.current}
+                  </Link>
+                  {i < seoPages.length - 1 && (
+                    <span className="ml-1.5" aria-hidden="true">&middot;</span>
+                  )}
+                </span>
+              ))}
+            </div>
+          </nav>
+        )}
+
+        {/* Row 3: Copyright */}
+        <div className="mt-8 pt-6 border-t border-muted-on-dark/15">
+          <p className="text-xs text-muted-on-dark/50">
+            &copy; {currentYear} {t('copyright')}
           </p>
         </div>
       </div>

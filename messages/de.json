@@ -16,8 +16,10 @@
     "closeMenu": "Menü schließen"
   },
   "Hero": {
-    "headline": "Deine Website,\nfertig gebaut und live",
-    "subline": "Design, Entwicklung und Launch, komplett von mir, zum Festpreis.",
+    "headline": "Webdesign und Entwicklung für wachsende Unternehmen",
+    "val1": "Individuelles Design und Entwicklung, keine Templates",
+    "val2": "Festpreis, klarer Zeitplan, ein Ansprechpartner",
+    "val3": "Dir gehört der Code und jedes Asset ab Tag eins",
     "cta": "Projekt anfragen",
     "ctaSecondary": "Projekte ansehen"
   },
@@ -28,7 +30,20 @@
     "priceOnRequest": "Auf Anfrage",
     "includes": "Leistungsumfang",
     "ctaBlurb": "Unsicher, welches Paket passt? Schreib mir, ich helfe dir bei der Wahl.",
-    "cta": "Projekt anfragen"
+    "cta": "Projekt anfragen",
+    "card_frontend_title": "Frontend-Entwicklung",
+    "card_frontend_desc": "Performante, responsive Interfaces mit React, Next.js und TypeScript. Pixelgenau, barrierefrei und schnell.",
+    "card_backend_title": "Backend-Entwicklung",
+    "card_backend_desc": "Robuste APIs, Datenbanken und Server-Architektur. Sicher, skalierbar und langlebig.",
+    "card_ai_title": "KI-Entwicklung",
+    "card_ai_desc": "Smarte Features mit KI. Chatbots, Content-Generierung, intelligente Automatisierung für dein Business.",
+    "card_design_title": "Webdesign & UX",
+    "card_design_desc": "Nutzerzentriertes Design von Wireframes bis zum fertigen Prototyp. Klar, modern und conversion-optimiert.",
+    "card_landing_title": "Landing Pages",
+    "card_landing_desc": "Conversion-starke Einzelseiten, optimiert für SEO und Ladezeit. In Wochen live, nicht Monaten.",
+    "card_fullstack_title": "Full-Stack Websites",
+    "card_fullstack_desc": "Mehrseitige Websites mit CMS-Integration, dynamischen Inhalten und allem, was du brauchst, um online zu wachsen.",
+    "cardCta": "Loslegen"
   },
   "Pricing": {
     "eyebrow": "Preise",
@@ -46,6 +61,9 @@
     "emptyHeading": "Projekte folgen in Kürze",
     "emptyBody": "Ich zeige dir bald konkrete Ergebnisse.",
     "emptyCta": "Projekt anfragen"
+  },
+  "Projects": {
+    "heading": "Ausgewählte Arbeiten"
   },
   "Testimonials": {
     "eyebrow": "Kundenstimmen",
@@ -80,7 +98,8 @@
     "heading": "Über mich",
     "name": "Daniel Jin Wodke",
     "subline": "Freelance Webdesigner, Berlin",
-    "body": "Du arbeitest direkt mit mir, keine Agentur, kein Mittelsmann. Ich designe und baue deine Website persönlich, mit Festpreisen und einer klaren Lieferzeit. Jedes Projekt bekommt meine volle Aufmerksamkeit."
+    "body": "Du arbeitest direkt mit mir, keine Agentur, kein Mittelsmann. Ich designe und baue deine Website persönlich, mit Festpreisen und einer klaren Lieferzeit. Jedes Projekt bekommt meine volle Aufmerksamkeit.",
+    "stat": "5+ Jahre Webentwicklung · 10+ Projekte ausgeliefert"
   },
   "Footer": {
     "tagline": "Webdesign für kleine Unternehmen in Berlin.",

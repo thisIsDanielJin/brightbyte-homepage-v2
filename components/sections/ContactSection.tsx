@@ -1,25 +1,9 @@
 /**
- * components/sections/ContactSection.tsx — Contact form client island (SEC-07, D-08, D-09, D-10).
+ * components/sections/ContactSection.tsx — Contact on dark background.
  *
- * The ONLY 'use client' island of Phase 4. Mounted as the FINAL section in
- * app/[locale]/page.tsx (D-05 order, after About).
- *
- * Behavior:
- *   - 3 visible fields: Name (text), Email (email), Message (textarea rows=5).
- *   - Hidden honeypot input name="website" (tabIndex=-1, aria-hidden, className="hidden") — D-10.
- *   - Records mount time via useState(() => Date.now()) and sends it as _timestamp (Pitfall 8).
- *   - Per-field client-preview validation via the shared schema (lib/contact/schema.ts).
- *   - POSTs { name, email, message, website, _timestamp } to /api/contact.
- *   - Loading: inline 16px SVG spinner + disabled + opacity-75 (no reload).
- *   - Success: inline success heading + body; form hidden (no reload).
- *   - Error (network/server/validation): inline error copy; form re-enabled (no reload).
- *
- * i18n: strings from next-intl messages ONLY (I18N-01) — never client state / localStorage.
- * IDENT-01: zero raw hex, zero gray-* — all colors via @theme token utilities.
- * MotionSection: whisper-quiet entrance fade, respects prefers-reduced-motion (D-14/SEC-11).
- * T-04-07: RESEND_API_KEY is NEVER imported here — the key lives only in the Route Handler.
- *
- * Source: 04-UI-SPEC.md Contact Section + Contact Form Field States; 04-RESEARCH.md Pattern 4.
+ * Dark surface with blue accent details. The final CTA of the page
+ * gets visual weight through the dark treatment.
+ * Form inputs are light on dark. Submit button in accent blue.
  */
 'use client'
 
@@ -33,115 +17,78 @@ type SubmitState = 'idle' | 'loading' | 'success' | 'error'
 
 export function ContactSection() {
   const t = useTranslations('Contact')
-
-  // Mount time (ms epoch) for the time-to-submit spam check (Pitfall 8).
-  // Not a locale — I18N-01 invariant is about locale-in-state only.
   const [mountedAt] = useState(() => Date.now())
-
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
-  const [website, setWebsite] = useState('') // honeypot — real users never fill this
+  const [website, setWebsite] = useState('')
   const [errors, setErrors] = useState<FieldErrors>({})
   const [state, setState] = useState<SubmitState>('idle')
 
   function validate(): FieldErrors {
     const result = contactVisibleSchema.safeParse({ name, email, message })
     if (result.success) return {}
-
     const next: FieldErrors = {}
     for (const issue of result.error.issues) {
       const field = issue.path[0] as ContactVisibleField
-      if (next[field]) continue // keep the first error per field
-
-      // A field that is empty is "required"; a non-empty email that still fails
-      // the schema is an email-format error.
+      if (next[field]) continue
       const value = field === 'name' ? name : field === 'email' ? email : message
-      next[field] =
-        field === 'email' && value.length > 0
-          ? t('validationEmail')
-          : t('validationRequired')
+      next[field] = field === 'email' && value.length > 0 ? t('validationEmail') : t('validationRequired')
     }
     return next
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-
     const fieldErrors = validate()
     setErrors(fieldErrors)
-    if (Object.keys(fieldErrors).length > 0) {
-      setState('idle')
-      return
-    }
-
+    if (Object.keys(fieldErrors).length > 0) { setState('idle'); return }
     setState('loading')
     setErrors({})
-
     const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name,
-        email,
-        message,
-        website,
-        _timestamp: mountedAt,
-      }),
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, message, website, _timestamp: mountedAt }),
     }).catch(() => null)
-
-    if (res && res.ok) {
-      setState('success')
-      return
-    }
-
-    setState('error')
+    setState(res && res.ok ? 'success' : 'error')
   }
 
   const disabled = state === 'loading'
+  const inputClass = (hasError: boolean) =>
+    `w-full px-4 py-3 text-sm text-primary bg-surface border ${hasError ? 'border-destructive' : 'border-border'} placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`
 
   return (
-    <MotionSection id="contact" className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-surface-dark">
-      <div className="max-w-6xl mx-auto">
+    <MotionSection id="contact" className="relative py-24 md:py-32 bg-surface-dark overflow-hidden">
+      {/* Subtle blue radial glow */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        background: 'radial-gradient(ellipse 60% 50% at 20% 50%, rgba(28,57,187,0.08), transparent 70%)',
+      }} />
+
+      <div className="relative px-6 md:px-8 lg:px-12 xl:px-[max(calc((100vw-90rem)/2+3rem),3rem)]">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
-          {/* Left: heading + context + direct-contact reassurance.
-              The 3-step process and direct email fill what was dead space and
-              double as conversion content — an SMB owner sees the path before
-              committing. i18n via next-intl only (I18N-01). */}
+          {/* Left: heading + process */}
           <div>
-            <p className="text-xs font-medium text-muted-on-dark uppercase tracking-[0.2em] mb-6">
+            <p className="text-xs font-medium uppercase tracking-widest text-accent/70 mb-4">
               {t('eyebrow')}
             </p>
-            <h2 className="text-4xl md:text-5xl font-bold text-on-dark leading-[1.05] tracking-[-0.02em] mb-6 text-balance">
+            <h2 className="text-3xl md:text-4xl font-bold text-on-dark leading-[1.1] tracking-[-0.02em] mb-4">
               {t('heading')}
             </h2>
-            <p className="text-base md:text-lg text-muted-on-dark leading-[1.7] text-pretty mb-12">{t('subline')}</p>
+            <p className="text-base text-muted-on-dark leading-relaxed text-pretty mb-10">{t('subline')}</p>
 
-            {/* Three-step process — numbered because it is a real sequence */}
-            <ol className="space-y-4 mb-12">
+            <ol className="space-y-4 mb-10">
               {[t('step1'), t('step2'), t('step3')].map((step, i) => (
                 <li key={i} className="flex items-start gap-4">
-                  <span
-                    className="flex-shrink-0 text-sm font-semibold text-accent tabular-nums leading-6"
-                    aria-hidden="true"
-                    data-decorative="true"
-                  >
-                    0{i + 1}
+                  <span className="flex-shrink-0 text-sm font-medium tabular-nums leading-6" style={{ color: '#4A6CF7' }} aria-hidden="true">
+                    {String(i + 1).padStart(2, '0')}
                   </span>
-                  <span className="text-base text-on-dark/80 leading-6 text-pretty">{step}</span>
+                  <span className="text-base text-muted-on-dark leading-relaxed text-pretty">{step}</span>
                 </li>
               ))}
             </ol>
 
-            {/* Direct email — for owners who skip forms */}
             <div>
-              <p className="text-xs font-medium text-muted-on-dark uppercase tracking-[0.1em] mb-2">
-                {t('directLabel')}
-              </p>
-              <a
-                href={'mailto:' + t('directEmail')}
-                className="text-base font-medium text-on-dark underline decoration-accent decoration-2 underline-offset-4 hover:text-accent [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-              >
+              <p className="text-xs text-muted-on-dark uppercase tracking-wide mb-2">{t('directLabel')}</p>
+              <a href={'mailto:' + t('directEmail')} className="text-sm font-medium text-on-dark underline decoration-accent underline-offset-3 hover:opacity-70 transition-opacity">
                 {t('directEmail')}
               </a>
             </div>
@@ -150,140 +97,36 @@ export function ContactSection() {
           {/* Right: form */}
           <div>
             {state === 'success' ? (
-              <div
-                role="status"
-                aria-live="polite"
-                className="py-8"
-                data-testid="contact-success"
-              >
-                <svg
-                  className="mb-4 h-10 w-10 text-accent"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M20 6 9 17l-5-5" />
-                </svg>
-                <h3 className="text-2xl font-semibold text-on-dark text-balance">
-                  {t('successHeading')}
-                </h3>
-                <p className="text-base text-muted-on-dark mt-2 text-pretty">{t('successBody')}</p>
+              <div role="status" aria-live="polite" className="py-8" data-testid="contact-success">
+                <h3 className="text-2xl font-bold text-on-dark mb-2">{t('successHeading')}</h3>
+                <p className="text-base text-muted-on-dark">{t('successBody')}</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} noValidate className="space-y-5">
-                {/* Name */}
                 <div>
-                  <label htmlFor="contact-name" className="text-xs font-medium text-muted-on-dark uppercase tracking-[0.1em] block mb-2">
-                    {t('labelName')}
-                  </label>
-                  <input
-                    id="contact-name"
-                    name="name"
-                    type="text"
-                    autoComplete="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    disabled={disabled}
-                    placeholder={t('placeholderName')}
-                    aria-invalid={errors.name ? true : undefined}
-                    aria-describedby={errors.name ? 'contact-name-error' : undefined}
-                    className={`w-full px-4 py-3.5 text-base text-primary bg-surface placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-                      errors.name
-                        ? 'border border-destructive ring-1 ring-destructive'
-                        : 'border border-border'
-                    }`}
-                  />
-                  {errors.name && (
-                    <p id="contact-name-error" className="text-sm text-destructive mt-1.5">
-                      {errors.name}
-                    </p>
-                  )}
+                  <label htmlFor="contact-name" className="text-xs text-muted-on-dark uppercase tracking-wide block mb-2">{t('labelName')}</label>
+                  <input id="contact-name" name="name" type="text" autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} disabled={disabled} placeholder={t('placeholderName')}
+                    aria-invalid={errors.name ? true : undefined} className={inputClass(!!errors.name)} />
+                  {errors.name && <p className="text-sm text-destructive mt-1.5">{errors.name}</p>}
                 </div>
-
-                {/* Email */}
                 <div>
-                  <label htmlFor="contact-email" className="text-xs font-medium text-muted-on-dark uppercase tracking-[0.1em] block mb-2">
-                    {t('labelEmail')}
-                  </label>
-                  <input
-                    id="contact-email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    disabled={disabled}
-                    placeholder={t('placeholderEmail')}
-                    aria-invalid={errors.email ? true : undefined}
-                    aria-describedby={errors.email ? 'contact-email-error' : undefined}
-                    className={`w-full px-4 py-3.5 text-base text-primary bg-surface placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-                      errors.email
-                        ? 'border border-destructive ring-1 ring-destructive'
-                        : 'border border-border'
-                    }`}
-                  />
-                  {errors.email && (
-                    <p id="contact-email-error" className="text-sm text-destructive mt-1.5">
-                      {errors.email}
-                    </p>
-                  )}
+                  <label htmlFor="contact-email" className="text-xs text-muted-on-dark uppercase tracking-wide block mb-2">{t('labelEmail')}</label>
+                  <input id="contact-email" name="email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={disabled} placeholder={t('placeholderEmail')}
+                    aria-invalid={errors.email ? true : undefined} className={inputClass(!!errors.email)} />
+                  {errors.email && <p className="text-sm text-destructive mt-1.5">{errors.email}</p>}
                 </div>
-
-                {/* Message */}
                 <div>
-                  <label htmlFor="contact-message" className="text-xs font-medium text-muted-on-dark uppercase tracking-[0.1em] block mb-2">
-                    {t('labelMessage')}
-                  </label>
-                  <textarea
-                    id="contact-message"
-                    name="message"
-                    rows={5}
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    disabled={disabled}
-                    placeholder={t('placeholderMessage')}
-                    aria-invalid={errors.message ? true : undefined}
-                    aria-describedby={errors.message ? 'contact-message-error' : undefined}
-                    className={`w-full px-4 py-3.5 text-base text-primary bg-surface placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-                      errors.message
-                        ? 'border border-destructive ring-1 ring-destructive'
-                        : 'border border-border'
-                    }`}
-                  />
-                  {errors.message && (
-                    <p id="contact-message-error" className="text-sm text-destructive mt-1.5">
-                      {errors.message}
-                    </p>
-                  )}
+                  <label htmlFor="contact-message" className="text-xs text-muted-on-dark uppercase tracking-wide block mb-2">{t('labelMessage')}</label>
+                  <textarea id="contact-message" name="message" rows={5} value={message} onChange={(e) => setMessage(e.target.value)} disabled={disabled} placeholder={t('placeholderMessage')}
+                    aria-invalid={errors.message ? true : undefined} className={inputClass(!!errors.message)} />
+                  {errors.message && <p className="text-sm text-destructive mt-1.5">{errors.message}</p>}
                 </div>
-
-                {/* Honeypot */}
                 <div className="hidden" aria-hidden="true">
                   <label htmlFor="contact-website">Website</label>
-                  <input
-                    id="contact-website"
-                    name="website"
-                    type="text"
-                    tabIndex={-1}
-                    autoComplete="off"
-                    value={website}
-                    onChange={(e) => setWebsite(e.target.value)}
-                  />
+                  <input id="contact-website" name="website" type="text" tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} />
                 </div>
-
-                {/* Submit */}
-                <button
-                  type="submit"
-                  disabled={disabled}
-                  className={`inline-flex items-center justify-center gap-2 bg-accent px-8 py-4 text-sm font-semibold text-surface transition-colors duration-150 hover:bg-accent-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 w-full ${
-                    disabled ? 'opacity-75 cursor-not-allowed' : ''
-                  }`}
-                  data-testid="contact-submit"
-                >
+                <button type="submit" disabled={disabled} data-testid="contact-submit"
+                  className={`inline-flex items-center justify-center gap-2 bg-accent text-surface text-sm font-medium h-10 px-6 w-full hover:bg-accent-hover transition-colors ${disabled ? 'opacity-75 cursor-not-allowed' : ''}`}>
                   {state === 'loading' && (
                     <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -292,21 +135,9 @@ export function ContactSection() {
                   )}
                   {state === 'loading' ? t('submitLoading') : t('submitIdle')}
                 </button>
-
-                {/* Risk reversal */}
-                <p className="text-xs text-muted-on-dark text-center">
-                  {t('trustNote')}
-                </p>
-
+                <p className="text-xs text-muted-on-dark text-center">{t('trustNote')}</p>
                 {state === 'error' && (
-                  <p
-                    role="alert"
-                    aria-live="assertive"
-                    className="text-sm text-destructive mt-1"
-                    data-testid="contact-error"
-                  >
-                    {t('errorGeneric')}
-                  </p>
+                  <p role="alert" className="text-sm text-destructive mt-1" data-testid="contact-error">{t('errorGeneric')}</p>
                 )}
               </form>
             )}

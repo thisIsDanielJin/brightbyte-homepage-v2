@@ -1,114 +1,314 @@
 /**
- * components/sections/HeroSection.tsx — Hero section (D-06 Phase-5 swap container).
+ * components/sections/HeroSection.tsx — Hero: 2-col, copy left, animated wireframe right.
  *
- * The CLS-zero swap container: `<section id="hero" className="relative min-h-svh flex items-center">`.
- * Phase 5 mounts an absolute-inset R3F Canvas (<HeroCanvas />) OVER the static CSS
- * gradient backdrop; the gradient (.hero-backdrop) is the always-painted LCP element
- * and the reduced-motion / no-WebGL fallback (D-06, D-10, D-11).
+ * Left: headline, value props, CTAs on light surface.
+ * Right: deep blue gradient with bold stripe texture and an animated
+ * white wireframe website that builds on load and morphs between layouts.
  *
- * TYPOGRAPHY (UI-SPEC):
- *   - Headline: text-4xl md:text-5xl font-bold text-primary
- *   - Subline: text-base text-secondary max-w-[560px]
- *   - CTA: bg-accent text-surface, href="#contact"
- *
- * LAYOUT: centered single column (overline → headline → subline → CTA → proof →
- * scroll hint), all center-aligned; the point cloud is a full-bleed backdrop behind.
- *
- * CONTENT: headline/subline from Sanity siteSettings (D-07). If null, next-intl fallback renders.
- * IDENT-01: zero raw hex, zero text-gray-*, zero inline styles — all via @theme token utilities.
- * SEC-11/D-14: wrapped in MotionSection for whisper-quiet entrance fade.
- *
- * 'use client' required for useTranslations (i18n fallback copy) and MotionSection.
- *
- * Source: 04-UI-SPEC.md Hero Shell; 04-RESEARCH.md Pattern 3.
+ * GSAP drives the wireframe animation. No R3F, no WebGL. Pure DOM + CSS.
+ * The wireframe uses the same design language as the rest of the site:
+ * clean 1px lines, no rounded corners, accent for interactive elements.
  */
 'use client'
 
+import { useRef, useState, useEffect, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
+import gsap from 'gsap'
 import { MotionSection } from '@/components/ui/MotionSection'
+import { Reveal } from '@/components/ui/Reveal'
 
 interface HeroSectionProps {
   headline?: string | null
   subline?: string | null
 }
 
-export function HeroSection({ headline, subline }: HeroSectionProps) {
-  const t = useTranslations('Hero')
+// ── Wireframe layout definitions (percentages of container) ──
+interface WireEl {
+  id: string
+  x: number; y: number; w: number; h: number
+  type: 'chrome' | 'image' | 'text' | 'button' | 'card' | 'footer'
+  group: number // animation stagger group (0=first, 3=last)
+}
 
-  // Use Sanity copy when available; fall back to next-intl messages (never empty)
-  const headlineText = headline ?? t('headline')
-  const sublineText = subline ?? t('subline')
+const shared: WireEl[] = [
+  // Address bar
+  { id: 'addr', x: 0, y: 0, w: 100, h: 7, type: 'chrome', group: 0 },
+  // Nav row
+  { id: 'logo', x: 3, y: 9, w: 10, h: 2, type: 'text', group: 0 },
+  { id: 'n1', x: 60, y: 9.5, w: 5, h: 1.5, type: 'text', group: 0 },
+  { id: 'n2', x: 67, y: 9.5, w: 5, h: 1.5, type: 'text', group: 0 },
+  { id: 'n3', x: 74, y: 9.5, w: 5, h: 1.5, type: 'text', group: 0 },
+  { id: 'ncta', x: 82, y: 8.5, w: 14, h: 4, type: 'button', group: 0 },
+]
+
+const layouts: WireEl[][] = [
+  [ // Landing
+    { id: 'hero', x: 3, y: 15, w: 94, h: 24, type: 'image', group: 1 },
+    { id: 'h1', x: 3, y: 42, w: 38, h: 2.5, type: 'text', group: 1 },
+    { id: 'h2', x: 3, y: 46, w: 28, h: 1.5, type: 'text', group: 1 },
+    { id: 'cL', x: 3, y: 52, w: 45, h: 22, type: 'card', group: 2 },
+    { id: 'cR', x: 52, y: 52, w: 45, h: 22, type: 'card', group: 2 },
+    { id: 't1', x: 5, y: 55, w: 38, h: 1, type: 'text', group: 2 },
+    { id: 't2', x: 5, y: 57.5, w: 32, h: 1, type: 'text', group: 2 },
+    { id: 't3', x: 54, y: 55, w: 38, h: 1, type: 'text', group: 2 },
+    { id: 't4', x: 54, y: 57.5, w: 32, h: 1, type: 'text', group: 2 },
+    { id: 'cta', x: 3, y: 78, w: 14, h: 4.5, type: 'button', group: 2 },
+    { id: 'f1', x: 3, y: 86, w: 30, h: 8, type: 'card', group: 3 },
+    { id: 'f2', x: 35, y: 86, w: 30, h: 8, type: 'card', group: 3 },
+    { id: 'f3', x: 67, y: 86, w: 30, h: 8, type: 'card', group: 3 },
+    { id: 'ft', x: 0, y: 96, w: 100, h: 4, type: 'footer', group: 3 },
+  ],
+  [ // Sidebar
+    { id: 'hero', x: 2, y: 15, w: 18, h: 79, type: 'card', group: 1 },
+    { id: 'h1', x: 4, y: 18, w: 12, h: 1.5, type: 'text', group: 1 },
+    { id: 'h2', x: 4, y: 21, w: 10, h: 1.5, type: 'text', group: 1 },
+    { id: 'cL', x: 23, y: 15, w: 74, h: 28, type: 'image', group: 1 },
+    { id: 'cR', x: 23, y: 46, w: 74, h: 1.5, type: 'text', group: 2 },
+    { id: 't1', x: 23, y: 50, w: 55, h: 1, type: 'text', group: 2 },
+    { id: 't2', x: 23, y: 53, w: 45, h: 1, type: 'text', group: 2 },
+    { id: 't3', x: 4, y: 26, w: 12, h: 1.5, type: 'text', group: 2 },
+    { id: 't4', x: 4, y: 29, w: 14, h: 1.5, type: 'text', group: 2 },
+    { id: 'cta', x: 23, y: 58, w: 14, h: 4, type: 'button', group: 2 },
+    { id: 'f1', x: 23, y: 66, w: 36, h: 20, type: 'card', group: 3 },
+    { id: 'f2', x: 61, y: 66, w: 36, h: 20, type: 'card', group: 3 },
+    { id: 'f3', x: 23, y: 89, w: 74, h: 4, type: 'text', group: 3 },
+    { id: 'ft', x: 0, y: 96, w: 100, h: 4, type: 'footer', group: 3 },
+  ],
+  [ // Card grid
+    { id: 'hero', x: 20, y: 16, w: 60, h: 3, type: 'text', group: 1 },
+    { id: 'h1', x: 28, y: 21, w: 44, h: 1.5, type: 'text', group: 1 },
+    { id: 'h2', x: 32, y: 24, w: 36, h: 1, type: 'text', group: 1 },
+    { id: 'cL', x: 3, y: 30, w: 30, h: 28, type: 'card', group: 2 },
+    { id: 'cR', x: 35, y: 30, w: 30, h: 28, type: 'card', group: 2 },
+    { id: 't1', x: 5, y: 34, w: 25, h: 12, type: 'image', group: 2 },
+    { id: 't2', x: 5, y: 49, w: 20, h: 1, type: 'text', group: 2 },
+    { id: 't3', x: 37, y: 34, w: 25, h: 12, type: 'image', group: 2 },
+    { id: 't4', x: 37, y: 49, w: 20, h: 1, type: 'text', group: 2 },
+    { id: 'cta', x: 67, y: 30, w: 30, h: 28, type: 'card', group: 2 },
+    { id: 'f1', x: 3, y: 62, w: 30, h: 28, type: 'card', group: 3 },
+    { id: 'f2', x: 35, y: 62, w: 30, h: 28, type: 'card', group: 3 },
+    { id: 'f3', x: 67, y: 62, w: 30, h: 28, type: 'card', group: 3 },
+    { id: 'ft', x: 0, y: 96, w: 100, h: 4, type: 'footer', group: 3 },
+  ],
+]
+
+function getClass(type: WireEl['type']): string {
+  switch (type) {
+    case 'chrome': return 'border-b border-white/30'
+    case 'image': return 'border border-white/25'
+    case 'text': return 'bg-white/20'
+    case 'button': return 'border border-white/40 bg-white/10'
+    case 'card': return 'border border-white/20'
+    case 'footer': return 'border-t border-white/20 bg-white/[0.04]'
+  }
+}
+
+// Diagonal cross for image placeholders (CSS background)
+const imageCross = {
+  background: `linear-gradient(to top right, transparent calc(50% - 0.5px), rgba(255,255,255,0.15) calc(50% - 0.5px), rgba(255,255,255,0.15) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+    linear-gradient(to bottom right, transparent calc(50% - 0.5px), rgba(255,255,255,0.15) calc(50% - 0.5px), rgba(255,255,255,0.15) calc(50% + 0.5px), transparent calc(50% + 0.5px))`,
+}
+
+const CheckIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="size-5 shrink-0 text-accent mt-0.5" aria-hidden="true">
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+)
+
+function AnimatedWireframe() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const refs = useRef<Map<string, HTMLDivElement>>(new Map())
+  const [layoutIdx, setLayoutIdx] = useState(0)
+  const [ready, setReady] = useState(false)
+  const morphTlRef = useRef<gsap.core.Timeline | null>(null)
+
+  const setElRef = useCallback((id: string) => (el: HTMLDivElement | null) => {
+    if (el) refs.current.set(id, el); else refs.current.delete(id)
+  }, [])
+
+  // Use layout 0 for initial render positions, GSAP handles morphing
+  const initialEls = [...shared, ...layouts[0]]
+
+  // Initial build animation
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const tl = gsap.timeline()
+
+      // Window dots animation
+      const dots = containerRef.current?.querySelectorAll('[data-dot]')
+      if (dots) {
+        tl.fromTo(dots, { scale: 0 }, { scale: 1, duration: 0.3, stagger: 0.08, ease: 'back.out(2)' }, 0.4)
+      }
+
+      // URL bar
+      const url = refs.current.get('url')
+      if (url) {
+        tl.fromTo(url, { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.4, ease: 'power2.out' }, 0.6)
+      }
+
+      // Build elements by group with stagger
+      for (let g = 0; g <= 3; g++) {
+        const els = initialEls
+          .filter(e => e.group === g)
+          .map(e => refs.current.get(e.id))
+          .filter(Boolean)
+        if (els.length) {
+          tl.fromTo(els,
+            { opacity: 0, y: 8, scale: 0.95 },
+            { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.06, ease: 'power2.out' },
+            0.5 + g * 0.35
+          )
+        }
+      }
+
+      tl.then(() => setReady(true))
+    }, 800)
+    return () => clearTimeout(timer)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Layout morph cycle
+  useEffect(() => {
+    if (!ready) return
+    const interval = setInterval(() => {
+      setLayoutIdx(i => (i + 1) % layouts.length)
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [ready])
+
+  // Smooth morph animation when layout changes
+  useEffect(() => {
+    if (!ready) return
+
+    // Kill any in-progress morph
+    if (morphTlRef.current) morphTlRef.current.kill()
+
+    const tl = gsap.timeline()
+    morphTlRef.current = tl
+    const current = layouts[layoutIdx]
+
+    // Step 1: fade out all content elements briefly
+    const contentEls = initialEls
+      .filter(e => e.group > 0)
+      .map(e => refs.current.get(e.id))
+      .filter(Boolean)
+
+    tl.to(contentEls, {
+      opacity: 0.3,
+      scale: 0.97,
+      duration: 0.3,
+      ease: 'power2.in',
+    }, 0)
+
+    // Step 2: move to new positions
+    current.forEach((el, i) => {
+      const dom = refs.current.get(el.id)
+      if (!dom) return
+      tl.to(dom, {
+        left: `${el.x}%`,
+        top: `${el.y}%`,
+        width: `${el.w}%`,
+        height: `${el.h}%`,
+        duration: 0.7,
+        ease: 'power3.inOut',
+      }, 0.3 + i * 0.015)
+    })
+
+    // Step 3: fade back in
+    tl.to(contentEls, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.4,
+      ease: 'power2.out',
+    }, 0.7)
+
+    return () => { tl.kill() }
+  }, [layoutIdx, ready]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <MotionSection
-      id="hero"
-      className="relative min-h-dvh bg-surface"
-    >
-      {/*
-        Phase 5 backdrop swap (D-06, D-10, D-11):
-        - HeroFallback (.hero-backdrop radial gradient) is ALWAYS painted first —
-          it is the LCP element and is never removed (guarantees CLS = 0).
-        - <HeroCanvas /> mounts the R3F Canvas OVER it (ssr:false dynamic import),
-          fading in once ready; under reduced-motion or no-WebGL it early-returns
-          the same gradient, so the fallback is the single source of visual truth.
-        No inline styles, no raw hex here (IDENT-01). Text column below stays z-10.
-      */}
-      <div key="hero-backdrop" className="absolute inset-0 hero-backdrop" aria-hidden="true" />
+    <div ref={containerRef} className="relative w-full max-w-[500px] mx-auto aspect-[4/3]">
+      {/* Browser frame */}
+      <div className="absolute inset-0 border border-white/30" />
 
-      {/*
-        Legibility scrim (centered layout): the point cloud is now a full-bleed
-        backdrop and the copy sits center-column, so the old LEFT-anchored gradient
-        no longer matches the composition. Replaced with a SYMMETRIC treatment that
-        keeps the copy WCAG AA over the dots without killing the field at the edges:
-          - Mobile (< md): near-solid full-bleed `bg-surface/85` band (dots are pushed
-            furthest back on mobile; copy is the priority at narrow widths).
-          - Desktop (md+): a centered vertical wash `bg-gradient-to-b` that is strongest
-            through the vertical middle (where the copy lives) and fades toward the top
-            and bottom edges, so the wave stays visible at the hero's edges.
-        No raw hex (bg-surface + v4 opacity modifiers); pointer-events-none so it never
-        blocks the CTA. Sits ABOVE the canvas (z-0) and BELOW the z-10 text column.
-      */}
-      <div
-        className="absolute inset-0 z-0 bg-surface/85 md:hidden pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute inset-0 z-0 hidden md:block bg-gradient-to-b from-surface/70 via-surface/80 to-surface/70 pointer-events-none"
-        aria-hidden="true"
-      />
+      {/* Window dots */}
+      <div className="absolute left-[3%] top-[2.5%] flex gap-[5px]">
+        <div data-dot className="w-[7px] h-[7px] rounded-full bg-white/30" style={{ transform: 'scale(0)' }} />
+        <div data-dot className="w-[7px] h-[7px] rounded-full bg-white/30" style={{ transform: 'scale(0)' }} />
+        <div data-dot className="w-[7px] h-[7px] rounded-full bg-white/30" style={{ transform: 'scale(0)' }} />
+      </div>
 
-      {/* Text content — centered single column, stays above Phase 5 canvas */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 py-32 md:py-0 flex items-center justify-center min-h-dvh">
-        <div className="mx-auto max-w-[900px] text-center">
-          {/* Overline */}
-          <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-6 md:mb-8">
-            Berlin Web Development Studio
-          </p>
+      {/* URL bar */}
+      <div className="absolute left-[15%] right-[35%] top-[2.8%] h-[1.5%] bg-white/15" style={{ opacity: 0 }} ref={setElRef('url')} />
 
-          {/* Headline — editorial scale, tight leading, always 2 lines via \n in copy */}
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-primary leading-[0.95] tracking-[-0.02em] mb-8 md:mb-10 whitespace-pre-line">
-            {headlineText}
-          </h1>
+      {/* Wireframe elements (all from layout 0, GSAP morphs positions) */}
+      {initialEls.map(el => (
+        <div
+          key={el.id}
+          ref={setElRef(el.id)}
+          className={getClass(el.type)}
+          style={{
+            position: 'absolute',
+            left: `${el.x}%`, top: `${el.y}%`, width: `${el.w}%`, height: `${el.h}%`,
+            opacity: 0,
+            ...(el.type === 'image' ? imageCross : {}),
+          }}
+        />
+      ))}
+    </div>
+  )
+}
 
-          {/* Subline + CTA row */}
-          <div className="flex flex-col items-center gap-6">
-            <p className="max-w-[560px] text-base md:text-lg text-secondary leading-[1.6] text-pretty">
-              {sublineText}
-            </p>
-            <div className="flex flex-col sm:flex-row items-center gap-3">
-              <a
-                href="#contact"
-                className="inline-block bg-accent text-surface text-sm font-semibold px-7 py-3.5 hover:bg-accent-hover [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 active:scale-[0.98]"
-              >
+export function HeroSection({ headline, subline }: HeroSectionProps) {
+  const t = useTranslations('Hero')
+  const headlineText = headline ?? t('headline')
+
+  return (
+    <MotionSection id="hero" className="relative bg-surface-subtle overflow-hidden">
+      <div className="relative lg:grid lg:grid-cols-2 lg:min-h-[720px]">
+
+        {/* Left: copy */}
+        <div className="flex flex-col justify-center px-6 py-16 md:px-12 lg:px-16 xl:pl-[max(calc((100vw-90rem)/2+4rem),4rem)] xl:pr-16">
+          <Reveal>
+            <h1 className="text-[clamp(2.4rem,4.8vw,4rem)] font-bold text-primary leading-[1.08] tracking-[-0.025em] max-w-xl text-balance">
+              {headlineText}
+            </h1>
+          </Reveal>
+          <Reveal delay={100}>
+            <ul className="flex flex-col gap-3.5 mt-8">
+              {[t('val1'), t('val2'), t('val3')].map((val) => (
+                <li key={val} className="flex items-start gap-3">
+                  <CheckIcon />
+                  <p className="text-base text-secondary leading-relaxed text-pretty">{val}</p>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+          <Reveal delay={200}>
+            <div className="flex flex-wrap items-center gap-3 mt-10">
+              <a href="#contact" className="inline-flex items-center justify-center bg-primary text-surface text-[15px] font-medium h-12 px-7 hover:bg-primary/85 [transition-duration:150ms] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2">
                 {t('cta')}
               </a>
-              <a
-                href="#work"
-                className="inline-block border border-secondary/40 text-secondary text-sm font-medium px-7 py-3.5 hover:border-primary hover:text-primary [transition-duration:150ms] [transition-timing-function:var(--ease-standard)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-              >
+              <a href="#work" className="inline-flex items-center justify-center bg-surface-muted text-primary text-[15px] font-medium h-12 px-7 hover:bg-border/60 [transition-duration:150ms] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2">
                 {t('ctaSecondary')}
               </a>
             </div>
+          </Reveal>
+        </div>
+
+        {/* Right: blue field + animated wireframe */}
+        <div className="relative max-lg:h-[280px]" aria-hidden="true">
+          {/* Gradient layers */}
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(145deg, var(--color-accent) 0%, #0F1F6B 70%, #0A1445 100%)' }} />
+          <div className="absolute inset-0 opacity-50" style={{
+            background: 'linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 30%, rgba(255,255,255,0.06) 100%)',
+            maskImage: 'repeating-linear-gradient(90deg, black, black 5px, transparent 5px, transparent 11px)',
+            WebkitMaskImage: 'repeating-linear-gradient(90deg, black, black 5px, transparent 5px, transparent 11px)',
+          }} />
+          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 60% at 30% 25%, rgba(74,108,247,0.5), transparent 65%)' }} />
+          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 50% 50% at 75% 80%, rgba(28,57,187,0.3), transparent 60%)' }} />
+
+          {/* Animated wireframe */}
+          <div className="absolute inset-0 flex items-center py-10 lg:py-16 px-6 lg:px-0">
+            <AnimatedWireframe />
           </div>
         </div>
       </div>

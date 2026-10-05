@@ -55,6 +55,29 @@
   }
 }
 
+/* Browser surfaces: impeccable craft-floor requires theming the parts you
+ * did not draw. Selection, caret, scrollbar, underline offset. */
+@layer base {
+  ::selection {
+    background: color-mix(in srgb, var(--color-accent) 20%, transparent);
+    color: var(--color-primary);
+  }
+
+  input, textarea {
+    caret-color: var(--color-accent);
+  }
+
+  /* Scrollbar: thin, surface-tinted, accent thumb */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--color-accent) 25%, var(--color-border)) var(--color-surface);
+  }
+
+  a {
+    text-underline-offset: 3px;
+  }
+}
+
 /* Hero backdrop — static CSS radial-gradient using token variables.
  * This is the Phase 5 swap target; Phase 5 replaces with R3F canvas (D-06).
  * Defined here (not inline) to keep component files free of inline styles. */
@@ -71,4 +94,16 @@
       var(--color-surface-muted) 0%,
       var(--color-surface) 60%
     );
+}
+
+/* Hero subtle dot texture — premium depth without competing with Silk.
+ * Tiny dots on an 18px grid, barely visible (3% opacity), adds tactile feel.
+ * The dot is a 1px radial-gradient circle repeated across the surface. */
+@utility hero-dots {
+  background-image: radial-gradient(
+    circle at center,
+    color-mix(in srgb, var(--color-primary) 5%, transparent) 0.5px,
+    transparent 0.5px
+  );
+  background-size: 18px 18px;
 }

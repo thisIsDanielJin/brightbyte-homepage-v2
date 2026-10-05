@@ -16,8 +16,10 @@
     "closeMenu": "Close menu"
   },
   "Hero": {
-    "headline": "Your website,\nbuilt and shipped",
-    "subline": "Design, development and launch, all from me, at a fixed price.",
+    "headline": "Web design and development for growing businesses",
+    "val1": "Custom design and development, no templates",
+    "val2": "Fixed price, clear timeline, one point of contact",
+    "val3": "You own the code and every asset from day one",
     "cta": "Start a project",
     "ctaSecondary": "See my work"
   },
@@ -28,7 +30,20 @@
     "priceOnRequest": "On request",
     "includes": "What's included",
     "ctaBlurb": "Not sure which package fits? Write to me, I'll help you choose.",
-    "cta": "Start a project"
+    "cta": "Start a project",
+    "card_frontend_title": "Frontend Development",
+    "card_frontend_desc": "Performant, responsive interfaces built with React, Next.js, and TypeScript. Pixel-perfect, accessible, and fast.",
+    "card_backend_title": "Backend Development",
+    "card_backend_desc": "Robust APIs, databases, and server architecture. Secure, scalable, and built to last.",
+    "card_ai_title": "AI Development",
+    "card_ai_desc": "Smart features powered by AI. Chatbots, content generation, intelligent automation for your business.",
+    "card_design_title": "Web Design & UX",
+    "card_design_desc": "User-centered design from wireframes to polished prototypes. Clean, modern, and conversion-focused.",
+    "card_landing_title": "Landing Pages",
+    "card_landing_desc": "High-converting single-page sites optimized for SEO and speed. Live in weeks, not months.",
+    "card_fullstack_title": "Full-Stack Websites",
+    "card_fullstack_desc": "Multi-page websites with CMS integration, dynamic content, and everything you need to grow online.",
+    "cardCta": "Get started"
   },
   "Pricing": {
     "eyebrow": "Pricing",
@@ -46,6 +61,9 @@
     "emptyHeading": "Projects coming soon",
     "emptyBody": "I'll share concrete outcomes soon.",
     "emptyCta": "Start a project"
+  },
+  "Projects": {
+    "heading": "Selected work"
   },
   "Testimonials": {
     "eyebrow": "Testimonials",
@@ -80,7 +98,8 @@
     "heading": "About me",
     "name": "Daniel Jin Wodke",
     "subline": "Freelance Web Designer, Berlin",
-    "body": "You work directly with me, no agency, no middleman. I design and build your website personally, with fixed prices and a clear delivery timeline. Every project gets my full attention."
+    "body": "You work directly with me, no agency, no middleman. I design and build your website personally, with fixed prices and a clear delivery timeline. Every project gets my full attention.",
+    "stat": "5+ years building for the web · 10+ projects shipped"
   },
   "Footer": {
     "tagline": "Web design for small businesses in Berlin.",

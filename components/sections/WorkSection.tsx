@@ -109,12 +109,9 @@ function WorkSectionInner({ projects, locale }: WorkSectionProps) {
       className="py-24 md:py-32 px-6 md:px-12 lg:px-16 bg-surface-subtle"
     >
       <div className="max-w-6xl mx-auto">
-        {/* Section header — left-aligned */}
+        {/* Section header, no eyebrow per impeccable craft-floor */}
         <div className="mb-12 md:mb-16 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
           <div>
-            <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-4">
-              {t('eyebrow')}
-            </p>
             <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em] text-balance">
               {t('heading')}
             </h2>

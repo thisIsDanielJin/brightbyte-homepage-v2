@@ -43,11 +43,8 @@ function TestimonialsSectionInner({ testimonials }: TestimonialsSectionProps) {
       className="py-20 md:py-28 px-6 md:px-12 lg:px-16 bg-surface"
     >
       <div className="max-w-6xl mx-auto">
-        {/* Section header — left-aligned */}
+        {/* Section header */}
         <div className="mb-12 md:mb-16">
-          <p className="text-xs font-medium text-accent uppercase tracking-[0.2em] mb-4">
-            {t('eyebrow')}
-          </p>
           <h2 className="text-4xl md:text-5xl font-bold text-primary leading-[1.05] tracking-[-0.02em] text-balance">
             {t('heading')}
           </h2>
@@ -79,13 +76,19 @@ function TestimonialsSectionInner({ testimonials }: TestimonialsSectionProps) {
                 </p>
               )}
 
-              {/* Quote */}
-              <blockquote className="flex-1 mb-6">
+              {/* Quote with decorative mark */}
+              <blockquote className="flex-1 mb-6 relative">
+                <span
+                  className="absolute -top-2 -left-1 text-6xl font-bold leading-none text-accent/10 select-none pointer-events-none"
+                  aria-hidden="true"
+                >
+                  &ldquo;
+                </span>
                 <p
-                  className="text-base text-secondary leading-relaxed text-pretty"
+                  className="text-base text-secondary leading-relaxed text-pretty relative z-10"
                   data-testid="testimonial-quote"
                 >
-                  &ldquo;{testimonial.quote}&rdquo;
+                  {testimonial.quote}
                 </p>
               </blockquote>
 

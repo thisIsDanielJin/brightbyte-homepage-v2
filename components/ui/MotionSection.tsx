@@ -28,23 +28,20 @@ interface MotionSectionProps {
 export function MotionSection({ children, id, className }: MotionSectionProps) {
   const prefersReduced = useReducedMotion()
 
+  // impeccable craft-floor: "one authored moment, not scattered effects
+  // and not one identical entrance on every section." The hero staggered
+  // reveal is the one authored moment. Other sections appear without entrance.
   if (prefersReduced) {
     return <section id={id} className={className}>{children}</section>
   }
 
   return (
-    <motion.section
+    <section
       id={id}
       className={className}
-      // opacity stays 1 at all times — content always visible for SSR/headless/no-JS.
-      // Only y animates: subtle rise on viewport entry, imperceptible if IO never fires.
-      initial={{ y: 16 }}
-      whileInView={{ y: 0 }}
-      viewport={{ once: true, amount: 0.05 }}
-      transition={{ duration: 0.55, ease: [0.0, 0.0, 0.2, 1] }}
     >
       {children}
-    </motion.section>
+    </section>
   )
 }
 

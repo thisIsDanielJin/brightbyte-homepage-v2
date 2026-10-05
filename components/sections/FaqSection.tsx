@@ -1,18 +1,8 @@
 /**
- * components/sections/FaqSection.tsx — FAQ section wrapper (homepage).
+ * components/sections/FaqSection.tsx — FAQ section, clean modern style.
  *
- * RSC that receives `faqs` as props from page.tsx (sourced from
- * siteSettings.faqs[] in Sanity). Passes to the existing FaqAccordion
- * component with zero modification (import path: @/components/seo/FaqAccordion).
- *
- * Section hidden entirely when faqs is empty or undefined (mirrors
- * Services/Testimonials hide pattern per UI-SPEC).
- *
- * IDENT-01: zero raw hex, zero text-gray-* in this file.
- * T-07-07: FAQ strings rendered as escaped JSX text nodes via FaqAccordion
- *          (never dangerouslySetInnerHTML).
- *
- * Source: 07-UI-SPEC.md § FAQ Section; 07-03-PLAN.md Task 1 Step E.
+ * White background, 2-col (heading left, accordion right).
+ * Same padding alignment as all other sections.
  */
 import { useTranslations } from 'next-intl'
 import { MotionSection } from '@/components/ui/MotionSection'
@@ -20,29 +10,28 @@ import { FaqAccordion } from '@/components/seo/FaqAccordion'
 
 type Faq = { question: string; answer: string }
 
-interface FaqSectionProps {
-  faqs: Faq[]
-}
+interface FaqSectionProps { faqs: Faq[] }
 
 export function FaqSection({ faqs }: FaqSectionProps) {
   const t = useTranslations('FAQ')
-
-  // Hidden entirely when no FAQ items (T-07-07 — graceful empty state)
   if (!faqs || faqs.length === 0) return null
 
   return (
-    <MotionSection id="faq" className="bg-surface py-24 px-4 md:px-8 lg:px-16">
-      <div className="max-w-5xl mx-auto">
-        {/* Section header */}
-        <div className="text-center mb-12">
-          <p className="text-sm text-secondary uppercase tracking-widest mb-2">
-            {t('eyebrow')}
-          </p>
-          <h2 className="text-4xl font-bold text-primary">{t('heading')}</h2>
+    <MotionSection id="faq" className="py-24 md:py-32 bg-surface">
+      <div className="px-6 md:px-8 lg:px-12 xl:px-[max(calc((100vw-90rem)/2+3rem),3rem)]">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-12 md:gap-16">
+          <div>
+            <p className="text-xs font-medium uppercase tracking-widest text-accent mb-4">
+              {t('eyebrow')}
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-primary leading-[1.1] tracking-[-0.02em]">
+              {t('heading')}
+            </h2>
+          </div>
+          <div>
+            <FaqAccordion faqs={faqs} />
+          </div>
         </div>
-
-        {/* FaqAccordion — zero modification to the existing component */}
-        <FaqAccordion faqs={faqs} />
       </div>
     </MotionSection>
   )

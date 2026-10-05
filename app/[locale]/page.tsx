@@ -24,12 +24,11 @@ import type { Metadata } from 'next'
 import { buildHreflangAlternates, BASE_URL } from '@/lib/i18n/metadata'
 import { getSiteSettings, getServices, getProjects, getTestimonials } from '@/lib/sanity/queries'
 import { buildLocalBusinessLd } from '@/lib/jsonld/organization'
+import { urlFor } from '@/lib/sanity/image'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { ServicesSection } from '@/components/sections/ServicesSection'
 import { PricingSection } from '@/components/sections/PricingSection'
-import { WorkSection } from '@/components/sections/WorkSection'
-import { CaseStudiesBridge } from '@/components/sections/CaseStudiesBridge'
-import { TestimonialsSection } from '@/components/sections/TestimonialsSection'
+import { ProjectsSection } from '@/components/sections/ProjectsSection'
 import { GuaranteeSection } from '@/components/sections/GuaranteeSection'
 import { FaqSection } from '@/components/sections/FaqSection'
 import { AboutSection } from '@/components/sections/AboutSection'
@@ -80,11 +79,6 @@ export default async function HomePage({ params }: PageProps) {
   const safeLocale: 'de' | 'en' = locale === 'en' ? 'en' : 'de'
   const localBusinessLd = buildLocalBusinessLd(safeLocale, settings, BASE_URL)
 
-  // Filter projects that have a case study page for the CaseStudiesBridge section.
-  const projectsWithCaseStudy = (projects ?? []).filter(
-    (p): p is typeof p & { hasCaseStudy: true } => !!p.hasCaseStudy,
-  )
-
   // Filter faqs — only items with both question and answer populated.
   const validFaqs = (settings?.faqs ?? []).filter(
     (f): f is { question: string; answer: string } =>
@@ -99,41 +93,40 @@ export default async function HomePage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessLd) }}
       />
       <main>
-        {/* D-05 section order (Phase 7 extended):
-            Hero → Services → Pricing → Work → CaseStudiesBridge → Testimonials
-            → Process → Guarantee → FAQ → About → Contact */}
+        {/* Section order (REDESIGN_PLAN):
+            Hero → Services → Projects → About → Pricing → Guarantee → FAQ → Contact */}
 
         {/* SEC-01 — Hero: static backdrop, Sanity copy (Phase 5 swaps backdrop for R3F canvas) */}
         <HeroSection
-          headline={settings?.heroHeadline}
-          subline={settings?.heroSubline}
+          headline={null}
+          subline={null}
         />
 
         {/* SEC-02 — Services: 1-col mobile / 2-col desktop, hidden when 0 */}
         <ServicesSection services={services} locale={locale} />
 
-        {/* SEC-03 — Pricing: from Sanity price object only, never hardcoded (T-04-04) */}
+        {/* SEC-03 — Projects: editorial case-study rows (combined work + testimonials) */}
+        <ProjectsSection projects={projects} testimonials={testimonials} locale={locale} />
+
+        {/* SEC-04 — About: dark surface, Silk accent, prominent personal section */}
+        <AboutSection
+          settings={settings}
+          locale={locale}
+          aboutPhotoUrl={
+            settings?.aboutPhoto?.asset
+              ? urlFor(settings.aboutPhoto).width(640).height(840).fit('crop').url()
+              : null
+          }
+        />
+
+        {/* SEC-05 — Pricing: from Sanity price object only, never hardcoded (T-04-04) */}
         <PricingSection services={services} locale={locale} />
 
-        {/* SEC-04 — Work grid: images + outcome notes, hover lift, empty state */}
-        <WorkSection projects={projects} locale={locale} />
-
-        {/* SEC-08 — Case Studies Bridge: cards linking to case study pages (hidden when 0) */}
-        {projectsWithCaseStudy.length > 0 && (
-          <CaseStudiesBridge projects={projectsWithCaseStudy} locale={locale} />
-        )}
-
-        {/* SEC-05 — Testimonials: metric as own field above quote */}
-        <TestimonialsSection testimonials={testimonials} locale={locale} />
-
-        {/* SEC-10 — Guarantee: trust strip, static (message dictionary copy) */}
+        {/* SEC-06 — Guarantee: blue accent band, trust ticks */}
         <GuaranteeSection />
 
-        {/* SEC-11 — FAQ: accordion from siteSettings.faqs[], hidden when empty */}
+        {/* SEC-07 — FAQ: accordion from siteSettings.faqs[], hidden when empty */}
         {validFaqs.length > 0 && <FaqSection faqs={validFaqs} />}
-
-        {/* SEC-06 — About: photo or DJ initials fallback */}
-        <AboutSection settings={settings} locale={locale} />
 
         {/*
           SEC-07 — Contact form (Plan 04-03): the ONLY client island of Phase 4.
