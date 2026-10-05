@@ -1,9 +1,9 @@
 /**
- * components/sections/AboutSection.tsx — About section, dark surface, prominent.
+ * components/sections/AboutSection.tsx — About section, dark surface.
  *
- * Dark background creates a strong visual break between Projects and Pricing.
- * Larger photo, skills as a quiet inline list, stat line for credibility.
- * Subtle blue radial glow ties into the hero and guarantee accent color.
+ * Dark background between Projects and Pricing.
+ * Photo left (stock fallback until real photo in Sanity), text right.
+ * No decorative glow, no eyebrow. Heading carries its own weight.
  */
 'use client'
 
@@ -14,6 +14,10 @@ import type { SITE_SETTINGS_QUERY_RESULT } from '@/sanity.types'
 
 const SKILLS = ['React', 'Next.js', 'TypeScript', 'Node.js', 'Tailwind', 'Figma', 'Sanity', 'Vercel']
 
+/** Stock headshot placeholder until a real photo lands in Sanity. */
+const STOCK_PHOTO =
+  'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=640&h=840&fit=crop'
+
 interface AboutSectionProps {
   settings: SITE_SETTINGS_QUERY_RESULT | null
   locale: string
@@ -22,46 +26,47 @@ interface AboutSectionProps {
 
 export function AboutSection({ settings, aboutPhotoUrl }: AboutSectionProps) {
   const t = useTranslations('About')
-  const hasPhoto = !!aboutPhotoUrl
+  const photoUrl = aboutPhotoUrl ?? STOCK_PHOTO
 
   return (
-    <MotionSection id="about" className="relative py-24 md:py-32 bg-surface-dark overflow-hidden">
-      {/* Atmospheric blue glow behind the photo area */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse 50% 70% at 15% 50%, rgba(28,57,187,0.12), transparent 70%)',
-        }}
-      />
-
-      <div className="relative px-6 md:px-8 lg:px-12 xl:px-[max(calc((100vw-90rem)/2+3rem),3rem)]">
+    <MotionSection id="about" className="py-24 md:py-32 bg-surface-dark">
+      <div className="px-6 md:px-8 lg:px-12 xl:px-[max(calc((100vw-90rem)/2+3rem),3rem)]">
         <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-12 md:gap-20 items-start">
-          {/* Photo - larger for visual weight */}
+          {/* Photo */}
           <div className="flex-shrink-0">
-            {hasPhoto ? (
+            {aboutPhotoUrl ? (
               <div
-                className="relative w-[280px] h-[370px] md:w-[320px] md:h-[420px] overflow-hidden"
+                className="relative w-[280px] h-[370px] md:w-[300px] md:h-[400px] overflow-hidden"
                 data-testid="about-photo"
               >
                 <Image
-                  src={aboutPhotoUrl!}
+                  src={aboutPhotoUrl}
                   alt="Daniel Jin Wodke"
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 280px, 320px"
+                  sizes="(max-width: 768px) 280px, 300px"
+                  style={{
+                    outline: '1px solid rgba(255,255,255,0.1)',
+                    outlineOffset: '-1px',
+                  }}
                 />
               </div>
             ) : (
               <div
-                className="w-[280px] h-[370px] md:w-[320px] md:h-[420px] bg-surface-muted/10 flex items-center justify-center"
-                data-testid="about-initials"
-                role="img"
-                aria-label="Daniel Jin Wodke"
+                className="relative w-[280px] h-[370px] md:w-[300px] md:h-[400px] overflow-hidden"
+                data-testid="about-photo-stock"
               >
-                <span className="text-5xl font-bold text-on-dark/20" aria-hidden="true">
-                  DJ
-                </span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={STOCK_PHOTO}
+                  alt="Daniel Jin Wodke"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  loading="lazy"
+                  style={{
+                    outline: '1px solid rgba(255,255,255,0.1)',
+                    outlineOffset: '-1px',
+                  }}
+                />
               </div>
             )}
           </div>
@@ -82,19 +87,10 @@ export function AboutSection({ settings, aboutPhotoUrl }: AboutSectionProps) {
             {/* Stat line */}
             <p className="text-sm font-medium text-on-dark mb-8">{t('stat')}</p>
 
-            {/* Skills strip */}
-            <div className="flex flex-wrap gap-x-2 gap-y-2">
-              {SKILLS.map((skill, i) => (
-                <span key={skill} className="text-sm text-muted-on-dark">
-                  {skill}
-                  {i < SKILLS.length - 1 && (
-                    <span className="ml-2 text-muted-on-dark/30" aria-hidden="true">
-                      /
-                    </span>
-                  )}
-                </span>
-              ))}
-            </div>
+            {/* Skills */}
+            <p className="text-sm text-muted-on-dark">
+              {SKILLS.join(' \u00B7 ')}
+            </p>
           </div>
         </div>
       </div>
