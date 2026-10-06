@@ -54,17 +54,17 @@ export function ContactSection() {
 
   const disabled = state === 'loading'
   const inputClass = (hasError: boolean) =>
-    `w-full px-4 py-3 text-sm text-primary bg-surface border ${hasError ? 'border-destructive' : 'border-border'} placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`
+    `w-full px-4 py-3.5 text-sm text-on-dark bg-white/[0.07] border ${hasError ? 'border-destructive' : 'border-muted-on-dark/20'} placeholder:text-muted-on-dark/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`
 
   return (
-    <MotionSection id="contact" className="relative py-24 md:py-32 bg-surface-dark overflow-hidden">
+    <MotionSection id="contact" className="relative py-28 md:py-40 bg-surface-dark overflow-hidden">
       {/* Subtle blue radial glow */}
       <div className="absolute inset-0 pointer-events-none" style={{
         background: 'radial-gradient(ellipse 60% 50% at 20% 50%, rgba(28,57,187,0.06), transparent 70%)',
       }} />
 
       <div className="relative px-6 md:px-8 lg:px-12 xl:px-[max(calc((100vw-90rem)/2+3rem),3rem)]">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-start">
           {/* Left: heading + process */}
           <div>
             <h2 className="text-3xl md:text-4xl font-bold text-on-dark leading-[1.1] tracking-[-0.02em] mb-4">
