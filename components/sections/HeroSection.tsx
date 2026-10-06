@@ -95,22 +95,44 @@ const layouts: WireEl[][] = [
   ],
 ]
 
-// Enhancement 1: accent glow for interactive wireframe elements
+// ── Design-tool wireframe styling ──
+// Mirrors TechText's dashed-outline + corner-handle vocabulary
 function getClass(type: WireEl['type'], id?: string): string {
   const isAccent = id === 'ncta' || id === 'cta'
-  const isActiveNav = id === 'n1'
   switch (type) {
-    case 'chrome': return 'border-b border-white/30'
-    case 'image': return 'border border-white/20'
-    case 'text': return isActiveNav
-      ? 'bg-white/40'
-      : 'bg-white/20'
+    case 'chrome': return 'border-b border-dashed border-white/25'
+    case 'image': return 'border border-dashed border-white/20'
+    case 'text': return 'bg-white/15'
     case 'button': return isAccent
-      ? 'border border-white/60 bg-white/20 shadow-[0_0_16px_rgba(255,255,255,0.15)]'
-      : 'border border-white/40 bg-white/10'
-    case 'card': return 'border border-white/20'
-    case 'footer': return 'border-t border-white/20 bg-white/[0.04]'
+      ? 'border border-dashed border-white/50 bg-white/10'
+      : 'border border-dashed border-white/30 bg-white/[0.06]'
+    case 'card': return 'border border-dashed border-white/20'
+    case 'footer': return 'border-t border-dashed border-white/15 bg-white/[0.03]'
   }
+}
+
+// Elements eligible for the cycling "selected" overlay
+const SELECTABLE_IDS = ['hero', 'cL', 'cR', 'cta', 'f1']
+
+// Corner handle: 5x5 solid accent square
+function Handle({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {
+  const cls = [
+    'absolute w-[5px] h-[5px] bg-white/80 z-10',
+    pos.includes('t') ? '-top-[2px]' : '-bottom-[2px]',
+    pos.includes('l') ? '-left-[2px]' : '-right-[2px]',
+  ].join(' ')
+  return <div className={cls} />
+}
+
+// Dimension label: "W x H" in tiny text above a selected element
+function DimLabel({ w, h }: { w: number; h: number }) {
+  return (
+    <div className="absolute -top-[14px] left-1/2 -translate-x-1/2 whitespace-nowrap">
+      <span className="text-[8px] font-mono text-white/60 tracking-wider">
+        {w} x {h}
+      </span>
+    </div>
+  )
 }
 
 // Layout labels (Enhancement 5)
@@ -128,6 +150,7 @@ function AnimatedWireframe() {
   const refs = useRef<Map<string, HTMLDivElement>>(new Map())
   const [layoutIdx, setLayoutIdx] = useState(0)
   const [ready, setReady] = useState(false)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
   const morphTlRef = useRef<gsap.core.Timeline | null>(null)
 
   // Enhancement 2: mouse parallax tilt
@@ -257,6 +280,23 @@ function AnimatedWireframe() {
     return () => { tl.kill() }
   }, [layoutIdx, ready]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Cycle through selectable elements with handles + dimension labels
+  useEffect(() => {
+    if (!ready) return
+    let idx = 0
+    setSelectedId(SELECTABLE_IDS[0])
+    const interval = setInterval(() => {
+      idx = (idx + 1) % SELECTABLE_IDS.length
+      setSelectedId(SELECTABLE_IDS[idx])
+    }, 1800)
+    return () => clearInterval(interval)
+  }, [ready])
+
+  // Find current selected element's layout data for dimension label
+  const currentLayout = layouts[layoutIdx]
+  const allEls = [...shared, ...currentLayout]
+  const selectedEl = selectedId ? allEls.find(e => e.id === selectedId) : null
+
   return (
     <div className="relative w-full max-w-[500px] mx-auto">
       {/* Parallax container (Enhancement 2) */}
@@ -265,32 +305,76 @@ function AnimatedWireframe() {
         className="aspect-[4/3] [transition:transform_0.15s_ease-out] will-change-transform"
       >
         <div ref={containerRef} className="relative w-full h-full">
-          {/* Browser frame */}
-          <div className="absolute inset-0 border border-white/30" />
+          {/* Browser frame: dashed border */}
+          <div className="absolute inset-0 border border-dashed border-white/25" />
 
           {/* Window dots */}
           <div className="absolute left-[3%] top-[2.5%] flex gap-[5px]">
-            <div data-dot className="w-[7px] h-[7px] rounded-full bg-white/30" style={{ transform: 'scale(0)' }} />
-            <div data-dot className="w-[7px] h-[7px] rounded-full bg-white/30" style={{ transform: 'scale(0)' }} />
-            <div data-dot className="w-[7px] h-[7px] rounded-full bg-white/30" style={{ transform: 'scale(0)' }} />
+            <div data-dot className="w-[5px] h-[5px] border border-white/40" style={{ transform: 'scale(0)' }} />
+            <div data-dot className="w-[5px] h-[5px] border border-white/40" style={{ transform: 'scale(0)' }} />
+            <div data-dot className="w-[5px] h-[5px] border border-white/40" style={{ transform: 'scale(0)' }} />
           </div>
 
           {/* URL bar */}
-          <div className="absolute left-[15%] right-[35%] top-[2.8%] h-[1.5%] bg-white/15" style={{ opacity: 0 }} ref={setElRef('url')} />
+          <div className="absolute left-[15%] right-[35%] top-[2.8%] h-[1.5%] border border-dashed border-white/15" style={{ opacity: 0 }} ref={setElRef('url')} />
 
-          {/* Wireframe elements (all from layout 0, GSAP morphs positions) */}
-          {initialEls.map(el => (
+          {/* Guide lines: vertical alignment marks */}
+          <div className="absolute left-[3%] top-[7%] bottom-0 w-px border-l border-dashed border-white/[0.08]" />
+          <div className="absolute left-[97%] top-[7%] bottom-0 w-px border-l border-dashed border-white/[0.08]" />
+
+          {/* Wireframe elements */}
+          {initialEls.map(el => {
+            const isSelected = el.id === selectedId
+            return (
+              <div
+                key={el.id}
+                ref={setElRef(el.id)}
+                className={`${getClass(el.type, el.id)} transition-[box-shadow] duration-300`}
+                style={{
+                  position: 'absolute',
+                  left: `${el.x}%`, top: `${el.y}%`, width: `${el.w}%`, height: `${el.h}%`,
+                  opacity: 0,
+                  boxShadow: isSelected ? '0 0 0 1px rgba(255,255,255,0.5)' : 'none',
+                }}
+              >
+                {/* Cross-hatch for image placeholders */}
+                {el.type === 'image' && (
+                  <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+                    <line x1="0" y1="0" x2="100%" y2="100%" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" strokeDasharray="3 3" />
+                    <line x1="100%" y1="0" x2="0" y2="100%" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" strokeDasharray="3 3" />
+                  </svg>
+                )}
+                {/* Corner handles on selected element */}
+                {isSelected && (
+                  <>
+                    <Handle pos="tl" />
+                    <Handle pos="tr" />
+                    <Handle pos="bl" />
+                    <Handle pos="br" />
+                    {selectedEl && (
+                      <DimLabel w={Math.round(selectedEl.w * 4.8)} h={Math.round(selectedEl.h * 3.6)} />
+                    )}
+                  </>
+                )}
+              </div>
+            )
+          })}
+
+          {/* Spacing annotation: shows gap between two cards */}
+          {ready && (
             <div
-              key={el.id}
-              ref={setElRef(el.id)}
-              className={getClass(el.type, el.id)}
+              className="absolute transition-opacity duration-500"
               style={{
-                position: 'absolute',
-                left: `${el.x}%`, top: `${el.y}%`, width: `${el.w}%`, height: `${el.h}%`,
-                opacity: 0,
+                left: '48.5%', top: '53%', width: '3%', height: '0',
+                opacity: layoutIdx === 0 ? 0.4 : 0,
               }}
-            />
-          ))}
+            >
+              <div className="relative flex items-center justify-center">
+                <div className="w-full h-px border-t border-dashed border-white/40" />
+                <span className="absolute -top-[10px] text-[7px] font-mono text-white/50">16</span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
