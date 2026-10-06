@@ -60,7 +60,7 @@ export function ContactSection() {
     <MotionSection id="contact" className="relative py-24 md:py-32 bg-surface-dark overflow-hidden">
       {/* Subtle blue radial glow */}
       <div className="absolute inset-0 pointer-events-none" style={{
-        background: 'radial-gradient(ellipse 60% 50% at 20% 50%, rgba(28,57,187,0.08), transparent 70%)',
+        background: 'radial-gradient(ellipse 60% 50% at 20% 50%, rgba(28,57,187,0.06), transparent 70%)',
       }} />
 
       <div className="relative px-6 md:px-8 lg:px-12 xl:px-[max(calc((100vw-90rem)/2+3rem),3rem)]">
@@ -72,23 +72,20 @@ export function ContactSection() {
             </h2>
             <p className="text-base text-muted-on-dark leading-relaxed text-pretty mb-10">{t('subline')}</p>
 
-            <ol className="space-y-4 mb-10">
+            <ul className="space-y-4 mb-10">
               {[t('step1'), t('step2'), t('step3')].map((step, i) => (
-                <li key={i} className="flex items-start gap-4">
-                  <span className="flex-shrink-0 text-sm font-medium tabular-nums leading-6" style={{ color: '#4A6CF7' }} aria-hidden="true">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
+                <li key={i} className="flex items-start gap-3">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-1 flex-shrink-0 text-accent" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
                   <span className="text-base text-muted-on-dark leading-relaxed text-pretty">{step}</span>
                 </li>
               ))}
-            </ol>
+            </ul>
 
-            <div>
-              <p className="text-xs text-muted-on-dark uppercase tracking-wide mb-2">{t('directLabel')}</p>
-              <a href={'mailto:' + t('directEmail')} className="text-sm font-medium text-on-dark underline decoration-accent underline-offset-3 hover:opacity-70 transition-opacity">
-                {t('directEmail')}
-              </a>
-            </div>
+            <a href={'mailto:' + t('directEmail')} className="text-sm font-medium text-on-dark underline decoration-accent underline-offset-3 hover:opacity-70 transition-opacity">
+              {t('directEmail')}
+            </a>
           </div>
 
           {/* Right: form */}

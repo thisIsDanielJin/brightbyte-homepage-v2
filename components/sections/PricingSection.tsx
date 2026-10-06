@@ -1,9 +1,9 @@
 /**
- * components/sections/PricingSection.tsx — Pricing on dark background with blue accents.
+ * components/sections/PricingSection.tsx — Pricing on dark surface.
  *
- * Dark surface matching the projects section. Creates a strong dark band
- * in the middle of the page. Blue accent on prices and CTAs.
- * Stripe texture for consistency with the hero.
+ * Centered heading, gap-px card grid matching the services pattern.
+ * Each card: service label, price, suffix, includes list, CTA.
+ * Trust note below the grid.
  */
 import { useTranslations } from 'next-intl'
 import { MotionSection } from '@/components/ui/MotionSection'
@@ -19,24 +19,28 @@ function PricingSectionInner({ services }: PricingSectionProps) {
   if (!services || services.length === 0) return null
 
   return (
-    <MotionSection id="pricing" className="relative py-24 md:py-32 bg-surface-dark overflow-hidden">
-      <div className="relative px-6 md:px-8 lg:px-12 xl:px-[max(calc((100vw-90rem)/2+3rem),3rem)]">
-        <h2 className="text-3xl md:text-4xl font-bold text-on-dark leading-[1.1] tracking-[-0.02em] max-w-lg mb-16 md:mb-20">
-          {t('heading')}
-        </h2>
+    <MotionSection id="pricing" className="py-24 md:py-32 bg-surface-dark">
+      <div className="px-6 md:px-8 lg:px-12 xl:px-[max(calc((100vw-90rem)/2+3rem),3rem)]">
+        {/* Centered heading */}
+        <div className="max-w-2xl mx-auto text-center mb-16 md:mb-20">
+          <h2 className="text-3xl md:text-4xl font-bold text-on-dark leading-[1.1] tracking-[-0.02em]">
+            {t('heading')}
+          </h2>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 max-w-4xl">
+        {/* gap-px card grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-muted-on-dark/15 max-w-4xl mx-auto">
           {services.map((service) => (
-            <div key={service._id} className="flex flex-col" data-testid="pricing-card">
-              <p className="text-sm text-muted-on-dark uppercase tracking-wide mb-4">{service.title}</p>
-              <p className="text-5xl md:text-6xl font-bold text-on-dark leading-none tracking-[-0.03em] mb-2 tabular-nums" data-testid="pricing-price">
+            <div key={service._id} className="bg-surface-dark p-10 lg:p-12 flex flex-col" data-testid="pricing-card">
+              <p className="text-sm text-muted-on-dark uppercase tracking-wide mb-6">{service.title}</p>
+              <p className="text-4xl md:text-5xl font-bold text-on-dark leading-none tracking-[-0.03em] mb-2 tabular-nums" data-testid="pricing-price">
                 {service.priceOnRequest
                   ? t('priceOnRequest')
                   : service.price?.priceFrom && service.price?.amount
                     ? `${t('priceFrom')} \u20AC${service.price.amount}`
                     : service.price?.label ?? (service.price?.amount ? `\u20AC${service.price.amount}` : t('priceOnRequest'))}
               </p>
-              <p className="text-sm text-muted-on-dark mb-8">
+              <p className="text-sm text-muted-on-dark mb-10">
                 {service.priceOnRequest ? t('priceOnRequestSuffix') : t('priceSuffix')}
               </p>
 
@@ -44,7 +48,7 @@ function PricingSectionInner({ services }: PricingSectionProps) {
                 <ul className="space-y-3 mb-10 flex-1">
                   {service.includes.map((item, idx) => (
                     <li key={idx} className="text-base text-muted-on-dark flex items-start gap-2.5">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 flex-shrink-0" style={{ color: '#4A6CF7' }} aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-1 flex-shrink-0 text-accent" aria-hidden="true">
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
                       <span>{item}</span>
@@ -60,7 +64,8 @@ function PricingSectionInner({ services }: PricingSectionProps) {
           ))}
         </div>
 
-        <p className="mt-10 text-base text-muted-on-dark max-w-lg">{t('trustNote')}</p>
+        {/* Trust note */}
+        <p className="mt-12 text-sm text-muted-on-dark text-center max-w-lg mx-auto">{t('trustNote')}</p>
       </div>
     </MotionSection>
   )
