@@ -311,12 +311,7 @@ function AnimatedWireframe() {
 export function HeroSection({ headline, subline }: HeroSectionProps) {
   const t = useTranslations('Hero')
   const headlineText = headline ?? t('headline')
-  const line1 = t('headlineLine1')
-  const line2 = t('headlineLine2')
-
-  // Sweep offset: half a cosine cycle so line 2 starts when line 1 finishes
-  // The sweep uses cos(clock * 0.45), half cycle = PI / 0.45 ~ 7s
-  const LINE2_OFFSET = Math.PI / 0.45
+  const techTextHeadline = `${t('headlineLine1')}\n${t('headlineLine2')}`
 
   return (
     <MotionSection id="hero" className="relative bg-surface-subtle overflow-hidden">
@@ -324,51 +319,27 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
 
         {/* Left: copy */}
         <div className="flex flex-col justify-center px-6 py-16 md:px-12 lg:px-16 xl:pl-[max(calc((100vw-90rem)/2+4rem),4rem)] xl:pr-16">
-          {/* TechText headline: two lines, sweep cascades from line 1 to line 2 */}
-          <div className="max-w-2xl mb-2" aria-hidden="true">
-            <div className="h-[44px] md:h-[56px] lg:h-[64px]">
-              <TechText
-                text={line1}
-                fontSize={120}
-                fontWeight={800}
-                letterSpacing={-0.03}
-                color="#18181B"
-                accentColor="#1C39BB"
-                reach={160}
-                softness={0.5}
-                strokeWidth={1.2}
-                lineStyle="dashed"
-                reveal="letter"
-                selection={true}
-                labels={true}
-                draggable={false}
-                sweep={true}
-                specks={8}
-                speed={0.6}
-              />
-            </div>
-            <div className="h-[44px] md:h-[56px] lg:h-[64px]">
-              <TechText
-                text={line2}
-                fontSize={120}
-                fontWeight={800}
-                letterSpacing={-0.03}
-                color="#18181B"
-                accentColor="#1C39BB"
-                reach={160}
-                softness={0.5}
-                strokeWidth={1.2}
-                lineStyle="dashed"
-                reveal="letter"
-                selection={true}
-                labels={true}
-                draggable={false}
-                sweep={true}
-                sweepOffset={LINE2_OFFSET}
-                specks={8}
-                speed={0.6}
-              />
-            </div>
+          {/* TechText headline: single canvas, two lines, one sweep */}
+          <div className="h-[100px] md:h-[130px] lg:h-[150px] max-w-2xl mb-4" aria-hidden="true">
+            <TechText
+              text={techTextHeadline}
+              fontSize={120}
+              fontWeight={800}
+              letterSpacing={-0.03}
+              color="#18181B"
+              accentColor="#1C39BB"
+              reach={160}
+              softness={0.5}
+              strokeWidth={1.2}
+              lineStyle="dashed"
+              reveal="letter"
+              selection={true}
+              labels={true}
+              draggable={false}
+              sweep={true}
+              specks={8}
+              speed={0.6}
+            />
           </div>
           {/* Hidden h1 for SEO */}
           <h1 className="sr-only">{headlineText}</h1>

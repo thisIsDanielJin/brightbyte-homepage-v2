@@ -212,19 +212,9 @@ const TechText = ({
 
     const ensureLayout = (s: Settings): Word => {
       const key = [
-        s.text,
-        family(s),
-        s.fontWeight,
-        s.fontSize,
-        s.letterSpacing,
-        s.color,
-        s.dashLength,
-        s.dashGap,
-        s.strokeWidth,
-        s.lineStyle,
-        width,
-        height,
-        dpr
+        s.text, family(s), s.fontWeight, s.fontSize, s.letterSpacing,
+        s.color, s.dashLength, s.dashGap, s.strokeWidth, s.lineStyle,
+        width, height, dpr
       ].join('|');
       if (key === layoutKey && word) return word;
       layoutKey = key;
@@ -235,63 +225,152 @@ const TechText = ({
       }
 
       const probe = scratchCtx;
-      setFont(probe, s, s.fontSize);
-      let m = probe.measureText(s.text);
-      const fit = Math.min(
-        1,
-        (width * 0.9) / Math.max(m.actualBoundingBoxLeft + m.actualBoundingBoxRight, 1),
-        (height * 0.66) / Math.max(m.actualBoundingBoxAscent + m.actualBoundingBoxDescent, 1)
-      );
-      const size = s.fontSize * fit;
-      setFont(probe, s, size);
-      m = probe.measureText(s.text);
-      const inkWidth = m.actualBoundingBoxLeft + m.actualBoundingBoxRight;
-      const inkHeight = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
-      const x = (width - inkWidth) / 2 + m.actualBoundingBoxLeft;
-      const baseline = (height - inkHeight) / 2 + m.actualBoundingBoxAscent;
-      const next = {
-        size,
-        baseline,
-        left: x - m.actualBoundingBoxLeft,
-        right: x + m.actualBoundingBoxRight,
-        top: baseline - m.actualBoundingBoxAscent,
-        bottom: baseline + m.actualBoundingBoxDescent
-      };
-      word = next;
+      const lines = s.text.split('\n');
+      const isMultiLine = lines.length > 1;
 
-      const chars = Array.from(s.text);
-      const previous = glyphs;
-      glyphs = [];
-      let prefix = '';
-      chars.forEach((char, i) => {
-        prefix += char;
-        const own = probe.measureText(char);
-        const gx = x + probe.measureText(prefix).width - own.width;
-        if (!char.trim()) return;
-        const base = {
-          char,
-          x: gx,
-          box: {
-            x1: gx - own.actualBoundingBoxLeft,
-            y1: baseline - own.actualBoundingBoxAscent,
-            x2: gx + own.actualBoundingBoxRight,
-            y2: baseline + own.actualBoundingBoxDescent
-          }
+      if (!isMultiLine) {
+        // Original single-line layout
+        setFont(probe, s, s.fontSize);
+        let m = probe.measureText(s.text);
+        const fit = Math.min(
+          1,
+          (width * 0.9) / Math.max(m.actualBoundingBoxLeft + m.actualBoundingBoxRight, 1),
+          (height * 0.66) / Math.max(m.actualBoundingBoxAscent + m.actualBoundingBoxDescent, 1)
+        );
+        const size = s.fontSize * fit;
+        setFont(probe, s, size);
+        m = probe.measureText(s.text);
+        const inkWidth = m.actualBoundingBoxLeft + m.actualBoundingBoxRight;
+        const inkHeight = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
+        const x = (width - inkWidth) / 2 + m.actualBoundingBoxLeft;
+        const baseline = (height - inkHeight) / 2 + m.actualBoundingBoxAscent;
+        const next: Word = {
+          size, baseline,
+          left: x - m.actualBoundingBoxLeft,
+          right: x + m.actualBoundingBoxRight,
+          top: baseline - m.actualBoundingBoxAscent,
+          bottom: baseline + m.actualBoundingBoxDescent
         };
-        const kept = previous[glyphs.length];
-        glyphs.push({
-          ...base,
-          offset: kept?.char === char ? kept.offset : { x: 0, y: 0 },
-          velocity: { x: 0, y: 0 },
-          outline: 0,
-          index: i,
-          fill: sprite(s, next, base, false),
-          dashes: sprite(s, next, base, true)
+        word = next;
+
+        const chars = Array.from(s.text);
+        const previous = glyphs;
+        glyphs = [];
+        let prefix = '';
+        chars.forEach((char, i) => {
+          prefix += char;
+          const own = probe.measureText(char);
+          const gx = x + probe.measureText(prefix).width - own.width;
+          if (!char.trim()) return;
+          const base = {
+            char, x: gx,
+            box: {
+              x1: gx - own.actualBoundingBoxLeft, y1: baseline - own.actualBoundingBoxAscent,
+              x2: gx + own.actualBoundingBoxRight, y2: baseline + own.actualBoundingBoxDescent
+            }
+          };
+          const kept = previous[glyphs.length];
+          glyphs.push({
+            ...base,
+            offset: kept?.char === char ? kept.offset : { x: 0, y: 0 },
+            velocity: { x: 0, y: 0 }, outline: 0, index: i,
+            fill: sprite(s, next, base, false),
+            dashes: sprite(s, next, base, true)
+          });
         });
-      });
+      } else {
+        // Multi-line layout: measure each line, stack vertically
+        // Find the widest line to determine font size
+        setFont(probe, s, s.fontSize);
+        let maxInkW = 0;
+        for (const line of lines) {
+          const lm = probe.measureText(line);
+          const lw = lm.actualBoundingBoxLeft + lm.actualBoundingBoxRight;
+          if (lw > maxInkW) maxInkW = lw;
+        }
+        const lineM = probe.measureText(lines[0]);
+        const singleH = lineM.actualBoundingBoxAscent + lineM.actualBoundingBoxDescent;
+        const lineGap = singleH * 0.25;
+        const totalH = singleH * lines.length + lineGap * (lines.length - 1);
+        const fit = Math.min(
+          1,
+          (width * 0.95) / Math.max(maxInkW, 1),
+          (height * 0.85) / Math.max(totalH, 1)
+        );
+        const size = s.fontSize * fit;
+        setFont(probe, s, size);
+
+        // Re-measure at final size
+        const fm = probe.measureText(lines[0]);
+        const lineH = fm.actualBoundingBoxAscent + fm.actualBoundingBoxDescent;
+        const gap = lineH * 0.25;
+        const blockH = lineH * lines.length + gap * (lines.length - 1);
+        const startY = (height - blockH) / 2;
+
+        let globalLeft = Infinity, globalRight = -Infinity;
+        let globalTop = Infinity, globalBottom = -Infinity;
+
+        const previous = glyphs;
+        glyphs = [];
+        let charIndex = 0;
+
+        lines.forEach((line, lineIdx) => {
+          const lm = probe.measureText(line);
+          const inkW = lm.actualBoundingBoxLeft + lm.actualBoundingBoxRight;
+          // Left-align all lines
+          const padLeft = width * 0.025;
+          const lineX = padLeft + lm.actualBoundingBoxLeft;
+          const baseline = startY + lineIdx * (lineH + gap) + fm.actualBoundingBoxAscent;
+
+          const lineLeft = lineX - lm.actualBoundingBoxLeft;
+          const lineRight = lineX + lm.actualBoundingBoxRight;
+          const lineTop = baseline - fm.actualBoundingBoxAscent;
+          const lineBottom = baseline + fm.actualBoundingBoxDescent;
+          if (lineLeft < globalLeft) globalLeft = lineLeft;
+          if (lineRight > globalRight) globalRight = lineRight;
+          if (lineTop < globalTop) globalTop = lineTop;
+          if (lineBottom > globalBottom) globalBottom = lineBottom;
+
+          const chars = Array.from(line);
+          let prefix = '';
+          chars.forEach((char) => {
+            prefix += char;
+            charIndex++;
+            const own = probe.measureText(char);
+            const gx = lineX + probe.measureText(prefix).width - own.width;
+            if (!char.trim()) return;
+            const tempWord: Word = { size, baseline, left: lineLeft, right: lineRight, top: lineTop, bottom: lineBottom };
+            const base = {
+              char, x: gx,
+              box: {
+                x1: gx - own.actualBoundingBoxLeft, y1: baseline - own.actualBoundingBoxAscent,
+                x2: gx + own.actualBoundingBoxRight, y2: baseline + own.actualBoundingBoxDescent
+              }
+            };
+            const kept = previous[glyphs.length];
+            glyphs.push({
+              ...base,
+              offset: kept?.char === char ? kept.offset : { x: 0, y: 0 },
+              velocity: { x: 0, y: 0 }, outline: 0, index: charIndex - 1,
+              fill: sprite(s, tempWord, base, false),
+              dashes: sprite(s, tempWord, base, true)
+            });
+          });
+          // Account for the newline character
+          charIndex++;
+        });
+
+        word = {
+          size,
+          baseline: startY + fm.actualBoundingBoxAscent,
+          left: globalLeft, right: globalRight,
+          top: globalTop, bottom: globalBottom
+        };
+      }
+
       dragging = -1;
       frame.index = -1;
-      return next;
+      return word!;
     };
 
     const glyphAt = (x: number, y: number) => {

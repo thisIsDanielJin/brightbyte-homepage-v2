@@ -124,17 +124,16 @@ export function AboutSection({ settings, aboutPhotoUrl }: AboutSectionProps) {
             </p>
           </div>
 
-          {/* Right: tech stack logo grid */}
-          <div className="w-full lg:w-[320px]">
-            <p className="text-sm text-muted-on-dark mb-6">Tech Stack</p>
-            <div className="grid grid-cols-2 gap-px bg-muted-on-dark/15">
+          {/* Right: tech stack */}
+          <div className="w-full lg:w-[280px]">
+            <div className="grid grid-cols-4 gap-8 lg:gap-6">
               {TECH_STACK.map((tech) => (
                 <div
                   key={tech.name}
-                  className="bg-surface-dark p-4 flex items-center gap-3"
+                  className="flex flex-col items-center gap-2"
                 >
-                  <span className="text-muted-on-dark">{tech.icon}</span>
-                  <span className="text-sm text-on-dark">{tech.name}</span>
+                  <span className="text-muted-on-dark/60">{tech.icon}</span>
+                  <span className="text-[11px] text-muted-on-dark/50">{tech.name}</span>
                 </div>
               ))}
             </div>
