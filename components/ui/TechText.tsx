@@ -36,12 +36,13 @@ export interface TechTextProps {
   labels?: boolean;
   draggable?: boolean;
   sweep?: boolean;
+  sweepOffset?: number;
   speed?: number;
   className?: string;
   style?: CSSProperties;
 }
 
-type Settings = Required<Omit<TechTextProps, 'className' | 'style'>>;
+type Settings = Required<Omit<TechTextProps, 'className' | 'style' | 'sweepOffset'>>;
 
 const LABEL_FONT = '10px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
 const FALLOFF_STEPS = 8;
@@ -96,6 +97,7 @@ const TechText = ({
   labels = true,
   draggable = true,
   sweep = true,
+  sweepOffset = 0,
   speed = 1,
   className = '',
   style
@@ -152,7 +154,7 @@ const TechText = ({
     let word: Word | null = null;
     let glyphs: Glyph[] = [];
     let presence = 0;
-    let clock = 0;
+    let clock = sweepOffset;
     let pulse = 0;
     let placed = false;
     let dragging = -1;
