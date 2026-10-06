@@ -11,11 +11,14 @@
  */
 'use client'
 
+import dynamic from 'next/dynamic'
 import { useRef, useState, useEffect, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
 import gsap from 'gsap'
 import { MotionSection } from '@/components/ui/MotionSection'
 import { Reveal } from '@/components/ui/Reveal'
+
+const TechText = dynamic(() => import('@/components/ui/TechText'), { ssr: false })
 
 interface HeroSectionProps {
   headline?: string | null
@@ -315,11 +318,30 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
 
         {/* Left: copy */}
         <div className="flex flex-col justify-center px-6 py-16 md:px-12 lg:px-16 xl:pl-[max(calc((100vw-90rem)/2+4rem),4rem)] xl:pr-16">
-          <Reveal>
-            <h1 className="text-[clamp(2.4rem,4.8vw,4rem)] font-bold text-primary leading-[1.08] tracking-[-0.025em] max-w-xl text-balance">
-              {headlineText}
-            </h1>
-          </Reveal>
+          {/* TechText headline: design-tool aesthetic */}
+          <div className="h-[80px] md:h-[110px] lg:h-[130px] max-w-2xl mb-2" aria-hidden="true">
+            <TechText
+              text={headlineText}
+              fontSize={120}
+              fontWeight={800}
+              letterSpacing={-0.03}
+              color="#18181B"
+              accentColor="#1C39BB"
+              reach={160}
+              softness={0.5}
+              strokeWidth={1.2}
+              lineStyle="dashed"
+              reveal="letter"
+              selection={true}
+              labels={true}
+              draggable={false}
+              sweep={true}
+              specks={8}
+              speed={0.6}
+            />
+          </div>
+          {/* Hidden h1 for SEO */}
+          <h1 className="sr-only">{headlineText}</h1>
           <Reveal delay={100}>
             <ul className="flex flex-col gap-3.5 mt-8">
               {[t('val1'), t('val2'), t('val3')].map((val) => (
