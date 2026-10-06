@@ -600,9 +600,26 @@ const TechText = ({
       pulse += dt;
       let targetX = pointer.x;
       let targetY = pointer.y;
-      if (sweeping) {
-        targetX = view.left + (view.right - view.left) * (0.5 - 0.5 * Math.cos(clock * 0.45));
-        targetY = view.top + (view.bottom - view.top) * (0.45 + 0.1 * Math.sin(clock * 0.8));
+      if (sweeping && glyphs.length > 0) {
+        // Follow glyphs in reading order: left-to-right, line by line
+        const n = glyphs.length;
+        const glyphDuration = 0.35; // seconds per glyph
+        const pauseDuration = 1.5;  // pause at end before restarting
+        const cycleDuration = n * glyphDuration + pauseDuration;
+        const t = clock % cycleDuration;
+        const glyphTime = t / glyphDuration; // which glyph index (fractional)
+        const idx = Math.min(Math.floor(glyphTime), n - 1);
+        const frac = Math.min(glyphTime - idx, 1);
+        const nextIdx = Math.min(idx + 1, n - 1);
+        const g = glyphs[idx];
+        const gNext = glyphs[nextIdx];
+        // Center of current glyph, interpolating toward next
+        const cx = (g.box.x1 + g.box.x2) / 2;
+        const cy = (g.box.y1 + g.box.y2) / 2;
+        const ncx = (gNext.box.x1 + gNext.box.x2) / 2;
+        const ncy = (gNext.box.y1 + gNext.box.y2) / 2;
+        targetX = cx + (ncx - cx) * frac;
+        targetY = cy + (ncy - cy) * frac;
       }
       const active = pointer.inside || sweeping || dragging >= 0;
       if (active && !placed) {
