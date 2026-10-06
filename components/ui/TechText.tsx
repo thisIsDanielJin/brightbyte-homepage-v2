@@ -380,7 +380,12 @@ const TechText = ({
       glyphs.forEach((glyph, i) => {
         const x1 = glyph.box.x1 + glyph.offset.x;
         const x2 = glyph.box.x2 + glyph.offset.x;
-        const d = x < x1 ? x1 - x : x > x2 ? x - x2 : 0;
+        const y1 = glyph.box.y1 + glyph.offset.y;
+        const y2 = glyph.box.y2 + glyph.offset.y;
+        // 2D distance: clamp point to box, then compute Euclidean distance
+        const cx = x < x1 ? x1 : x > x2 ? x2 : x;
+        const cy = y < y1 ? y1 : y > y2 ? y2 : y;
+        const d = Math.hypot(x - cx, y - cy);
         if (d < bestDistance) {
           bestDistance = d;
           best = i;
