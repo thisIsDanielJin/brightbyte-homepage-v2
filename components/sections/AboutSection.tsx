@@ -71,18 +71,18 @@ export function AboutSection({ settings, aboutPhotoUrl }: AboutSectionProps) {
           </div>
 
           {/* Right: tech stack */}
-          <div className="w-full lg:w-[360px]">
-            <p className="text-xs uppercase tracking-widest text-muted-on-dark/40 mb-6">Tech Stack</p>
-            <div className="grid grid-cols-4 gap-px bg-muted-on-dark/10">
+          <div className="w-full lg:w-[420px]">
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-on-dark/60 mb-5 font-medium">Tech Stack</p>
+            <div className="grid grid-cols-4 gap-px bg-white/[0.08]">
               {TECH_STACK.map((tech) => {
                 const Icon = tech.icon
                 return (
                   <div
                     key={tech.name}
-                    className="group flex flex-col items-center justify-center gap-2.5 py-5 bg-surface-dark hover:bg-white/[0.06] transition-colors duration-200 cursor-default"
+                    className="group flex flex-col items-center justify-center gap-3 py-6 bg-surface-dark hover:bg-white/[0.08] transition-colors duration-200 cursor-default"
                   >
-                    <Icon className="w-6 h-6 text-muted-on-dark/40 group-hover:text-on-dark transition-colors duration-200" aria-hidden="true" />
-                    <span className="text-[11px] text-muted-on-dark/40 group-hover:text-muted-on-dark/70 transition-colors duration-200">{tech.name}</span>
+                    <Icon className="w-8 h-8 text-on-dark/60 group-hover:text-on-dark transition-colors duration-200" aria-hidden="true" />
+                    <span className="text-xs text-on-dark/50 group-hover:text-on-dark/80 transition-colors duration-200 font-medium">{tech.name}</span>
                   </div>
                 )
               })}
