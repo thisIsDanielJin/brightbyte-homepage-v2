@@ -100,7 +100,7 @@ const layouts: WireEl[][] = [
 function getClass(type: WireEl['type'], id?: string): string {
   const isAccent = id === 'ncta' || id === 'cta'
   switch (type) {
-    case 'chrome': return 'border-b border-white/25'
+    case 'chrome': return 'border-b border-dashed border-white/25'
     case 'image': return 'border border-dashed border-white/20'
     case 'text': return 'bg-white/15'
     case 'button': return isAccent
@@ -114,27 +114,21 @@ function getClass(type: WireEl['type'], id?: string): string {
 // Elements eligible for the cycling "selected" overlay
 const SELECTABLE_IDS = ['hero', 'cL', 'cR', 'cta', 'f1']
 
-// Corner handle: 5x5 solid white square, centered exactly on the corner
+// Corner handle: 5x5 solid accent square
 function Handle({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {
-  const style: React.CSSProperties = {
-    position: 'absolute',
-    width: 5, height: 5,
-    backgroundColor: 'rgba(255,255,255,0.85)',
-    zIndex: 10,
-    // Center the 5px square on the corner point
-    ...(pos === 'tl' && { top: -3, left: -3 }),
-    ...(pos === 'tr' && { top: -3, right: -3 }),
-    ...(pos === 'bl' && { bottom: -3, left: -3 }),
-    ...(pos === 'br' && { bottom: -3, right: -3 }),
-  }
-  return <div style={style} />
+  const cls = [
+    'absolute w-[5px] h-[5px] bg-white/80 z-10',
+    pos.includes('t') ? '-top-[2px]' : '-bottom-[2px]',
+    pos.includes('l') ? '-left-[2px]' : '-right-[2px]',
+  ].join(' ')
+  return <div className={cls} />
 }
 
-// Dimension label: "W x H" in tiny monospace text above the element
+// Dimension label: "W x H" in tiny text above a selected element
 function DimLabel({ w, h }: { w: number; h: number }) {
   return (
-    <div className="absolute -top-[16px] left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none">
-      <span className="text-[8px] font-mono text-white/70 tracking-wider">
+    <div className="absolute -top-[14px] left-1/2 -translate-x-1/2 whitespace-nowrap">
+      <span className="text-[8px] font-mono text-white/60 tracking-wider">
         {w} x {h}
       </span>
     </div>
@@ -311,8 +305,8 @@ function AnimatedWireframe() {
         className="aspect-[4/3] [transition:transform_0.15s_ease-out] will-change-transform"
       >
         <div ref={containerRef} className="relative w-full h-full">
-          {/* Browser frame: solid outer border */}
-          <div className="absolute inset-0 border border-white/25" />
+          {/* Browser frame: dashed border */}
+          <div className="absolute inset-0 border border-dashed border-white/25" />
 
           {/* Window dots */}
           <div className="absolute left-[3%] top-[2.5%] flex gap-[5px]">
@@ -321,8 +315,8 @@ function AnimatedWireframe() {
             <div data-dot className="w-[5px] h-[5px] border border-white/40" style={{ transform: 'scale(0)' }} />
           </div>
 
-          {/* URL bar: solid border */}
-          <div className="absolute left-[15%] right-[35%] top-[2.8%] h-[1.5%] border border-white/20" style={{ opacity: 0 }} ref={setElRef('url')} />
+          {/* URL bar */}
+          <div className="absolute left-[15%] right-[35%] top-[2.8%] h-[1.5%] border border-dashed border-white/15" style={{ opacity: 0 }} ref={setElRef('url')} />
 
           {/* Guide lines: vertical alignment marks */}
           <div className="absolute left-[3%] top-[7%] bottom-0 w-px border-l border-dashed border-white/[0.08]" />
@@ -401,8 +395,7 @@ function AnimatedWireframe() {
 export function HeroSection({ headline, subline }: HeroSectionProps) {
   const t = useTranslations('Hero')
   const headlineText = headline ?? t('headline')
-  const line1 = t('headlineLine1')
-  const line2 = t('headlineLine2')
+  const techTextHeadline = `${t('headlineLine1')}\n${t('headlineLine2')}`
 
   return (
     <MotionSection id="hero" className="relative bg-surface-subtle overflow-hidden">
@@ -410,10 +403,10 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
 
         {/* Left: copy */}
         <div className="flex flex-col justify-center px-6 py-16 md:px-12 lg:px-16 xl:pl-[max(calc((100vw-90rem)/2+4rem),4rem)] xl:pr-16">
-          {/* Line 1: TechText with sweep animation */}
-          <div className="h-[52px] md:h-[64px] lg:h-[72px] max-w-2xl" aria-hidden="true">
+          {/* TechText headline: single canvas, two lines, one sweep */}
+          <div className="h-[100px] md:h-[130px] lg:h-[150px] max-w-2xl mb-4" aria-hidden="true">
             <TechText
-              text={line1}
+              text={techTextHeadline}
               fontSize={120}
               fontWeight={800}
               letterSpacing={-0.03}
@@ -432,10 +425,6 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
               speed={0.6}
             />
           </div>
-          {/* Line 2: regular styled text, matching TechText weight */}
-          <p className="text-[28px] md:text-[36px] lg:text-[42px] font-extrabold tracking-tight text-primary leading-tight max-w-2xl mb-2">
-            {line2}
-          </p>
           {/* Hidden h1 for SEO */}
           <h1 className="sr-only">{headlineText}</h1>
           <Reveal delay={100}>
