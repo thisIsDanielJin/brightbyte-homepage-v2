@@ -46,52 +46,52 @@ const shared: WireEl[] = [
 
 const layouts: WireEl[][] = [
   [ // Landing
-    { id: 'hero', x: 3, y: 15, w: 94, h: 24, type: 'image', group: 1 },
-    { id: 'h1', x: 3, y: 42, w: 38, h: 2.5, type: 'text', group: 1 },
-    { id: 'h2', x: 3, y: 46, w: 28, h: 1.5, type: 'text', group: 1 },
-    { id: 'cL', x: 3, y: 52, w: 45, h: 22, type: 'card', group: 2 },
-    { id: 'cR', x: 52, y: 52, w: 45, h: 22, type: 'card', group: 2 },
-    { id: 't1', x: 5, y: 55, w: 38, h: 1, type: 'text', group: 2 },
-    { id: 't2', x: 5, y: 57.5, w: 32, h: 1, type: 'text', group: 2 },
-    { id: 't3', x: 54, y: 55, w: 38, h: 1, type: 'text', group: 2 },
-    { id: 't4', x: 54, y: 57.5, w: 32, h: 1, type: 'text', group: 2 },
-    { id: 'cta', x: 3, y: 78, w: 14, h: 4.5, type: 'button', group: 2 },
-    { id: 'f1', x: 3, y: 86, w: 30, h: 8, type: 'card', group: 3 },
-    { id: 'f2', x: 35, y: 86, w: 30, h: 8, type: 'card', group: 3 },
-    { id: 'f3', x: 67, y: 86, w: 30, h: 8, type: 'card', group: 3 },
-    { id: 'ft', x: 0, y: 96, w: 100, h: 4, type: 'footer', group: 3 },
+    { id: 'hero', x: 3, y: 15, w: 94, h: 22, type: 'image', group: 1 },
+    { id: 'h1', x: 3, y: 40, w: 40, h: 2.5, type: 'text', group: 1 },
+    { id: 'h2', x: 3, y: 44, w: 30, h: 1.5, type: 'text', group: 1 },
+    { id: 'cL', x: 3, y: 50, w: 45, h: 20, type: 'card', group: 2 },
+    { id: 'cR', x: 52, y: 50, w: 45, h: 20, type: 'card', group: 2 },
+    { id: 't1', x: 6, y: 54, w: 36, h: 1, type: 'text', group: 2 },
+    { id: 't2', x: 6, y: 57, w: 28, h: 1, type: 'text', group: 2 },
+    { id: 't3', x: 55, y: 54, w: 36, h: 1, type: 'text', group: 2 },
+    { id: 't4', x: 55, y: 57, w: 28, h: 1, type: 'text', group: 2 },
+    { id: 'cta', x: 3, y: 74, w: 14, h: 4, type: 'button', group: 2 },
+    { id: 'f1', x: 3, y: 82, w: 30, h: 8, type: 'card', group: 3 },
+    { id: 'f2', x: 35, y: 82, w: 30, h: 8, type: 'card', group: 3 },
+    { id: 'f3', x: 67, y: 82, w: 30, h: 8, type: 'card', group: 3 },
+    { id: 'ft', x: 0, y: 94, w: 100, h: 6, type: 'footer', group: 3 },
   ],
-  [ // Sidebar
+  [ // Dashboard
     { id: 'hero', x: 2, y: 15, w: 18, h: 79, type: 'card', group: 1 },
-    { id: 'h1', x: 4, y: 18, w: 12, h: 1.5, type: 'text', group: 1 },
-    { id: 'h2', x: 4, y: 21, w: 10, h: 1.5, type: 'text', group: 1 },
-    { id: 'cL', x: 23, y: 15, w: 74, h: 28, type: 'image', group: 1 },
-    { id: 'cR', x: 23, y: 46, w: 74, h: 1.5, type: 'text', group: 2 },
-    { id: 't1', x: 23, y: 50, w: 55, h: 1, type: 'text', group: 2 },
-    { id: 't2', x: 23, y: 53, w: 45, h: 1, type: 'text', group: 2 },
-    { id: 't3', x: 4, y: 26, w: 12, h: 1.5, type: 'text', group: 2 },
-    { id: 't4', x: 4, y: 29, w: 14, h: 1.5, type: 'text', group: 2 },
-    { id: 'cta', x: 23, y: 58, w: 14, h: 4, type: 'button', group: 2 },
-    { id: 'f1', x: 23, y: 66, w: 36, h: 20, type: 'card', group: 3 },
-    { id: 'f2', x: 61, y: 66, w: 36, h: 20, type: 'card', group: 3 },
-    { id: 'f3', x: 23, y: 89, w: 74, h: 4, type: 'text', group: 3 },
-    { id: 'ft', x: 0, y: 96, w: 100, h: 4, type: 'footer', group: 3 },
+    { id: 'h1', x: 5, y: 19, w: 12, h: 1.5, type: 'text', group: 1 },
+    { id: 'h2', x: 5, y: 23, w: 10, h: 1.5, type: 'text', group: 1 },
+    { id: 'cL', x: 24, y: 15, w: 73, h: 26, type: 'card', group: 1 },
+    { id: 'cR', x: 24, y: 44, w: 50, h: 2, type: 'text', group: 2 },
+    { id: 't1', x: 24, y: 49, w: 40, h: 1, type: 'text', group: 2 },
+    { id: 't2', x: 24, y: 52, w: 32, h: 1, type: 'text', group: 2 },
+    { id: 't3', x: 5, y: 28, w: 12, h: 1.5, type: 'text', group: 2 },
+    { id: 't4', x: 5, y: 32, w: 10, h: 1.5, type: 'text', group: 2 },
+    { id: 'cta', x: 24, y: 57, w: 14, h: 4, type: 'button', group: 2 },
+    { id: 'f1', x: 24, y: 65, w: 35, h: 22, type: 'card', group: 3 },
+    { id: 'f2', x: 62, y: 65, w: 35, h: 22, type: 'card', group: 3 },
+    { id: 'f3', x: 24, y: 90, w: 73, h: 4, type: 'footer', group: 3 },
+    { id: 'ft', x: 0, y: 94, w: 100, h: 6, type: 'footer', group: 3 },
   ],
-  [ // Card grid
-    { id: 'hero', x: 20, y: 16, w: 60, h: 3, type: 'text', group: 1 },
-    { id: 'h1', x: 28, y: 21, w: 44, h: 1.5, type: 'text', group: 1 },
-    { id: 'h2', x: 32, y: 24, w: 36, h: 1, type: 'text', group: 1 },
-    { id: 'cL', x: 3, y: 30, w: 30, h: 28, type: 'card', group: 2 },
-    { id: 'cR', x: 35, y: 30, w: 30, h: 28, type: 'card', group: 2 },
-    { id: 't1', x: 5, y: 34, w: 25, h: 12, type: 'image', group: 2 },
-    { id: 't2', x: 5, y: 49, w: 20, h: 1, type: 'text', group: 2 },
-    { id: 't3', x: 37, y: 34, w: 25, h: 12, type: 'image', group: 2 },
-    { id: 't4', x: 37, y: 49, w: 20, h: 1, type: 'text', group: 2 },
-    { id: 'cta', x: 67, y: 30, w: 30, h: 28, type: 'card', group: 2 },
-    { id: 'f1', x: 3, y: 62, w: 30, h: 28, type: 'card', group: 3 },
-    { id: 'f2', x: 35, y: 62, w: 30, h: 28, type: 'card', group: 3 },
-    { id: 'f3', x: 67, y: 62, w: 30, h: 28, type: 'card', group: 3 },
-    { id: 'ft', x: 0, y: 96, w: 100, h: 4, type: 'footer', group: 3 },
+  [ // Portfolio grid
+    { id: 'hero', x: 25, y: 16, w: 50, h: 3, type: 'text', group: 1 },
+    { id: 'h1', x: 30, y: 21, w: 40, h: 1.5, type: 'text', group: 1 },
+    { id: 'h2', x: 34, y: 24, w: 32, h: 1, type: 'text', group: 1 },
+    { id: 'cL', x: 3, y: 29, w: 30, h: 26, type: 'card', group: 2 },
+    { id: 'cR', x: 36, y: 29, w: 30, h: 26, type: 'card', group: 2 },
+    { id: 't1', x: 6, y: 33, w: 24, h: 1, type: 'text', group: 2 },
+    { id: 't2', x: 6, y: 36, w: 18, h: 1, type: 'text', group: 2 },
+    { id: 't3', x: 39, y: 33, w: 24, h: 1, type: 'text', group: 2 },
+    { id: 't4', x: 39, y: 36, w: 18, h: 1, type: 'text', group: 2 },
+    { id: 'cta', x: 69, y: 29, w: 28, h: 26, type: 'card', group: 2 },
+    { id: 'f1', x: 3, y: 59, w: 30, h: 26, type: 'card', group: 3 },
+    { id: 'f2', x: 36, y: 59, w: 30, h: 26, type: 'card', group: 3 },
+    { id: 'f3', x: 69, y: 59, w: 28, h: 26, type: 'card', group: 3 },
+    { id: 'ft', x: 0, y: 94, w: 100, h: 6, type: 'footer', group: 3 },
   ],
 ]
 
@@ -342,13 +342,6 @@ function AnimatedWireframe() {
                   boxShadow: isSelected ? '0 0 0 1px rgba(255,255,255,0.8)' : 'none',
                 }}
               >
-                {/* Cross-hatch for image placeholders */}
-                {el.type === 'image' && (
-                  <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
-                    <line x1="0" y1="0" x2="100%" y2="100%" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" strokeDasharray="3 3" />
-                    <line x1="100%" y1="0" x2="0" y2="100%" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" strokeDasharray="3 3" />
-                  </svg>
-                )}
                 {/* Corner handles on selected element */}
                 {isSelected && (
                   <>
@@ -364,22 +357,6 @@ function AnimatedWireframe() {
               </div>
             )
           })}
-
-          {/* Spacing annotation: shows gap between two cards */}
-          {ready && (
-            <div
-              className="absolute transition-opacity duration-500"
-              style={{
-                left: '48.5%', top: '53%', width: '3%', height: '0',
-                opacity: layoutIdx === 0 ? 0.4 : 0,
-              }}
-            >
-              <div className="relative flex items-center justify-center">
-                <div className="w-full h-px border-t border-dashed border-white/40" />
-                <span className="absolute -top-[10px] text-[7px] font-mono text-white/50">16</span>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 
