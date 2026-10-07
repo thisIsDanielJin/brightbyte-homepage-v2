@@ -152,7 +152,7 @@ function ProjectsSectionInner({
                 </div>
 
                 {/* Content */}
-                <div className="flex flex-col flex-1 p-8 lg:p-10">
+                <div className="grid grid-rows-[auto_auto_1fr_auto] flex-1 p-8 lg:p-10">
                   <h3 className="text-xl font-bold text-primary leading-snug tracking-[-0.01em] mb-2">
                     {displayTitle}
                   </h3>
@@ -164,14 +164,14 @@ function ProjectsSectionInner({
                   )}
 
                   {outcomeText && (
-                    <p className="text-sm text-secondary leading-relaxed text-pretty flex-1">
+                    <p className="text-sm text-secondary leading-relaxed text-pretty self-start">
                       {outcomeText}
                     </p>
                   )}
 
-                  {/* Testimonial: separator aligns across cards via flex-1 above */}
+                  {/* Testimonial: grid row 4 (auto) pins to bottom consistently */}
                   {matched?.quote && (
-                    <div className="pt-6 mt-6 border-t border-border">
+                    <div className="pt-6 mt-6 border-t border-border self-end">
                       <p className="text-sm text-secondary leading-relaxed text-pretty">
                         &ldquo;{matched.quote}&rdquo;
                       </p>
