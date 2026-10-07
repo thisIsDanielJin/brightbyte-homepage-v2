@@ -100,7 +100,7 @@ const layouts: WireEl[][] = [
 function getClass(type: WireEl['type'], id?: string): string {
   const isAccent = id === 'ncta' || id === 'cta'
   switch (type) {
-    case 'chrome': return 'border-b border-dashed border-white/25'
+    case 'chrome': return 'border-b border-white/25'
     case 'image': return 'border border-dashed border-white/20'
     case 'text': return 'bg-white/15'
     case 'button': return isAccent
@@ -114,21 +114,26 @@ function getClass(type: WireEl['type'], id?: string): string {
 // Elements eligible for the cycling "selected" overlay
 const SELECTABLE_IDS = ['hero', 'cL', 'cR', 'cta', 'f1']
 
-// Corner handle: 5x5 solid accent square
+// Corner handle: 5x5 solid white square, centered exactly on the corner
 function Handle({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {
-  const cls = [
-    'absolute w-[5px] h-[5px] bg-white/80 z-10',
-    pos.includes('t') ? '-top-[2px]' : '-bottom-[2px]',
-    pos.includes('l') ? '-left-[2px]' : '-right-[2px]',
-  ].join(' ')
-  return <div className={cls} />
+  const style: React.CSSProperties = {
+    position: 'absolute',
+    width: 5, height: 5,
+    backgroundColor: 'rgba(255,255,255,0.85)',
+    zIndex: 10,
+    ...(pos === 'tl' && { top: -3, left: -3 }),
+    ...(pos === 'tr' && { top: -3, right: -3 }),
+    ...(pos === 'bl' && { bottom: -3, left: -3 }),
+    ...(pos === 'br' && { bottom: -3, right: -3 }),
+  }
+  return <div style={style} />
 }
 
-// Dimension label: "W x H" in tiny text above a selected element
+// Dimension label: "W x H" in tiny monospace text above the element
 function DimLabel({ w, h }: { w: number; h: number }) {
   return (
-    <div className="absolute -top-[14px] left-1/2 -translate-x-1/2 whitespace-nowrap">
-      <span className="text-[8px] font-mono text-white/60 tracking-wider">
+    <div className="absolute -top-[16px] left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none">
+      <span className="text-[8px] font-mono text-white/70 tracking-wider">
         {w} x {h}
       </span>
     </div>
@@ -305,8 +310,8 @@ function AnimatedWireframe() {
         className="aspect-[4/3] [transition:transform_0.15s_ease-out] will-change-transform"
       >
         <div ref={containerRef} className="relative w-full h-full">
-          {/* Browser frame: dashed border */}
-          <div className="absolute inset-0 border border-dashed border-white/25" />
+          {/* Browser frame: solid outer border */}
+          <div className="absolute inset-0 border border-white/25" />
 
           {/* Window dots */}
           <div className="absolute left-[3%] top-[2.5%] flex gap-[5px]">
@@ -316,7 +321,7 @@ function AnimatedWireframe() {
           </div>
 
           {/* URL bar */}
-          <div className="absolute left-[15%] right-[35%] top-[2.8%] h-[1.5%] border border-dashed border-white/15" style={{ opacity: 0 }} ref={setElRef('url')} />
+          <div className="absolute left-[15%] right-[35%] top-[2.8%] h-[1.5%] border border-white/20" style={{ opacity: 0 }} ref={setElRef('url')} />
 
           {/* Guide lines: vertical alignment marks */}
           <div className="absolute left-[3%] top-[7%] bottom-0 w-px border-l border-dashed border-white/[0.08]" />
