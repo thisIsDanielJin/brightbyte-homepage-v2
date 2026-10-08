@@ -318,7 +318,7 @@ const TechText = ({
           const lm = probe.measureText(line);
           const inkW = lm.actualBoundingBoxLeft + lm.actualBoundingBoxRight;
           // Left-align all lines
-          const padLeft = width * 0.025;
+          const padLeft = width * 0.005;
           const lineX = padLeft + lm.actualBoundingBoxLeft;
           const baseline = startY + lineIdx * (lineH + gap) + fm.actualBoundingBoxAscent;
 

@@ -61,8 +61,8 @@ export async function Footer({ settings, locale }: FooterProps) {
             </p>
           </div>
 
-          {/* Nav links — horizontal on desktop */}
-          <nav aria-label="Footer Navigation" className="flex flex-wrap gap-x-8 gap-y-2">
+          {/* Nav links — stacked vertically */}
+          <nav aria-label="Footer Navigation" className="flex flex-col gap-3">
             {navLinks.map(({ href, label }) => (
               <a
                 key={href}
