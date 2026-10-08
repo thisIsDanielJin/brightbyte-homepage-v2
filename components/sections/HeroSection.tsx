@@ -140,7 +140,17 @@ function DimLabel({ w, h }: { w: number; h: number }) {
   )
 }
 
-// Layout labels (Enhancement 5)
+// Background-only class for selected state (border suppressed — selection ring takes over)
+function getSelectedClass(type: WireEl['type']): string {
+  switch (type) {
+    case 'image': return ''
+    case 'text': return 'bg-white/30'
+    case 'button': return 'bg-white/15'
+    case 'card': return ''
+    case 'footer': return 'bg-white/[0.06]'
+    default: return ''
+  }
+}
 const LAYOUT_LABELS = ['Landing Page', 'Dashboard', 'Portfolio']
 
 const CheckIcon = () => (
@@ -334,7 +344,7 @@ function AnimatedWireframe() {
               <div
                 key={el.id}
                 ref={setElRef(el.id)}
-                className={`${getClass(el.type, el.id)} transition-[box-shadow] duration-300`}
+                className={`${isSelected ? getSelectedClass(el.type) : getClass(el.type, el.id)} transition-[box-shadow,border] duration-300`}
                 style={{
                   position: 'absolute',
                   left: `${el.x}%`, top: `${el.y}%`, width: `${el.w}%`, height: `${el.h}%`,
