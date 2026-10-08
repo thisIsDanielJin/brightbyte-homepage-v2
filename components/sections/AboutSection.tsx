@@ -72,7 +72,6 @@ export function AboutSection({ settings, aboutPhotoUrl }: AboutSectionProps) {
 
           {/* Right: tech stack */}
           <div className="w-full lg:w-[420px]">
-            <p className="text-xs uppercase tracking-[0.2em] text-muted-on-dark/60 mb-5 font-medium">Tech Stack</p>
             <div className="grid grid-cols-4 gap-px bg-white/[0.08]">
               {TECH_STACK.map((tech) => {
                 const Icon = tech.icon

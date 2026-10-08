@@ -386,10 +386,10 @@ export function HeroSection({ headline, subline }: HeroSectionProps) {
         {/* Left: copy */}
         <div className="flex flex-col justify-center px-6 py-16 md:px-12 lg:px-16 xl:pl-[max(calc((100vw-90rem)/2+4rem),4rem)] xl:pr-16">
           {/* TechText headline: single canvas, two lines, one sweep */}
-          <div className="h-[100px] md:h-[130px] lg:h-[150px] max-w-2xl mb-4" aria-hidden="true">
+          <div className="h-[110px] md:h-[140px] lg:h-[160px] max-w-3xl mb-4" aria-hidden="true">
             <TechText
               text={techTextHeadline}
-              fontSize={120}
+              fontSize={140}
               fontWeight={800}
               letterSpacing={-0.03}
               color="#18181B"

@@ -54,23 +54,26 @@ export function ContactSection() {
 
   const disabled = state === 'loading'
   const inputClass = (hasError: boolean) =>
-    `w-full px-4 py-3.5 text-sm text-on-dark bg-white/[0.07] border ${hasError ? 'border-destructive' : 'border-muted-on-dark/20'} placeholder:text-muted-on-dark/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`
+    `w-full px-4 py-3.5 text-[15px] text-on-dark bg-white/[0.10] border ${hasError ? 'border-destructive' : 'border-white/20'} placeholder:text-on-dark/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent transition-colors`
 
   return (
     <MotionSection id="contact" className="relative py-28 md:py-40 bg-surface-dark overflow-hidden">
-      {/* Subtle blue radial glow */}
+      {/* Subtle warm radial glow */}
       <div className="absolute inset-0 pointer-events-none" style={{
-        background: 'radial-gradient(ellipse 60% 50% at 20% 50%, rgba(28,57,187,0.06), transparent 70%)',
+        background: 'radial-gradient(ellipse 60% 50% at 20% 50%, rgba(28,57,187,0.08), transparent 70%)',
+      }} />
+      <div className="absolute inset-0 pointer-events-none" style={{
+        background: 'radial-gradient(ellipse 40% 40% at 80% 40%, rgba(28,57,187,0.05), transparent 60%)',
       }} />
 
       <div className="relative px-6 md:px-8 lg:px-12 xl:px-[max(calc((100vw-90rem)/2+3rem),3rem)]">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-start">
           {/* Left: heading + process */}
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-on-dark leading-[1.1] tracking-[-0.02em] mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-on-dark leading-[1.1] tracking-[-0.02em] mb-4">
               {t('heading')}
             </h2>
-            <p className="text-base text-muted-on-dark leading-relaxed text-pretty mb-10">{t('subline')}</p>
+            <p className="text-lg text-on-dark/70 leading-relaxed text-pretty mb-10">{t('subline')}</p>
 
             <ul className="space-y-4 mb-10">
               {[t('step1'), t('step2'), t('step3')].map((step, i) => (
@@ -78,7 +81,7 @@ export function ContactSection() {
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-1 flex-shrink-0 text-accent" aria-hidden="true">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
-                  <span className="text-base text-muted-on-dark leading-relaxed text-pretty">{step}</span>
+                  <span className="text-base text-on-dark/70 leading-relaxed text-pretty">{step}</span>
                 </li>
               ))}
             </ul>
@@ -98,19 +101,19 @@ export function ContactSection() {
             ) : (
               <form onSubmit={handleSubmit} noValidate className="space-y-5">
                 <div>
-                  <label htmlFor="contact-name" className="text-xs text-muted-on-dark uppercase tracking-wide block mb-2">{t('labelName')}</label>
+                  <label htmlFor="contact-name" className="text-xs text-on-dark/60 uppercase tracking-wide block mb-2">{t('labelName')}</label>
                   <input id="contact-name" name="name" type="text" autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} disabled={disabled} placeholder={t('placeholderName')}
                     aria-invalid={errors.name ? true : undefined} className={inputClass(!!errors.name)} />
                   {errors.name && <p className="text-sm text-destructive mt-1.5">{errors.name}</p>}
                 </div>
                 <div>
-                  <label htmlFor="contact-email" className="text-xs text-muted-on-dark uppercase tracking-wide block mb-2">{t('labelEmail')}</label>
+                  <label htmlFor="contact-email" className="text-xs text-on-dark/60 uppercase tracking-wide block mb-2">{t('labelEmail')}</label>
                   <input id="contact-email" name="email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={disabled} placeholder={t('placeholderEmail')}
                     aria-invalid={errors.email ? true : undefined} className={inputClass(!!errors.email)} />
                   {errors.email && <p className="text-sm text-destructive mt-1.5">{errors.email}</p>}
                 </div>
                 <div>
-                  <label htmlFor="contact-message" className="text-xs text-muted-on-dark uppercase tracking-wide block mb-2">{t('labelMessage')}</label>
+                  <label htmlFor="contact-message" className="text-xs text-on-dark/60 uppercase tracking-wide block mb-2">{t('labelMessage')}</label>
                   <textarea id="contact-message" name="message" rows={5} value={message} onChange={(e) => setMessage(e.target.value)} disabled={disabled} placeholder={t('placeholderMessage')}
                     aria-invalid={errors.message ? true : undefined} className={inputClass(!!errors.message)} />
                   {errors.message && <p className="text-sm text-destructive mt-1.5">{errors.message}</p>}
@@ -120,7 +123,7 @@ export function ContactSection() {
                   <input id="contact-website" name="website" type="text" tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} />
                 </div>
                 <button type="submit" disabled={disabled} data-testid="contact-submit"
-                  className={`inline-flex items-center justify-center gap-2 bg-accent text-surface text-sm font-medium h-10 px-6 w-full hover:bg-accent-hover transition-colors ${disabled ? 'opacity-75 cursor-not-allowed' : ''}`}>
+                  className={`inline-flex items-center justify-center gap-2 bg-accent text-surface text-[15px] font-medium h-12 px-6 w-full hover:bg-accent-hover transition-colors ${disabled ? 'opacity-75 cursor-not-allowed' : ''}`}>
                   {state === 'loading' && (
                     <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -129,7 +132,7 @@ export function ContactSection() {
                   )}
                   {state === 'loading' ? t('submitLoading') : t('submitIdle')}
                 </button>
-                <p className="text-xs text-muted-on-dark text-center">{t('trustNote')}</p>
+                <p className="text-xs text-on-dark/40 text-center">{t('trustNote')}</p>
                 {state === 'error' && (
                   <p role="alert" className="text-sm text-destructive mt-1" data-testid="contact-error">{t('errorGeneric')}</p>
                 )}
